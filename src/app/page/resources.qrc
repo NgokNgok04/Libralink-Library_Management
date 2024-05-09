@@ -1,0 +1,13 @@
+<RCC>
+  <qresource>
+    <file>assets/logOutLogo.png</file>
+    <file>assets/profileLogo.png</file>
+    <file>assets/menuLogo.png</file>
+    <file>assets/searchLogo.png</file>
+    <file>assets/daftarAnggotaLogo.png</file>
+    <file>assets/daftarBukuLogo.png</file>
+    <file>assets/homeLogo.png</file>
+    <file>assets/libraLinkLogo.png</file>
+    <file>assets/profilePlaceHolder.png</file>
+  </qresource>
+</RCC>
