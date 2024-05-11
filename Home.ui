@@ -473,11 +473,11 @@ QLineEdit::placeholder {
      </property>
     </widget>
    </widget>
-   <widget class="QStackedWidget" name="FormBukuWidget">
+   <widget class="QStackedWidget" name="FormBukuStackWidget">
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>270</y>
+      <x>360</x>
+      <y>220</y>
       <width>381</width>
       <height>531</height>
      </rect>
@@ -492,11 +492,21 @@ QLineEdit::placeholder {
     <property name="currentIndex">
      <number>0</number>
     </property>
-    <widget class="QWidget" name="FormDaftarBuku">
+    <widget class="QWidget" name="FormDaftarBuku1">
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);</string>
+      <string notr="true">Qwidget {
+ background-color: rgb(255, 255, 255);
+ border-top: 1px solid rgb(181, 181, 181);
+ border-right: 1px solid rgb(181, 181, 181);
+ border-bottom: 1px solid rgb(181, 181, 181);
+ border-top-right-radius: 10px;
+ border-bottom-right-radius: 10px;
+ border-top-left-radius: 10px;
+ border-bottom-left-radius: 10px;
+}
+</string>
      </property>
-     <widget class="QPushButton" name="AnggotaSidebar_2">
+     <widget class="QPushButton" name="Simpan1">
       <property name="geometry">
        <rect>
         <x>50</x>
@@ -517,7 +527,6 @@ QLineEdit::placeholder {
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
-	color: rgb(0, 0, 0);
 	text-align: left;
     height: 30px;
     border: none;
@@ -526,15 +535,15 @@ QLineEdit::placeholder {
 	padding-bottom: 10px;
 	border-radius: 20px;
 	background-color: rgb(85, 85, 255);
+	color: rgb(255, 255, 255);
 }
 QPushButton:checked {
-	
-	color: rgb(100, 119, 219);
+	color: rgb(85, 85, 255);
 	background-color: rgba(227, 233, 255, 191);
 }</string>
       </property>
       <property name="text">
-       <string>		                SIMPAN</string>
+       <string>                   Simpan</string>
       </property>
       <property name="iconSize">
        <size>
@@ -549,7 +558,7 @@ QPushButton:checked {
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="HomeSidebar_2">
+     <widget class="QPushButton" name="Cover_buku1">
       <property name="geometry">
        <rect>
         <x>50</x>
@@ -602,7 +611,7 @@ QPushButton:checked {
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="buttonSearch_2">
+     <widget class="QPushButton" name="icon_judulbuku1">
       <property name="geometry">
        <rect>
         <x>50</x>
@@ -634,7 +643,7 @@ QPushButton:checked {
        </size>
       </property>
      </widget>
-     <widget class="QLineEdit" name="inputSearch_3">
+     <widget class="QLineEdit" name="JudulBuku1">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -674,7 +683,7 @@ QLineEdit::placeholder {
        <string/>
       </property>
      </widget>
-     <widget class="QLineEdit" name="inputSearch_4">
+     <widget class="QLineEdit" name="ISBN1">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -714,7 +723,7 @@ QLineEdit::placeholder {
        <string/>
       </property>
      </widget>
-     <widget class="QPushButton" name="buttonSearch_3">
+     <widget class="QPushButton" name="Icon_isbn1">
       <property name="geometry">
        <rect>
         <x>50</x>
@@ -746,7 +755,7 @@ QLineEdit::placeholder {
        </size>
       </property>
      </widget>
-     <widget class="QLineEdit" name="inputSearch_5">
+     <widget class="QLineEdit" name="ID1">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -786,7 +795,7 @@ QLineEdit::placeholder {
        <string/>
       </property>
      </widget>
-     <widget class="QPushButton" name="buttonSearch_4">
+     <widget class="QPushButton" name="Icon_id1">
       <property name="geometry">
        <rect>
         <x>50</x>
@@ -818,7 +827,7 @@ QLineEdit::placeholder {
        </size>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="Upload">
       <property name="geometry">
        <rect>
         <x>240</x>
@@ -846,7 +855,7 @@ QPushButton:checked {
        <string>Upload File JPG</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="Title1">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -874,8 +883,8 @@ font: 24pt &quot;MS Shell Dlg 2&quot;;
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="page_2">
-     <widget class="QPushButton" name="AnggotaSidebar_3">
+    <widget class="QWidget" name="FormDaftarBuku2">
+     <widget class="QPushButton" name="Simpan2">
       <property name="geometry">
        <rect>
         <x>50</x>
@@ -928,7 +937,7 @@ QPushButton:checked {
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="Title2">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -955,7 +964,7 @@ font: 24pt &quot;MS Shell Dlg 2&quot;;
        <string>FORM BUKU</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="inputSearch_6">
+     <widget class="QLineEdit" name="Judulbuku2">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -995,7 +1004,7 @@ QLineEdit::placeholder {
        <string/>
       </property>
      </widget>
-     <widget class="QPushButton" name="buttonSearch_5">
+     <widget class="QPushButton" name="icon_judulbuku2">
       <property name="geometry">
        <rect>
         <x>50</x>
@@ -1027,7 +1036,7 @@ QLineEdit::placeholder {
        </size>
       </property>
      </widget>
-     <widget class="QPushButton" name="buttonSearch_6">
+     <widget class="QPushButton" name="Icon_id2">
       <property name="geometry">
        <rect>
         <x>50</x>
@@ -1059,7 +1068,7 @@ QLineEdit::placeholder {
        </size>
       </property>
      </widget>
-     <widget class="QLineEdit" name="inputSearch_8">
+     <widget class="QLineEdit" name="ID2">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -1152,7 +1161,7 @@ QLineEdit::placeholder {
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QLineEdit" name="inputSearch_7">
+     <widget class="QLineEdit" name="Isbn2">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -1192,7 +1201,7 @@ QLineEdit::placeholder {
        <string/>
       </property>
      </widget>
-     <widget class="QPushButton" name="buttonSearch_7">
+     <widget class="QPushButton" name="Icon_isbn2">
       <property name="geometry">
        <rect>
         <x>50</x>
@@ -1224,7 +1233,7 @@ QLineEdit::placeholder {
        </size>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="Uploaded">
       <property name="geometry">
        <rect>
         <x>220</x>
@@ -1251,6 +1260,314 @@ QPushButton:checked {
       </property>
       <property name="text">
        <string>File Uploaded</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QStackedWidget" name="DeleteWidget">
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>410</y>
+      <width>491</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(90, 90, 90);
+</string>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <widget class="QWidget" name="DeleteAnggota">
+     <property name="styleSheet">
+      <string notr="true">Qwidget {
+ border-top: 1px solid rgb(214, 214, 214);
+ border-right: 1px solid rgb(214, 214, 214);
+ border-bottom: 1px solid rgb(214, 214, 214);
+ border-top-right-radius: 10px;
+ border-bottom-right-radius: 10px;
+ border-top-left-radius: 10px;
+ border-bottom-left-radius: 10px;
+}</string>
+     </property>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>0</y>
+        <width>261</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 18pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>Apakah Anda yakin ingin</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>50</y>
+        <width>261</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 18pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>menghapus anggota ini?</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Batal1">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>140</y>
+        <width>161</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	text-align: left;
+    height: 30px;
+    border: none;
+    padding-left: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-radius: 20px;
+	background-color: rgb(255, 60, 12);
+	color: rgb(255, 255, 255);
+}
+QPushButton:checked {
+	color: rgb(255, 0, 0);
+	background-color: rgba(227, 233, 255, 191);
+}</string>
+      </property>
+      <property name="text">
+       <string>       Batal</string>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Ya1">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>140</y>
+        <width>161</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	text-align: left;
+    height: 30px;
+    border: none;
+    padding-left: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-radius: 20px;
+	background-color: rgb(0, 170, 0);
+	color: rgb(255, 255, 255);
+}
+QPushButton:checked {
+	color: rgb(0, 170, 0);
+	background-color: rgba(227, 233, 255, 191);
+}</string>
+      </property>
+      <property name="text">
+       <string>           Ya</string>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="DeleteBukudanPeminjaman">
+     <widget class="QPushButton" name="Ya1_2">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>140</y>
+        <width>161</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	text-align: left;
+    height: 30px;
+    border: none;
+    padding-left: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-radius: 20px;
+	background-color: rgb(0, 170, 0);
+	color: rgb(255, 255, 255);
+}
+QPushButton:checked {
+	color: rgb(0, 170, 0);
+	background-color: rgba(227, 233, 255, 191);
+}</string>
+      </property>
+      <property name="text">
+       <string>           Ya</string>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>50</y>
+        <width>261</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 18pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>menghapus buku ini?</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Batal1_2">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>140</y>
+        <width>161</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	text-align: left;
+    height: 30px;
+    border: none;
+    padding-left: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-radius: 20px;
+	background-color: rgb(255, 60, 12);
+	color: rgb(255, 255, 255);
+}
+QPushButton:checked {
+	color: rgb(255, 0, 0);
+	background-color: rgba(227, 233, 255, 191);
+}</string>
+      </property>
+      <property name="text">
+       <string>       Batal</string>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>0</y>
+        <width>261</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 18pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>Apakah Anda yakin ingin</string>
       </property>
      </widget>
     </widget>
