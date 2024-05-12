@@ -1,5 +1,7 @@
 <RCC>
   <qresource>
+    <file>assets/add.png</file>
+    <file>assets/addButton.png</file>
     <file>assets/searchFaceLeft.png</file>
     <file>assets/homelogo2.png</file>
     <file>assets/logOutLogo.png</file>
