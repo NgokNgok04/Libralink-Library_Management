@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1440</width>
+    <height>1080</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1440</width>
+    <height>1080</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1440</width>
+    <height>1080</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(255, 255, 255);</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="headerWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1440</width>
+      <height>178</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(109, 141, 223);</string>
+    </property>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>20</y>
+       <width>338</width>
+       <height>72</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="HLayoutLogo">
+      <item>
+       <widget class="QLabel" name="logoLibraLink">
+        <property name="minimumSize">
+         <size>
+          <width>70</width>
+          <height>70</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>70</width>
+          <height>70</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="resources.qrc">:/assets/libraLinkLogo.png</pixmap>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="logoTitle">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="text">
+         <string>Libralink Management</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>125</y>
+       <width>131</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>18</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="currentDirectory">
+        <property name="font">
+         <font>
+          <pointsize>17</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="text">
+         <string>Home</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="sidebarWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>122</y>
+      <width>321</width>
+      <height>861</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QWidget{
+	border-radius: 10px;
+	border: 2px solid rgb(100, 119, 219);
+}</string>
+    </property>
+    <widget class="QLabel" name="profileName">
+     <property name="geometry">
+      <rect>
+       <x>71</x>
+       <y>128</y>
+       <width>178</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+	color: rgb(0, 0, 0);
+	border: none;
+}</string>
+     </property>
+     <property name="text">
+      <string>Muhammad Zains</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="admistrator">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>160</y>
+       <width>141</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	background-color: rgba(111, 207, 151, 51);
+	color: rgb(111, 207, 151);
+	border-radius: 15px;
+	border: none;
+}</string>
+     </property>
+     <property name="text">
+      <string>Administrator</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="profileImage">
+     <property name="geometry">
+      <rect>
+       <x>106</x>
+       <y>22</y>
+       <width>103</width>
+       <height>99</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:none;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/assets/profilePlaceHolder.png</normaloff>:/assets/profilePlaceHolder.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>99</width>
+       <height>99</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="HomeSidebar">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>231</y>
+       <width>281</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	color: rgb(0, 0, 0);
+	text-align: left;
+    height: 30px;
+    border: none;
+    padding-left: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-radius: 20px;
+}
+QPushButton:checked {
+	
+	color: rgb(100, 119, 219);
+	background-color: rgba(227, 233, 255, 191);
+}</string>
+     </property>
+     <property name="text">
+      <string>Home</string>
+     </property>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/assets/homelogo2.png</normaloff>:/assets/homelogo2.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="BukuSidebar">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>311</y>
+       <width>281</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	color: rgb(0, 0, 0);
+	text-align: left;
+    height: 30px;
+    border: none;
+    padding-left: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-radius: 20px;
+}
+QPushButton:checked {
+	color: rgb(100, 119, 219);
+	background-color: rgba(227, 233, 255, 191);
+}</string>
+     </property>
+     <property name="text">
+      <string>Daftar Buku</string>
+     </property>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/assets/daftarBukuLogo.png</normaloff>:/assets/daftarBukuLogo.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="AnggotaSidebar">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>391</y>
+       <width>281</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	color: rgb(0, 0, 0);
+	text-align: left;
+    height: 30px;
+    border: none;
+    padding-left: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-radius: 20px;
+}
+QPushButton:checked {
+	
+	color: rgb(100, 119, 219);
+	background-color: rgba(227, 233, 255, 191);
+}</string>
+     </property>
+     <property name="text">
+      <string>Daftar Anggota</string>
+     </property>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/assets/daftarAnggotaLogo.png</normaloff>:/assets/daftarAnggotaLogo.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="SearchBar" native="true">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>190</y>
+      <width>541</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <widget class="QLineEdit" name="inputSearch">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>481</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit {
+	color: black;
+	padding-left: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border: 1px solid rgb(100, 119, 219);
+	border-top-left-radius: 20px;
+	border-bottom-left-radius: 20px;
+}
+
+QLineEdit::placeholder {
+	
+	color: rgb(189, 189, 189);
+	padding-left: 10px;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>Cari Judul Buku, Penulis, Anggota</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="buttonSearch">
+     <property name="geometry">
+      <rect>
+       <x>480</x>
+       <y>0</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	border-top: 1px solid rgb(100, 119, 219);
+	border-right: 1px solid rgb(100, 119, 219);
+	border-bottom: 1px solid rgb(100, 119, 219); 
+	border-top-right-radius: 17px;
+	border-bottom-right-radius: 17px;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/assets/searchFaceLeft.png</normaloff>:/assets/searchFaceLeft.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>24</width>
+       <height>24</height>
+      </size>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources>
+  <include location="resources.qrc"/>
+  <include location="C:/Users/ASUS/.designer/backup/resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
