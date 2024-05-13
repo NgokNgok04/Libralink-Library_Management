@@ -4,6 +4,7 @@ from PySide6.QtCore import *
 from components.Header import Header
 from components.Sidebar import Sidebar
 from components.AddButton import AddButton
+from components.DaftarAnggotaPage import DaftarAnggotaPage
 # from components.TemplateDaftarAnggota import TemplateDaftarAnggota
 
 class App(QMainWindow):
@@ -25,9 +26,23 @@ class App(QMainWindow):
 
         self.headerWidget = Header(self.centralwidget)
         self.sidebarWidget = Sidebar(self.centralwidget)
+
+        self.sidebarWidget.showWidget.connect(self.headerWidget.changeStackedWidgetIndex)
+        
+        # page Daftar Anggota and Daftar Buku
+        self.stackedWidgetPage = QStackedWidget(self.centralwidget)
+        self.stackedWidgetPage.setGeometry(QRect(340, 178, screenSize.width() - 355, screenSize.height() - 240))
+        # self.stackedWidgetPage.setStyleSheet(u"background-color: rgb(255,255,0);")
+        self.HomePage = QWidget()
+        self.Daftar_BukuPage = QWidget()
+        self.Daftar_AnggotaPage = DaftarAnggotaPage()
+
+        self.stackedWidgetPage.addWidget(self.HomePage)
+        self.stackedWidgetPage.addWidget(self.Daftar_BukuPage)
+        self.stackedWidgetPage.addWidget(self.Daftar_AnggotaPage)
+        self.stackedWidgetPage.setCurrentIndex(2)
+        self.headerWidget.setContentsMargins(0, 0, 0, 0)
         self.addButton = AddButton(self.centralwidget)
         self.addButton.setGeometry(QRect(screenSize.width() - 80, screenSize.height() - 105, 70, 70))
-        self.sidebarWidget.showWidget.connect(self.headerWidget.changeStackedWidgetIndex)
         self.headerWidget.showAddButton.connect(self.addButton.isShowAddButton)
-        
-        self.headerWidget.setContentsMargins(0, 0, 0, 0)
+        # self.addButton.raise_()

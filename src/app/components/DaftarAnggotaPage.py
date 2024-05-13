@@ -1,9 +1,9 @@
-from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QPushButton, QHBoxLayout, QWidget
-from PySide6.QtGui import QGuiApplication, QFont,QIcon
-from PySide6.QtCore import Qt, QRect,QSize
-import sys
-from DaftarAnggota import Ui_MainWindow
-from Header import HeaderWidget
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtWidgets import *
+
+from components.SearchBar import SearchBar
+import resource
 import sqlite3
 
 class Anggota:
@@ -14,24 +14,82 @@ class Anggota:
         self.telephone = telephone
         self.status_anggota = status_anggota
 
-class MySideBar(QMainWindow, Ui_MainWindow):
+class DaftarAnggotaPage(QWidget):
     def __init__(self):
         super().__init__()
-        self.setupUi(self)
-        self.setWindowTitle("Main Window")
-        self.tableWidget.setColumnWidth(0,1)
+        self.setupUi()
+
+    def setupUi(self):
+        self.searchBar = SearchBar(self)
+        self.searchBar.inputSearch.setPlaceholderText("Cari Anggota")
+
+        self.tableWidget = QTableWidget(self)
+        if (self.tableWidget.columnCount() < 6):
+            self.tableWidget.setColumnCount(6)
+
+        idHeader = QTableWidgetItem()
+        namaHeader = QTableWidgetItem()
+        emailHeader = QTableWidgetItem()
+        teleponHeader = QTableWidgetItem()
+        statusHeader = QTableWidgetItem()
+        actionHeader = QTableWidgetItem()
+        idHeader.setText("ID")
+        namaHeader.setText("Nama")
+        emailHeader.setText("Alamat Email")
+        teleponHeader.setText("No Telepon")
+        statusHeader.setText("Status")
+
+        self.tableWidget.setHorizontalHeaderItem(0, idHeader)
+        self.tableWidget.setHorizontalHeaderItem(1, namaHeader)
+        self.tableWidget.setHorizontalHeaderItem(2, emailHeader)
+        self.tableWidget.setHorizontalHeaderItem(3, teleponHeader)
+        self.tableWidget.setHorizontalHeaderItem(4, statusHeader)
+        self.tableWidget.setHorizontalHeaderItem(5, actionHeader)
+
+        self.tableWidget.setGeometry(QRect(0, 60, 1121, 501))
+        self.tableWidget.setMinimumSize(QSize(1021, 192))
+        font = QFont()
+        font.setPointSize(14)
+        font.setBold(False)
+        self.tableWidget.setFont(font)
+        self.tableWidget.setStyleSheet(u"QHeaderView::section{\n"
+"	font-weight: bold;\n"
+"	color: rgb(130, 130, 130);\n"
+"	border: none;\n"
+"	background-color: rgb(255, 255, 255);\n"
+"}\n"
+"QTableWidget{\n"
+"	text-align: center;\n"
+"	color: rgb(0, 0, 0);\n"
+"	border: none;\n"
+"}")    
+        self.tableWidget.setFrameShape(QFrame.Box)
+        self.tableWidget.setLineWidth(1)
+        self.tableWidget.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.tableWidget.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.tableWidget.setSizeAdjustPolicy(QAbstractScrollArea.AdjustIgnored)
+        self.tableWidget.setAutoScroll(False)
+        self.tableWidget.setDragDropOverwriteMode(False)
+        self.tableWidget.setShowGrid(False)
+        self.tableWidget.setCornerButtonEnabled(False)
+        self.tableWidget.horizontalHeader().setVisible(True)
+        self.tableWidget.horizontalHeader().setCascadingSectionResizes(False)
+        self.tableWidget.horizontalHeader().setDefaultSectionSize(153)
+        self.tableWidget.horizontalHeader().setHighlightSections(False)
+        self.tableWidget.horizontalHeader().setProperty("showSortIndicator", False)
+        self.tableWidget.horizontalHeader().setStretchLastSection(False)
+        self.tableWidget.verticalHeader().setVisible(False)
+        self.tableWidget.verticalHeader().setHighlightSections(True)
+        self.tableWidget.verticalHeader().setStretchLastSection(False)
+
+        self.tableWidget.setColumnWidth(0,10)
         self.tableWidget.setColumnWidth(1,200)
         self.tableWidget.setColumnWidth(2,300)
         self.tableWidget.setColumnWidth(3,220)
         self.tableWidget.setColumnWidth(4,170)
         self.tableWidget.setColumnWidth(5,170)
-        self.showMaximized()
-        screen = QGuiApplication.primaryScreen()
-        screen_geometry = screen.availableGeometry()
-        print(f"Full screen dimensions: {screen_geometry.width()}x{screen_geometry.height()}")
-        # self.tableWidget.setRowWidth(0,100)
         self.loaddata()
-        # Set tableWidget items and center-align them
+
         for row in range(self.tableWidget.rowCount()):
             self.tableWidget.setRowHeight(row,45)
             for col in range(self.tableWidget.columnCount()):
@@ -39,6 +97,8 @@ class MySideBar(QMainWindow, Ui_MainWindow):
                 if item:
                     item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
+    
+    
     
     def loaddata(self):
         conn = sqlite3.connect('datarpl.db')
@@ -93,13 +153,13 @@ class MySideBar(QMainWindow, Ui_MainWindow):
             peminjamanLogo = QPushButton(PeminjamanButton)
             peminjamanLogo.setStyleSheet(u"background-color: none; border-radius: 0px; border: none;")
             iconPeminjamanLogo = QIcon()
-            iconPeminjamanLogo.addFile(u":/assets/daftarPeminjamanLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+            iconPeminjamanLogo.addFile(u"assets/daftarPeminjamanLogo.png", QSize(), QIcon.Normal, QIcon.Off)
             peminjamanLogo.setIcon(iconPeminjamanLogo)
             HLayoutIsiButton.addWidget(peminjamanLogo)
             dropdownLogo = QPushButton(PeminjamanButton)
             dropdownLogo.setStyleSheet(u"background-color: none; border: none; border-radius: 10px;")
             iconDropDownLogo = QIcon()
-            iconDropDownLogo.addFile(u":/assets/dropdownLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+            iconDropDownLogo.addFile(u"assets/dropdownLogo.png", QSize(), QIcon.Normal, QIcon.Off)
             dropdownLogo.setIcon(iconDropDownLogo)
             HLayoutIsiButton.addWidget(dropdownLogo)
             HLayoutButton.addWidget(PeminjamanButton)
@@ -107,7 +167,7 @@ class MySideBar(QMainWindow, Ui_MainWindow):
             pencilButton = QPushButton(widgetAction)
             pencilButton.setStyleSheet(u"border: none; background-color: none; ")
             iconPencilLogo = QIcon()
-            iconPencilLogo.addFile(u":/assets/editLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+            iconPencilLogo.addFile(u"assets/editLogo.png", QSize(), QIcon.Normal, QIcon.Off)
             pencilButton.setIcon(iconPencilLogo)
             pencilButton.setIconSize(QSize(24, 24))
             HLayoutButton.addWidget(pencilButton)
@@ -115,7 +175,7 @@ class MySideBar(QMainWindow, Ui_MainWindow):
             trashButton = QPushButton(widgetAction)
             trashButton.setStyleSheet(u"border: none; background-color: none; ")
             iconTrashButton = QIcon()
-            iconTrashButton.addFile(u":/assets/trashLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+            iconTrashButton.addFile(u"assets/trashLogo.png", QSize(), QIcon.Normal, QIcon.Off)
             trashButton.setIcon(iconTrashButton)
             trashButton.setIconSize(QSize(24, 24))
             HLayoutButton.addWidget(trashButton)
@@ -125,11 +185,3 @@ class MySideBar(QMainWindow, Ui_MainWindow):
             count += 1
         cursor.close()
         conn.close()
-
-app = QApplication(sys.argv)
-
-window = MySideBar()
-
-window.show()
-
-app.exec()

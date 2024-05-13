@@ -39,7 +39,7 @@ class Sidebar(QWidget):
         self.profileImage.setStyleSheet(u"border:none;")
 
         icon = QIcon()
-        icon.addFile(u":/assets/profilePlaceHolder.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"assets/profilePlaceHolder.png", QSize(), QIcon.Normal, QIcon.Off)
         self.profileImage.setIcon(icon)
         self.profileImage.setIconSize(QSize(99, 99))
 
@@ -62,7 +62,7 @@ class Sidebar(QWidget):
 "	background-color: rgba(227, 233, 255, 191);\n"
 "}")
         icon1 = QIcon()
-        icon1.addFile(u":/assets/homelogo2.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u"assets/homelogo2.png", QSize(), QIcon.Normal, QIcon.Off)
         self.HomeSidebar.setIcon(icon1)
         self.HomeSidebar.setIconSize(QSize(40, 40))
         self.HomeSidebar.setCheckable(True)
@@ -88,7 +88,7 @@ class Sidebar(QWidget):
 "	background-color: rgba(227, 233, 255, 191);\n"
 "}")
         icon2 = QIcon()
-        icon2.addFile(u":/assets/daftarBukuLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u"assets/daftarBukuLogo.png", QSize(), QIcon.Normal, QIcon.Off)
         self.BukuSidebar.setIcon(icon2)
         self.BukuSidebar.setIconSize(QSize(40, 40))
         self.BukuSidebar.setCheckable(True)
@@ -114,7 +114,7 @@ class Sidebar(QWidget):
 "	background-color: rgba(227, 233, 255, 191);\n"
 "}")
         icon3 = QIcon()
-        icon3.addFile(u":/assets/daftarAnggotaLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u"assets/daftarAnggotaLogo.png", QSize(), QIcon.Normal, QIcon.Off)
         self.AnggotaSidebar.setIcon(icon3)
         self.AnggotaSidebar.setIconSize(QSize(40, 40))
         self.AnggotaSidebar.setCheckable(True)

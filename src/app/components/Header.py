@@ -3,7 +3,7 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
-import page.resources
+from resource import *
 
 class Header(QWidget):
 
@@ -35,7 +35,7 @@ class Header(QWidget):
         self.logoLibraLink.setText("")
         self.logoLibraLink.setMinimumSize(QSize(70, 70))
         self.logoLibraLink.setMaximumSize(QSize(70, 70))
-        self.logoLibraLink.setPixmap(QPixmap(u":/assets/libraLinkLogo.png"))
+        self.logoLibraLink.setPixmap(QPixmap(u"assets/libraLinkLogo.png"))
         self.HLayoutLogo.addWidget(self.logoLibraLink)
 
         # insert tulisan title ke label didalam HLayoutLogo
