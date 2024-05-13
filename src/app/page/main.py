@@ -40,7 +40,7 @@ class MySideBar(QMainWindow, Ui_MainWindow):
 
     
     def loaddata(self):
-        conn = sqlite3.connect('databaserpl.db')
+        conn = sqlite3.connect('datarpl.db')
         cursor = conn.cursor()
         
         cursor.execute('SELECT * FROM anggota')
