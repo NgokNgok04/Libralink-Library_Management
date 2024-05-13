@@ -31,8 +31,7 @@ class App(QMainWindow):
         
         # page Daftar Anggota and Daftar Buku
         self.stackedWidgetPage = QStackedWidget(self.centralwidget)
-        self.stackedWidgetPage.setGeometry(QRect(340, 178, screenSize.width() - 355, screenSize.height() - 240))
-        # self.stackedWidgetPage.setStyleSheet(u"background-color: rgb(255,255,0);")
+        self.stackedWidgetPage.setGeometry(QRect(360, 178, screenSize.width() - 355, screenSize.height() - 240))
         self.HomePage = QWidget()
         self.Daftar_BukuPage = QWidget()
         self.Daftar_AnggotaPage = DaftarAnggotaPage()
@@ -40,9 +39,14 @@ class App(QMainWindow):
         self.stackedWidgetPage.addWidget(self.HomePage)
         self.stackedWidgetPage.addWidget(self.Daftar_BukuPage)
         self.stackedWidgetPage.addWidget(self.Daftar_AnggotaPage)
-        self.stackedWidgetPage.setCurrentIndex(2)
+        self.stackedWidgetPage.setCurrentIndex(0)
         self.headerWidget.setContentsMargins(0, 0, 0, 0)
         self.addButton = AddButton(self.centralwidget)
         self.addButton.setGeometry(QRect(screenSize.width() - 80, screenSize.height() - 105, 70, 70))
         self.headerWidget.showAddButton.connect(self.addButton.isShowAddButton)
+        self.headerWidget.showPageIndex.connect(self.whatPageToShow)
+    
+    @Slot(int)
+    def whatPageToShow(self,index):
+        self.stackedWidgetPage.setCurrentIndex(index)
         # self.addButton.raise_()

@@ -8,6 +8,7 @@ from resource import *
 class Header(QWidget):
 
     showAddButton = Signal(bool)
+    showPageIndex = Signal(int)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -87,6 +88,7 @@ class Header(QWidget):
     @Slot(int)
     def changeStackedWidgetIndex(self,index):
         self.stackedWidgetDirectory.setCurrentIndex(index)
+        self.showPageIndex.emit(index)
         if index == 1 or index == 2:
             self.showAddButton.emit(True)
         else:
