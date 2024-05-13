@@ -3,6 +3,7 @@ from PySide6.QtGui import QGuiApplication, QFont,QIcon
 from PySide6.QtCore import Qt, QRect,QSize
 import sys
 from DaftarAnggota import Ui_MainWindow
+from Header import HeaderWidget
 import sqlite3
 
 class Anggota:

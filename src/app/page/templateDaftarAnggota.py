@@ -19,7 +19,6 @@ from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QFrame, QHBoxL
     QHeaderView, QLabel, QLineEdit, QMainWindow,
     QPushButton, QSizePolicy, QStackedWidget, QTableWidget,
     QTableWidgetItem, QWidget)
-# from components.Header import Header
 import resources_rc
 import resources_rc
 
@@ -36,7 +35,7 @@ class Ui_MainWindow(object):
         self.headerWidget = QWidget(self.centralwidget)
         self.headerWidget.setObjectName(u"headerWidget")
         self.headerWidget.setGeometry(QRect(0, 0, 1541, 178))
-        self.headerWidget.setStyleSheet(u"c")
+        self.headerWidget.setStyleSheet(u"background-color: rgb(109, 141, 223);")
         self.layoutWidget = QWidget(self.headerWidget)
         self.layoutWidget.setObjectName(u"layoutWidget")
         self.layoutWidget.setGeometry(QRect(30, 20, 338, 72))

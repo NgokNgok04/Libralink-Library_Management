@@ -5,7 +5,6 @@ conn = sqlite3.connect('datarpl.db')
 
 # Create a cursor object
 cursor = conn.cursor()
-
 # Execute a SQL command to create a table
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS anggota (

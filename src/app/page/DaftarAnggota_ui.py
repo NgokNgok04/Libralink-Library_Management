@@ -34,44 +34,20 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.headerWidget = QWidget(self.centralwidget)
         self.headerWidget.setObjectName(u"headerWidget")
-        self.headerWidget.setGeometry(QRect(0, 0, 1541, 178))
+        self.headerWidget.setGeometry(QRect(0, 0, 1451, 171))
         self.headerWidget.setStyleSheet(u"background-color: rgb(109, 141, 223);")
-        self.layoutWidget = QWidget(self.headerWidget)
-        self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(30, 20, 338, 72))
-        self.HLayoutLogo = QHBoxLayout(self.layoutWidget)
-        self.HLayoutLogo.setObjectName(u"HLayoutLogo")
-        self.HLayoutLogo.setContentsMargins(0, 0, 0, 0)
-        self.logoLibraLink = QLabel(self.layoutWidget)
-        self.logoLibraLink.setObjectName(u"logoLibraLink")
-        self.logoLibraLink.setMinimumSize(QSize(70, 70))
-        self.logoLibraLink.setMaximumSize(QSize(70, 70))
-        self.logoLibraLink.setPixmap(QPixmap(u":/assets/libraLinkLogo.png"))
-
-        self.HLayoutLogo.addWidget(self.logoLibraLink)
-
-        self.logoTitle = QLabel(self.layoutWidget)
-        self.logoTitle.setObjectName(u"logoTitle")
-        font = QFont()
-        font.setPointSize(12)
-        font.setBold(True)
-        self.logoTitle.setFont(font)
-        self.logoTitle.setStyleSheet(u"color: rgb(255, 255, 255);")
-
-        self.HLayoutLogo.addWidget(self.logoTitle)
-
         self.stackedWidgetDirectory = QStackedWidget(self.headerWidget)
         self.stackedWidgetDirectory.setObjectName(u"stackedWidgetDirectory")
-        self.stackedWidgetDirectory.setGeometry(QRect(360, 120, 481, 61))
+        self.stackedWidgetDirectory.setGeometry(QRect(340, 110, 431, 61))
         self.HomeDirectory = QWidget()
         self.HomeDirectory.setObjectName(u"HomeDirectory")
         self.HomeLabel = QLabel(self.HomeDirectory)
         self.HomeLabel.setObjectName(u"HomeLabel")
         self.HomeLabel.setGeometry(QRect(10, 10, 101, 41))
-        font1 = QFont()
-        font1.setPointSize(17)
-        font1.setBold(True)
-        self.HomeLabel.setFont(font1)
+        font = QFont()
+        font.setPointSize(17)
+        font.setBold(True)
+        self.HomeLabel.setFont(font)
         self.HomeLabel.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.stackedWidgetDirectory.addWidget(self.HomeDirectory)
         self.DaftarBukuDirectory = QWidget()
@@ -79,7 +55,7 @@ class Ui_MainWindow(object):
         self.DaftarBukuLabel = QLabel(self.DaftarBukuDirectory)
         self.DaftarBukuLabel.setObjectName(u"DaftarBukuLabel")
         self.DaftarBukuLabel.setGeometry(QRect(10, 10, 381, 41))
-        self.DaftarBukuLabel.setFont(font1)
+        self.DaftarBukuLabel.setFont(font)
         self.DaftarBukuLabel.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.stackedWidgetDirectory.addWidget(self.DaftarBukuDirectory)
         self.DaftarAnggotaDirectory = QWidget()
@@ -87,9 +63,33 @@ class Ui_MainWindow(object):
         self.DaftarAnggotaLabel = QLabel(self.DaftarAnggotaDirectory)
         self.DaftarAnggotaLabel.setObjectName(u"DaftarAnggotaLabel")
         self.DaftarAnggotaLabel.setGeometry(QRect(10, 10, 431, 41))
-        self.DaftarAnggotaLabel.setFont(font1)
+        self.DaftarAnggotaLabel.setFont(font)
         self.DaftarAnggotaLabel.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.stackedWidgetDirectory.addWidget(self.DaftarAnggotaDirectory)
+        self.widget = QWidget(self.headerWidget)
+        self.widget.setObjectName(u"widget")
+        self.widget.setGeometry(QRect(30, 30, 304, 72))
+        self.HLayoutLogo = QHBoxLayout(self.widget)
+        self.HLayoutLogo.setObjectName(u"HLayoutLogo")
+        self.HLayoutLogo.setContentsMargins(0, 0, 0, 0)
+        self.logoLibraLink = QLabel(self.widget)
+        self.logoLibraLink.setObjectName(u"logoLibraLink")
+        self.logoLibraLink.setMinimumSize(QSize(70, 70))
+        self.logoLibraLink.setMaximumSize(QSize(70, 70))
+        self.logoLibraLink.setPixmap(QPixmap(u":/assets/libraLinkLogo.png"))
+
+        self.HLayoutLogo.addWidget(self.logoLibraLink)
+
+        self.logoTitle = QLabel(self.widget)
+        self.logoTitle.setObjectName(u"logoTitle")
+        font1 = QFont()
+        font1.setPointSize(12)
+        font1.setBold(True)
+        self.logoTitle.setFont(font1)
+        self.logoTitle.setStyleSheet(u"color: rgb(255, 255, 255);")
+
+        self.HLayoutLogo.addWidget(self.logoTitle)
+
         self.sidebarWidget = QWidget(self.centralwidget)
         self.sidebarWidget.setObjectName(u"sidebarWidget")
         self.sidebarWidget.setGeometry(QRect(20, 120, 321, 651))
@@ -100,7 +100,7 @@ class Ui_MainWindow(object):
         self.profileName = QLabel(self.sidebarWidget)
         self.profileName.setObjectName(u"profileName")
         self.profileName.setGeometry(QRect(71, 128, 178, 24))
-        self.profileName.setFont(font)
+        self.profileName.setFont(font1)
         self.profileName.setStyleSheet(u"QLabel{\n"
 "	color: rgb(0, 0, 0);\n"
 "	border: none;\n"
@@ -129,7 +129,7 @@ class Ui_MainWindow(object):
         self.HomeSidebar = QPushButton(self.sidebarWidget)
         self.HomeSidebar.setObjectName(u"HomeSidebar")
         self.HomeSidebar.setGeometry(QRect(21, 231, 281, 50))
-        self.HomeSidebar.setFont(font)
+        self.HomeSidebar.setFont(font1)
         self.HomeSidebar.setStyleSheet(u"QPushButton {\n"
 "	color: rgb(0, 0, 0);\n"
 "	text-align: left;\n"
@@ -154,7 +154,7 @@ class Ui_MainWindow(object):
         self.BukuSidebar = QPushButton(self.sidebarWidget)
         self.BukuSidebar.setObjectName(u"BukuSidebar")
         self.BukuSidebar.setGeometry(QRect(21, 311, 281, 50))
-        self.BukuSidebar.setFont(font)
+        self.BukuSidebar.setFont(font1)
         self.BukuSidebar.setStyleSheet(u"QPushButton {\n"
 "	color: rgb(0, 0, 0);\n"
 "	text-align: left;\n"
@@ -178,7 +178,7 @@ class Ui_MainWindow(object):
         self.AnggotaSidebar = QPushButton(self.sidebarWidget)
         self.AnggotaSidebar.setObjectName(u"AnggotaSidebar")
         self.AnggotaSidebar.setGeometry(QRect(21, 391, 281, 50))
-        self.AnggotaSidebar.setFont(font)
+        self.AnggotaSidebar.setFont(font1)
         self.AnggotaSidebar.setStyleSheet(u"QPushButton {\n"
 "	color: rgb(0, 0, 0);\n"
 "	text-align: left;\n"
@@ -317,9 +317,9 @@ class Ui_MainWindow(object):
         self.AddButton.setIconSize(QSize(34, 34))
         self.AddButton.setCheckable(True)
         self.AddButton.setAutoExclusive(False)
-        self.widget = QWidget(self.Daftar_Anggota)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(210, 0, 71, 41))
+        self.widget1 = QWidget(self.Daftar_Anggota)
+        self.widget1.setObjectName(u"widget1")
+        self.widget1.setGeometry(QRect(210, 0, 71, 41))
         self.stackedWidget.addWidget(self.Daftar_Anggota)
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -335,11 +335,11 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.logoLibraLink.setText("")
-        self.logoTitle.setText(QCoreApplication.translate("MainWindow", u"Libralink Management", None))
         self.HomeLabel.setText(QCoreApplication.translate("MainWindow", u"Home", None))
         self.DaftarBukuLabel.setText(QCoreApplication.translate("MainWindow", u"Daftar Buku Perpustakaan", None))
         self.DaftarAnggotaLabel.setText(QCoreApplication.translate("MainWindow", u"Daftar Anggota Perpustakaan", None))
+        self.logoLibraLink.setText("")
+        self.logoTitle.setText(QCoreApplication.translate("MainWindow", u"Libralink Management", None))
         self.profileName.setText(QCoreApplication.translate("MainWindow", u"Muhammad Zains", None))
         self.admistrator.setText(QCoreApplication.translate("MainWindow", u"Administrator", None))
         self.profileImage.setText("")

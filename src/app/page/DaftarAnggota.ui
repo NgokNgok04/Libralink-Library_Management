@@ -34,70 +34,19 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1541</width>
-      <height>178</height>
+      <width>1451</width>
+      <height>171</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(109, 141, 223);</string>
     </property>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>20</y>
-       <width>338</width>
-       <height>72</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="HLayoutLogo">
-      <item>
-       <widget class="QLabel" name="logoLibraLink">
-        <property name="minimumSize">
-         <size>
-          <width>70</width>
-          <height>70</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>70</width>
-          <height>70</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="pixmap">
-         <pixmap resource="resources.qrc">:/assets/libraLinkLogo.png</pixmap>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="logoTitle">
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
-        </property>
-        <property name="text">
-         <string>Libralink Management</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
     <widget class="QStackedWidget" name="stackedWidgetDirectory">
      <property name="geometry">
       <rect>
-       <x>360</x>
-       <y>120</y>
-       <width>481</width>
+       <x>340</x>
+       <y>110</y>
+       <width>431</width>
        <height>61</height>
       </rect>
      </property>
@@ -179,6 +128,57 @@
        </property>
       </widget>
      </widget>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>30</y>
+       <width>304</width>
+       <height>72</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="HLayoutLogo">
+      <item>
+       <widget class="QLabel" name="logoLibraLink">
+        <property name="minimumSize">
+         <size>
+          <width>70</width>
+          <height>70</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>70</width>
+          <height>70</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="resources.qrc">:/assets/libraLinkLogo.png</pixmap>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="logoTitle">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="text">
+         <string>Libralink Management</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </widget>
    <widget class="QWidget" name="sidebarWidget" native="true">
@@ -709,7 +709,7 @@ QTableWidget{
  </widget>
  <resources>
   <include location="resources.qrc"/>
-  <include location="C:/Users/ASUS/.designer/backup/resources.qrc"/>
+  <include location="resources.qrc"/>
  </resources>
  <connections/>
 </ui>
