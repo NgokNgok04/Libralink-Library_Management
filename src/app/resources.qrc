@@ -1,0 +1,21 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>assets/add.png</file>
+    <file>assets/addButton.png</file>
+    <file>assets/daftarAnggotaLogo.png</file>
+    <file>assets/daftarBukuLogo.png</file>
+    <file>assets/daftarPeminjamanLogo.png</file>
+    <file>assets/dropdownLogo.png</file>
+    <file>assets/editLogo.png</file>
+    <file>assets/homeLogo.png</file>
+    <file>assets/homelogo2.png</file>
+    <file>assets/libraLinkLogo.png</file>
+    <file>assets/logOutLogo.png</file>
+    <file>assets/menuLogo.png</file>
+    <file>assets/profileLogo.png</file>
+    <file>assets/profilePlaceHolder.png</file>
+    <file>assets/searchFaceLeft.png</file>
+    <file>assets/searchLogo.png</file>
+    <file>assets/trashLogo.png</file>
+  </qresource>
+</RCC>
