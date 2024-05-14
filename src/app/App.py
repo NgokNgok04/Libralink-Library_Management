@@ -6,6 +6,7 @@ from components.Sidebar import Sidebar
 from components.AddButton import AddButton
 from components.DaftarAnggotaPage import DaftarAnggotaPage
 from components.DaftarPeminjaman import DaftarPeminjaman
+from components.DaftarBukuPage import DaftarBukuPage
 # from components.TemplateDaftarAnggota import TemplateDaftarAnggota
 
 class App(QMainWindow):
@@ -35,7 +36,7 @@ class App(QMainWindow):
         self.stackedWidgetPage.setGeometry(QRect(360, 178, screenSize.width() - 355, screenSize.height() - 240))
         # self.stackedWidgetPage.setStyleSheet(u"background-color: rgb(255, 255, 0);")
         self.HomePage = QWidget()
-        self.Daftar_BukuPage = QWidget()
+        self.Daftar_BukuPage = DaftarBukuPage()
         self.Daftar_AnggotaPage = DaftarAnggotaPage()
 
         self.stackedWidgetPage.addWidget(self.HomePage)
