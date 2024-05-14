@@ -7,6 +7,7 @@ from components.AddButton import AddButton
 from components.DaftarAnggotaPage import DaftarAnggotaPage
 from components.DaftarPeminjaman import DaftarPeminjaman
 from components.FormBuku import FormBuku
+from components.FormAnggota import FormAnggota
 # from components.TemplateDaftarAnggota import TemplateDaftarAnggota
 
 class App(QMainWindow):
@@ -56,6 +57,9 @@ class App(QMainWindow):
 
         self.formBuku = FormBuku(self.centralwidget)
         self.formBuku.show()
+        # self.formAnggota = FormAnggota(self.centralwidget)
+        # self.formAnggota.show()
+        
 
     @Slot(int)
     def whatPageToShow(self,index):
