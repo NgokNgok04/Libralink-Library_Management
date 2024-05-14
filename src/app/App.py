@@ -6,6 +6,7 @@ from components.Sidebar import Sidebar
 from components.AddButton import AddButton
 from components.DaftarAnggotaPage import DaftarAnggotaPage
 from components.DaftarPeminjaman import DaftarPeminjaman
+from components.FormBuku import FormBuku
 # from components.TemplateDaftarAnggota import TemplateDaftarAnggota
 
 class App(QMainWindow):
@@ -52,6 +53,9 @@ class App(QMainWindow):
         self.DaftarPeminjaman.hide()
         self.DaftarPeminjaman.showDaftarPeminjaman.connect(self.IsShowDaftarPeminjaman)
         self.Daftar_AnggotaPage.showDaftarPeminjaman.connect(self.IsShowDaftarPeminjaman)
+
+        self.formBuku = FormBuku(self.centralwidget)
+        self.formBuku.show()
 
     @Slot(int)
     def whatPageToShow(self,index):
