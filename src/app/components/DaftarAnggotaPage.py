@@ -15,15 +15,20 @@ class Anggota:
         self.status_anggota = status_anggota
 
 class DaftarAnggotaPage(QWidget):
+    showDaftarPeminjaman = Signal(bool)
     def __init__(self):
         super().__init__()
         self.setupUi()
 
     def setupUi(self):
-        self.searchBar = SearchBar(self)
+        screenSize = QGuiApplication.primaryScreen().availableGeometry()
+        self.layoutDaftarAnggota = QWidget(self)
+        self.layoutDaftarAnggota.setGeometry(QRect(0,0,screenSize.width() - 370,screenSize.height() - 250))
+        # self.setGeometry(QRect(0,0,10,10))
+        self.searchBar = SearchBar(self.layoutDaftarAnggota)
         self.searchBar.inputSearch.setPlaceholderText("Cari Anggota")
 
-        self.tableWidget = QTableWidget(self)
+        self.tableWidget = QTableWidget(self.layoutDaftarAnggota)
         if (self.tableWidget.columnCount() < 6):
             self.tableWidget.setColumnCount(6)
 
@@ -46,8 +51,9 @@ class DaftarAnggotaPage(QWidget):
         self.tableWidget.setHorizontalHeaderItem(4, statusHeader)
         self.tableWidget.setHorizontalHeaderItem(5, actionHeader)
 
-        self.tableWidget.setGeometry(QRect(0, 60, 1121, 501))
+        self.tableWidget.setGeometry(QRect(0, 60, screenSize.width() - 370, screenSize.height() - 250))
         self.tableWidget.setMinimumSize(QSize(1021, 192))
+        self.tableWidget.setMaximumSize(QSize(screenSize.width(),screenSize.height()))
         font = QFont()
         font.setPointSize(14)
         font.setBold(False)
@@ -82,12 +88,13 @@ class DaftarAnggotaPage(QWidget):
         self.tableWidget.verticalHeader().setHighlightSections(True)
         self.tableWidget.verticalHeader().setStretchLastSection(False)
 
-        self.tableWidget.setColumnWidth(0,10)
-        self.tableWidget.setColumnWidth(1,200)
-        self.tableWidget.setColumnWidth(2,300)
-        self.tableWidget.setColumnWidth(3,220)
-        self.tableWidget.setColumnWidth(4,170)
-        self.tableWidget.setColumnWidth(5,170)
+        availableWidth = screenSize.width() - 370
+        self.tableWidget.setColumnWidth(0,availableWidth*0.008)
+        self.tableWidget.setColumnWidth(1,availableWidth*0.169)
+        self.tableWidget.setColumnWidth(2,availableWidth*0.254)
+        self.tableWidget.setColumnWidth(3,availableWidth*0.186)
+        self.tableWidget.setColumnWidth(4,availableWidth*0.144)
+        self.tableWidget.setColumnWidth(5,availableWidth*0.144)
         self.loaddata()
 
         for row in range(self.tableWidget.rowCount()):
@@ -151,12 +158,14 @@ class DaftarAnggotaPage(QWidget):
             PeminjamanButton.setStyleSheet(u"background-color: rgba(227, 233, 255, 191); border-radius: 12px;")
             HLayoutIsiButton = QHBoxLayout(PeminjamanButton)
             peminjamanLogo = QPushButton(PeminjamanButton)
+            peminjamanLogo.clicked.connect(lambda: self.showDaftarPeminjaman.emit(True))
             peminjamanLogo.setStyleSheet(u"background-color: none; border-radius: 0px; border: none;")
             iconPeminjamanLogo = QIcon()
             iconPeminjamanLogo.addFile(u"assets/daftarPeminjamanLogo.png", QSize(), QIcon.Normal, QIcon.Off)
             peminjamanLogo.setIcon(iconPeminjamanLogo)
             HLayoutIsiButton.addWidget(peminjamanLogo)
             dropdownLogo = QPushButton(PeminjamanButton)
+            dropdownLogo.clicked.connect(lambda: self.showDaftarPeminjaman.emit(True))
             dropdownLogo.setStyleSheet(u"background-color: none; border: none; border-radius: 10px;")
             iconDropDownLogo = QIcon()
             iconDropDownLogo.addFile(u"assets/dropdownLogo.png", QSize(), QIcon.Normal, QIcon.Off)
