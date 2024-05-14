@@ -12,8 +12,10 @@ class Sidebar(QWidget):
 
     def setupUi(self):
         # define layout sidebar
+        screenSize = QGuiApplication.primaryScreen().availableGeometry()
         self.layoutSidebar = QWidget(self)
-        self.layoutSidebar.setGeometry(QRect(20, 120, 321, 651))
+        self.layoutSidebar.setGeometry(QRect(20, 120, 321, screenSize.height() - 180 ))
+        # 1032 - 120 = 912
         self.layoutSidebar.setStyleSheet("border-radius: 10px; border: 2px solid rgb(100, 119, 219);")
 
         font = QFont()

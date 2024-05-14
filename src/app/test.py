@@ -61,11 +61,88 @@ anggota_data = [
     ('Breanna Robertson', 'breannarobertson8493@gmail.com', '086299305700', 1)
 ]
 
+buku_data  = [
+    (1,'Moonlight Forest','906516623- 6',"NULL"),
+    (2,'Legend Chronicles','010950220- 5',"NULL"),
+    (3,'Legend Chronicles','010950220- 5',"NULL"),
+    (4,'Legend Chronicles','010950220- 5',"NULL"),
+    (5,'Legend Chronicles','010950220- 5',"NULL"),
+    (6,'Legend Chronicles','010950220- 5',"NULL"),
+    (7,'Legend Chronicles','010950220- 5',"NULL"),
+    (8,'Moonlight Legend','243709775- 5',"NULL"),
+    (9,'Moonlight Legend','243709775- 5',"NULL"),
+    (10,'Moonlight Legend','243709775- 5',"NULL"),
+    (11,'Moonlight Legend','243709775- 5',"NULL"),
+    (12,'Moonlight Legend','243709775- 5',"NULL"),
+    (13,'Moonlight Legend','243709775- 5',"NULL"),
+    (14,'Forest Forest','716550905- 9',"NULL"),
+    (15,'Forest Forest','716550905- 9',"NULL"),
+    (16,'Forest Forest','716550905- 9',"NULL"),
+    (17,'Forest Forest','716550905- 9',"NULL"),
+    (18,'Forest Forest','716550905- 9',"NULL"),
+    (19,'Forest Journey','900262331- 7',"NULL"),
+    (20,'Chronicles Legend','670607980- 4',"NULL"),
+    (21,'Chronicles Legend','670607980- 4',"NULL"),
+    (22,'Chronicles Legend','670607980- 4',"NULL"),
+    (23,'Chronicles Legend','670607980- 4',"NULL"),
+    (24,'Forest Chronicles','484476832- 1',"NULL"),
+    (25,'Forest Chronicles','484476832- 1',"NULL"),
+    (26,'Forest Chronicles','484476832- 1',"NULL"),
+    (27,'Forest Chronicles','484476832- 1',"NULL"),
+    (28,'Moonlight Secret','444181509- 4',"NULL"),
+    (29,'Moonlight Secret','444181509- 4',"NULL"),
+    (30,'River Forest','281994735- 6',"NULL"),
+    (31,'River Forest','281994735- 6',"NULL"),
+    (32,'River Forest','281994735- 6',"NULL"),
+    (33,'Valley Secret','321601717- 5',"NULL"),
+    (34,'Sunset Journey','996097919- 9',"NULL"),
+    (35,'Sunset Journey','996097919- 9',"NULL"),
+    (36,'Sunset Journey','996097919- 9',"NULL"),
+    (37,'Sunset Journey','996097919- 9',"NULL"),
+    (38,'Legend Valley','701091022- 8',"NULL"),
+    (39,'Legend Valley','701091022- 8',"NULL"),
+    (40,'Secret Legend','069814964- 2',"NULL"),
+    (41,'Secret Legend','069814964- 2',"NULL"),
+]
+
+peminjaman_data = [
+    (1,4,'2021-01-08','2021-10-05'),
+    (3,26,'2020-10-26','2022-04-25'),
+    (4,34,'2022-04-28','2023-03-04'),
+    (5,7,'2023-03-16','2023-08-07'),
+    (6,35,'2022-11-12','2023-02-03'),
+    (8,28,'2023-08-09','2023-11-25'),
+    (9,39,'2022-12-08','2023-09-23'),
+    (10,8,'2022-04-08','2023-06-22'),
+    (10,34,'2022-02-11','2023-10-21'),
+    (12,38,'2022-02-16','2023-01-14'),
+    (13,30,'2022-01-29','2023-11-11'),
+    (13,32,'2020-04-14','2020-07-27'),
+    (14,38,'2020-01-11','2023-09-25'),
+    (16,15,'2023-02-03','2023-11-07'),
+    (17,2,'2021-12-23','2023-04-12'),
+    (17,39,'2022-06-12','2023-01-31'),
+    (17,41,'2022-05-21','2023-09-10'),
+    (18,8,'2020-10-30','2021-04-18'),
+    (20,27,'2023-05-10','2023-09-10'),
+    (20,30,'2020-04-02','2021-04-20'),
+]
 # Insert the data into the table
 cursor.executemany('''
 INSERT INTO anggota (nama, email, telephone, status_anggota)
 VALUES (?, ?, ?, ?)
 ''', anggota_data)
+
+cursor.executemany('''
+INSERT INTO buku (buku_id, judul, isbn, path)
+VALUES (?, ?, ?, ?)
+''', buku_data)
+
+cursor.executemany('''
+INSERT INTO data_peminjaman_buku (anggota_id, buku_id, tanggal_pinjam, tanggal_pengembalian)
+VALUES (?, ?, ?, ?)
+''', peminjaman_data)
+
 # Commit changes
 conn.commit()
 

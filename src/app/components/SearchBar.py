@@ -8,8 +8,9 @@ class SearchBar(QWidget):
         self.setupUi()
     
     def setupUi(self):
+        screenSize = QGuiApplication.primaryScreen().availableGeometry()
         self.layoutSearchBar = QWidget(self)
-        self.layoutSearchBar.setGeometry(QRect(610,0,541,55))
+        self.layoutSearchBar.setGeometry(QRect(screenSize.width() - 900,0,541,55))
         self.inputSearch = QLineEdit(self.layoutSearchBar)
         self.inputSearch.setGeometry(QRect(0, 10, 481, 41))
         self.inputSearch.setStyleSheet(u"QLineEdit {\n"
