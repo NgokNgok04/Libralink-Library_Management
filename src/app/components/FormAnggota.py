@@ -3,6 +3,7 @@ from PySide6.QtGui import *
 from PySide6.QtCore import *
 
 class FormAnggota(QWidget):
+    hideForm = Signal(bool)
     def __init__(self,parent=None):
         super().__init__(parent)
         self.setupUi()
@@ -41,7 +42,7 @@ class FormAnggota(QWidget):
         self.cancelButton.setIconSize(QSize(18,18))
         self.cancelButton.setCheckable(True)
         self.cancelButton.setAutoExclusive(True)
-
+        self.cancelButton.clicked.connect(lambda: self.hideForm.emit(False))
 
 
         fontInput = QFont()

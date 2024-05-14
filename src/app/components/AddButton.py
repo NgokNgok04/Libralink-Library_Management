@@ -3,8 +3,9 @@ from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
 class AddButton(QPushButton):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, clicked=None):
         super().__init__(parent)
+        self.clicked.connect(clicked)
         self.setupUi()
     
     def setupUi(self):
