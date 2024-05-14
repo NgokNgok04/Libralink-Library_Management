@@ -1,6 +1,8 @@
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
+import os
+import shutil
 class FormBuku(QWidget):
     def __init__(self,parent=None):
         super().__init__(parent)
@@ -120,9 +122,10 @@ class FormBuku(QWidget):
         fontUpload = fontInput
         fontUpload.setPointSize(12)
         self.coverUpload.setFont(fontInput)
-        self.coverUpload.setText("Upload Image")
-        self.coverUpload.setGeometry(QRect(275,5,120,40))
+        self.coverUpload.setText("Unggah Gambar")
+        self.coverUpload.setGeometry(QRect(265,5,130,40))
         self.coverUpload.setStyleSheet(u"color: white; background-color: #828282; border:none; padding: 5px;")
+        self.coverUpload.clicked.connect(self.uploadImage)
 
         self.simpanButton = QPushButton(self.layoutFormBuku)
         self.simpanButton.setText("SIMPAN")
@@ -131,3 +134,21 @@ class FormBuku(QWidget):
         self.simpanButton.setFont(fontSimpan)
         self.simpanButton.setGeometry(QRect(50,self.layoutFormBuku.height() - 70,400,50))
         self.simpanButton.setStyleSheet(u"color: white; background-color: #5D5FEF;")
+
+    def uploadImage(self):
+        fileName, _ = QFileDialog.getOpenFileName(self,"Select Image", "", "Image Files (*.png)")
+        if fileName:
+            self.coverUpload.setText("Unggah Berhasil!")
+            self.coverUpload.setStyleSheet(u"color: white; background-color: #6FCF97; border: none; padding: 5px;")
+            self.saveImageToAssets(fileName)
+
+    def saveImageToAssets(self, sourcePath):
+        # Define the destination folder (assets) and file name
+        destFolder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'assets')
+        if not os.path.exists(destFolder):
+            os.makedirs(destFolder)
+        fileName = os.path.basename(sourcePath)
+        destPath = os.path.join(destFolder, fileName)
+        
+        # Copy the image to the assets folder
+        shutil.copy(sourcePath, destPath)
