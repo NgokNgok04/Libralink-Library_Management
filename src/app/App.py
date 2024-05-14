@@ -82,6 +82,9 @@ class App(QMainWindow):
         self.Daftar_BukuPage.showConfirmDelete.connect(self.showDeleteConfirmationFormBuku)
         
 
+        self.formBuku = FormBuku(self.centralwidget)
+        self.formBuku.show()
+
     @Slot(int)
     def whatPageToShow(self,index):
         self.stackedWidgetPage.setCurrentIndex(index)
