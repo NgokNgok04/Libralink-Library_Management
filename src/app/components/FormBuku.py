@@ -4,12 +4,19 @@ from PySide6.QtCore import *
 import os
 import shutil
 class FormBuku(QWidget):
-    hideForm = Signal(bool)
-    def __init__(self,parent=None):
+    showEditForm = Signal(bool)
+    showAddForm = Signal(bool)
+    confirmEdit = Signal(str, str, str)
+    confirmAdd = Signal(str, str)
+    rowReciever = Signal(str)
+    typeReceiver = Signal(str)
+
+    def __init__(self, parent = None, tipe = None):
         super().__init__(parent)
-        self.setupUi()
+        self.setupUi(tipe)
+        self.aidi = None
     
-    def setupUi(self):
+    def setupUi(self, tipe):
         self.setStyleSheet(u"border: none;")
         screenSize = QGuiApplication.primaryScreen().geometry()
         self.layoutFormBuku = QWidget(self)
@@ -44,7 +51,8 @@ class FormBuku(QWidget):
         self.cancelButton.setIconSize(QSize(18,18))
         self.cancelButton.setCheckable(True)
         self.cancelButton.setAutoExclusive(True)
-        self.cancelButton.clicked.connect(lambda: self.hideForm.emit(False))
+        self.cancelButton.clicked.connect(lambda: self.showEditForm.emit(False))
+        self.cancelButton.clicked.connect(lambda: self.showAddForm.emit(False))
 
         fontInput = QFont()
         fontInput.setFamilies([u"MS Shell Dlg 2"])
@@ -141,11 +149,21 @@ class FormBuku(QWidget):
 
         self.simpanButton = QPushButton(self.layoutFormBuku)
         self.simpanButton.setText("SIMPAN")
+        self.simpanButton.setCheckable(True)
         fontSimpan = fontTitle
         fontSimpan.setPointSize(20)
         self.simpanButton.setFont(fontSimpan)
         self.simpanButton.setGeometry(QRect(40,self.layoutFormBuku.height() - 70,400,50))
         self.simpanButton.setStyleSheet(u"color: white; background-color: #5D5FEF;")
+        if tipe == "edit":
+            self.simpanButton.clicked.connect(self.confirmEditClicked)
+        else:
+            self.simpanButton.clicked.connect(self.confirmAddClicked)
+
+    @Slot(str)
+    def aidiPassing(self, hoho):
+        print(hoho)
+        self.aidi = hoho
 
     def uploadImage(self):
         fileName, _ = QFileDialog.getOpenFileName(self,"Select Image", "", "Image Files (*.png)")
@@ -164,3 +182,16 @@ class FormBuku(QWidget):
         
         # Copy the image to the assets folder
         shutil.copy(sourcePath, destPath)
+
+    def confirmEditClicked(self, aidi):
+        # Emit the signal with the necessary data
+        # aidi = self.aidiPassing()
+        print("HI", self.aidi)
+        self.confirmEdit.emit(self.judulInput.text(), self.kodeInput.text(), self.aidi)
+        self.showEditForm.emit(False)
+        self.showAddForm.emit(False)
+    
+    def confirmAddClicked(self):
+        self.confirmAdd.emit(self.judulInput.text(), self.kodeInput.text())
+        self.showEditForm.emit(False)
+        self.showAddForm.emit(False)

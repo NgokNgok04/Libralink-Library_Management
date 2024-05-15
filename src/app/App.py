@@ -84,21 +84,73 @@ class App(QMainWindow):
         self.deleteConfirmationFormBuku.confirmDeleteSignal.connect(self.Daftar_BukuPage.confirmDeletion)
         self.deleteConfirmationFormBuku.showConfirmDelete.connect(self.showDeleteConfirmationFormBuku)
         self.Daftar_BukuPage.showConfirmDelete.connect(self.showDeleteConfirmationFormBuku)
-        
 
-        self.formBuku = FormBuku(self.centralwidget)
-        self.formAnggota = FormAnggota(self.centralwidget)
-        self.formBuku.hide()
-        self.formAnggota.hide()
-        self.formBuku.cancelButton.clicked.connect(lambda: self.showAddForm(1,False))
-        self.formAnggota.cancelButton.clicked.connect(lambda: self.showAddForm(2,False))
-        
+
+        # EDIT FORM BUKU
+        self.editFormBuku = FormBuku(self.centralwidget, tipe="edit")
+        self.editFormBuku.hide()
+
+        self.editFormBuku.confirmEdit.connect(self.Daftar_BukuPage.confirmEdit)
+        self.Daftar_BukuPage.rowEmiter.connect(self.editFormBuku.aidiPassing)
+        # self.Daftar_BukuPage.rowEmiter.connect(self.editFormBuku.confirmEditClicked)
+        # self.Daftar_BukuPage.typeSignal.connect(self.editFormBuku.setupUi)
+        self.editFormBuku.confirmAdd.connect(self.Daftar_BukuPage.confirmAdd)
+
+        self.editFormBuku.showEditForm.connect(self.showEditFormBuku)
+        self.Daftar_BukuPage.showEditForm.connect(self.showEditFormBuku)
+        self.editFormBuku.cancelButton.clicked.connect(lambda: self.showEditFormBuku(False))
+
+        # ADD FORM
+        self.addFormBuku = FormBuku(self.centralwidget, tipe="add")
+        self.addFormBuku.hide()
+
+        self.addFormBuku.confirmEdit.connect(self.Daftar_BukuPage.confirmEdit)
+        self.Daftar_BukuPage.rowEmiter.connect(self.addFormBuku.aidiPassing)
+        # self.Daftar_BukuPage.rowEmiter.connect(self.addFormBuku.confirmEditClicked)
+        # self.Daftar_BukuPage.typeSignal.connect(self.addFormBuku.setupUi)
+        self.addFormBuku.confirmAdd.connect(self.Daftar_BukuPage.confirmAdd)
+
+        self.addFormBuku.showEditForm.connect(self.showEditFormBuku)
+        self.Daftar_BukuPage.showEditForm.connect(self.showEditFormBuku)
+        self.addFormBuku.cancelButton.clicked.connect(lambda: self.showEditFormBuku(False))
+
+        # EDIT FORM ANGGOTA
+        self.editFormAnggota = FormAnggota(self.centralwidget, tipe = "edit")
+        self.editFormAnggota.hide()
+
+        self.editFormAnggota.confirmEdit.connect(self.Daftar_AnggotaPage.confirmEdit)
+        self.Daftar_AnggotaPage.rowEmiter.connect(self.editFormAnggota.aidiPassing)
+        self.editFormAnggota.confirmAdd.connect(self.Daftar_AnggotaPage.confirmAdd)
+
+
+        self.editFormAnggota.showEditForm.connect(self.showEditFormAnggota)
+        self.Daftar_AnggotaPage.showEditForm.connect(self.showEditFormAnggota)
+        self.editFormAnggota.cancelButton.clicked.connect(lambda: self.showEditFormAnggota(False))
+
+        # ADD FORM ANGGOTA
+        self.addFormAnggota = FormAnggota(self.centralwidget, tipe = "add")
+        self.addFormAnggota.hide()
+
+        self.addFormAnggota.confirmEdit.connect(self.Daftar_AnggotaPage.confirmEdit)
+        self.Daftar_AnggotaPage.rowEmiter.connect(self.addFormAnggota.aidiPassing)
+        self.addFormAnggota.confirmAdd.connect(self.Daftar_AnggotaPage.confirmAdd)
+
+
+        self.addFormAnggota.showAddForm.connect(self.showAddFormAnggota)
+        self.Daftar_AnggotaPage.showAddForm.connect(self.showAddFormAnggota)
+        self.addFormAnggota.cancelButton.clicked.connect(lambda: self.showEditFormAnggota(False))
+        # self.formBuku = FormBuku(self.centralwidget)
+        # self.formAnggota = FormAnggota(self.centralwidget)
+        # self.formBuku.hide()
+        # self.formAnggota.hide()
+        # self.formBuku.cancelButton.clicked.connect(lambda: self.showAddForm(1,False))
+        # self.formAnggota.cancelButton.clicked.connect(lambda: self.showAddForm(2,False))
 
     @Slot(int)
     def whatPageToShow(self,index):
         self.stackedWidgetPage.setCurrentIndex(index)
-        self.formBuku.hide()
-        self.formAnggota.hide()
+        self.editFormBuku.hide()
+        # self.editFormAnggota.hide()
         self.deleteConfirmationFormBuku.hide()
         self.deleteConfirmationFormAnggota.hide()
     
@@ -123,15 +175,30 @@ class App(QMainWindow):
         else:
             self.deleteConfirmationFormAnggota.hide()
     
-    def showAddForm(self,currentIndex,isShow):
-        if isShow:
-            if currentIndex == 1:
-                self.formBuku.show()
-            elif currentIndex == 2:
-                self.formAnggota.show()
+    @Slot(bool)
+    def showEditFormBuku(self, isShowFB):
+        if isShowFB:
+            self.editFormBuku.show()
         else:
-            print(currentIndex)
-            if currentIndex == 1:
-                self.formBuku.hide()
-            elif currentIndex == 2:
-                self.formAnggota.hide()
+            self.editFormBuku.hide()
+
+    @Slot(bool)
+    def showEditFormAnggota(self, isShowFA):
+        if isShowFA:
+            self.editFormAnggota.show()
+        else:
+            self.editFormAnggota.hide()
+
+    @Slot(bool)
+    def showAddFormBuku(self, isShowFBA):
+        if isShowFBA:
+            self.addFormBuku.show()
+        else:
+            self.addFormBuku.hide()
+
+    @Slot(bool)
+    def showAddFormAnggota(self, isShowFAA):
+        if isShowFAA:
+            self.addFormAnggota.show()
+        else:
+            self.addFormAnggota.hide()
