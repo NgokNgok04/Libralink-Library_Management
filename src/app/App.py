@@ -8,6 +8,8 @@ from components.DaftarAnggotaPage import DaftarAnggotaPage
 from components.DaftarPeminjaman import DaftarPeminjaman
 from components.DaftarBukuPage import DaftarBukuPage
 from components.DeleteConfirmationForm import DeleteConfirmationForm
+from components.FormAnggota import FormAnggota
+from components.FormBuku import FormBuku
 
 class App(QMainWindow):
     def __init__(self):
@@ -43,9 +45,11 @@ class App(QMainWindow):
         self.stackedWidgetPage.addWidget(self.Daftar_BukuPage)
         self.stackedWidgetPage.addWidget(self.Daftar_AnggotaPage)
         self.stackedWidgetPage.setCurrentIndex(0)
+
         self.headerWidget.setContentsMargins(0, 0, 0, 0)
-        self.addButton = AddButton(self.centralwidget)
+        self.addButton = AddButton(self.centralwidget,clicked = lambda: self.showAddForm(self.stackedWidgetPage.currentIndex(),True))
         self.addButton.setGeometry(QRect(screenSize.width() - 80, screenSize.height() - 105, 70, 70))
+        self.addButton.hide()
         self.headerWidget.showAddButton.connect(self.addButton.isShowAddButton)
         self.headerWidget.showPageIndex.connect(self.whatPageToShow)
 
@@ -82,12 +86,19 @@ class App(QMainWindow):
         self.Daftar_BukuPage.showConfirmDelete.connect(self.showDeleteConfirmationFormBuku)
         
 
-        # self.formBuku = FormBuku(self.centralwidget)
-        # self.formBuku.show()
+        self.formBuku = FormBuku(self.centralwidget)
+        self.formAnggota = FormAnggota(self.centralwidget)
+        self.formBuku.hide()
+        self.formAnggota.hide()
+        self.formBuku.cancelButton.clicked.connect(lambda: self.showAddForm(1,False))
+        self.formAnggota.cancelButton.clicked.connect(lambda: self.showAddForm(2,False))
+        
 
     @Slot(int)
     def whatPageToShow(self,index):
         self.stackedWidgetPage.setCurrentIndex(index)
+        self.formBuku.hide()
+        self.formAnggota.hide()
     
     @Slot(bool)
     def IsShowDaftarPeminjaman(self,isShow2):
@@ -109,3 +120,16 @@ class App(QMainWindow):
             self.deleteConfirmationFormAnggota.show()
         else:
             self.deleteConfirmationFormAnggota.hide()
+    
+    def showAddForm(self,currentIndex,isShow):
+        if isShow:
+            if currentIndex == 1:
+                self.formBuku.show()
+            elif currentIndex == 2:
+                self.formAnggota.show()
+        else:
+            print(currentIndex)
+            if currentIndex == 1:
+                self.formBuku.hide()
+            elif currentIndex == 2:
+                self.formAnggota.hide()
