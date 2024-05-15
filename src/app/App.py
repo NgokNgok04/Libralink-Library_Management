@@ -10,6 +10,7 @@ from components.DaftarBukuPage import DaftarBukuPage
 from components.DeleteConfirmationForm import DeleteConfirmationForm
 from components.FormAnggota import FormAnggota
 from components.FormBuku import FormBuku
+from components.FormPeminjaman import FormPeminjaman
 
 class App(QMainWindow):
     def __init__(self):
@@ -92,6 +93,9 @@ class App(QMainWindow):
         self.formAnggota.hide()
         self.formBuku.cancelButton.clicked.connect(lambda: self.showAddForm(1,False))
         self.formAnggota.cancelButton.clicked.connect(lambda: self.showAddForm(2,False))
+
+        self.formPeminjaman = FormPeminjaman(self.centralwidget)
+        self.formPeminjaman.show()
         
 
     @Slot(int)
