@@ -204,12 +204,12 @@ class DaftarAnggotaPage(QWidget):
             self.tableWidget.setCellWidget(row, 5, widgetAction)
             row += 1
 
-            for row in range(self.tableWidget.rowCount()):
-                self.tableWidget.setRowHeight(row, 45)
-                for col in range(self.tableWidget.columnCount()):
-                    item = self.tableWidget.item(row, col)
-                    if item:
-                        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        for row in range(self.tableWidget.rowCount()):
+            self.tableWidget.setRowHeight(row, 45)
+            for col in range(self.tableWidget.columnCount()):
+                item = self.tableWidget.item(row, col)
+                if item:
+                    item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
     def filterData(self, search_query):
         conn = sqlite3.connect('datarpl.db')
