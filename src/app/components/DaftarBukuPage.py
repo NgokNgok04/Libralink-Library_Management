@@ -125,7 +125,7 @@ class DaftarBukuPage(QWidget):
         conn.close()
     
     def updateTable(self,data):
-        self.tableWidget.setRowCount(len(data))
+        self.tableWidget.setRowCount(len(data) + 1)
 
         for row, buku in enumerate(data):
             self.tableWidget.setItem(row, 0, QTableWidgetItem(str(buku.buku_id)))

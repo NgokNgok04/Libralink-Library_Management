@@ -18,6 +18,7 @@ class Anggota:
 class DaftarAnggotaPage(QWidget):
     showDaftarPeminjaman = Signal(bool)
     showConfirmDelete = Signal(bool)
+    showDaftarPeminjamanID = Signal(int)
     selectedRowId = None
 
     def __init__(self):
@@ -109,7 +110,6 @@ class DaftarAnggotaPage(QWidget):
                 if item:
                     item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        # self.tableWidget.itemClicked.connect(self.handleItemClicked)
     def loaddata(self):
         conn = sqlite3.connect('datarpl.db')
         cursor = conn.cursor()
@@ -160,19 +160,30 @@ class DaftarAnggotaPage(QWidget):
 
             widgetAction = QWidget()
             widgetAction.setGeometry(QRect(120, 480, 134, 36))
+
             HLayoutButton = QHBoxLayout(widgetAction)
             HLayoutButton.setContentsMargins(10, 5, 0, 5)
+
             PeminjamanButton = QWidget(widgetAction)
             PeminjamanButton.setStyleSheet(u"background-color: rgba(227, 233, 255, 191); border-radius: 12px;")
+
             HLayoutIsiButton = QHBoxLayout(PeminjamanButton)
+
             peminjamanLogo = QPushButton(PeminjamanButton)
+            peminjamanLogo.setCheckable(True)
+            peminjamanLogo.setAutoExclusive(True)
+            peminjamanLogo.clicked.connect(self.handlePeminjamanButtonClicked)
             peminjamanLogo.clicked.connect(lambda: self.showDaftarPeminjaman.emit(True))
             peminjamanLogo.setStyleSheet(u"background-color: none; border-radius: 0px; border: none;")
             iconPeminjamanLogo = QIcon()
             iconPeminjamanLogo.addFile(u"assets/daftarPeminjamanLogo.png", QSize(), QIcon.Normal, QIcon.Off)
             peminjamanLogo.setIcon(iconPeminjamanLogo)
             HLayoutIsiButton.addWidget(peminjamanLogo)
+
             dropdownLogo = QPushButton(PeminjamanButton)
+            dropdownLogo.setCheckable(True)
+            dropdownLogo.setAutoExclusive(True)
+            dropdownLogo.clicked.connect(self.handlePeminjamanButtonClicked)
             dropdownLogo.clicked.connect(lambda: self.showDaftarPeminjaman.emit(True))
             dropdownLogo.setStyleSheet(u"background-color: none; border: none; border-radius: 10px;")
             iconDropDownLogo = QIcon()
@@ -182,7 +193,9 @@ class DaftarAnggotaPage(QWidget):
             HLayoutButton.addWidget(PeminjamanButton)
 
             pencilButton = QPushButton(widgetAction)
-            pencilButton.setStyleSheet(u"border: none; background-color: none; ")
+            pencilButton.setCheckable(True)
+            pencilButton.setAutoExclusive(True)
+            pencilButton.setStyleSheet(u"QPushButton{border: none; background-color: none;} QPushButton::hover{background-color: rgba(227, 233, 255, 191);}")
             iconPencilLogo = QIcon()
             iconPencilLogo.addFile(u"assets/editLogo.png", QSize(), QIcon.Normal, QIcon.Off)
             pencilButton.setIcon(iconPencilLogo)
@@ -191,15 +204,16 @@ class DaftarAnggotaPage(QWidget):
 
             trashButton = QPushButton(widgetAction)
             trashButton.setCheckable(True)
+            trashButton.setAutoExclusive(True)
             trashButton.clicked.connect(lambda: self.showConfirmDelete.emit(True))
-            # trashButton.clicked.connect(lambda: self.handleItemClicked(QTableWidgetItem()))
             trashButton.clicked.connect(self.handleTrashButtonClicked)
-            trashButton.setStyleSheet(u"border: none; background-color: none; ")
+            trashButton.setStyleSheet(u"QPushButton{border: none; background-color: none;} QPushButton::hover{background-color: rgba(227, 233, 255, 191);} ")
             iconTrashButton = QIcon()
             iconTrashButton.addFile(u"assets/trashLogo.png", QSize(), QIcon.Normal, QIcon.Off)
             trashButton.setIcon(iconTrashButton)
             trashButton.setIconSize(QSize(24, 24))
             HLayoutButton.addWidget(trashButton)
+
 
             self.tableWidget.setCellWidget(row, 5, widgetAction)
             row += 1
@@ -226,36 +240,28 @@ class DaftarAnggotaPage(QWidget):
 
         cursor.close()
         conn.close()
-    
-    # def handleItemClicked(self, item):
-    #     # Get the row index of the clicked item
-    #     # row = item.row()
-    #     row = self.tableWidget.row(item)
 
-    #     # Retrieve the ID from the first column of the clicked row
-    #     # Assuming the ID is stored in the first column
-    #     id_item = self.tableWidget.item(row, 0)
-    #     if id_item:
-    #         self.selectedRowId = int(id_item.text())
 
-    def handleItemClicked(self, item):
-        if item is not None:  # Check if item is valid
-            row = self.tableWidget.row(item)
-            if row >= 0:  # Check if row index is valid
+    def handlePeminjamanButtonClicked(self):
+        button = self.sender()  # Get the sender widget (the trash button)
+        if button:
+            global_pos = button.mapToGlobal(button.rect().topLeft())
+            table_pos = self.tableWidget.viewport().mapFromGlobal(global_pos)
+            index = self.tableWidget.indexAt(table_pos)
+            if index.isValid():
+                row = index.row()
                 id_item = self.tableWidget.item(row, 0)
-                if id_item is not None:  # Check if ID item is valid
+                if id_item:
                     self.selectedRowId = int(id_item.text())
-                    # Print selected row ID and data
+                    self.showDaftarPeminjamanID.emit(self.selectedRowId)
                     print("Selected Row ID:", self.selectedRowId)
-                    # row_data = [self.tableWidget.item(row, col).text() for col in range(self.tableWidget.columnCount())]
-                    # print("Selected Row Data:", row_data)
                 else:
                     print("ID item is None")
             else:
-                print("Invalid row index:", row)
+                print("Invalid index")
         else:
-            print("Clicked item is None")
-    
+            print("Sender button is None")
+
     def handleTrashButtonClicked(self):
         button = self.sender()  # Get the sender widget (the trash button)
         if button:
@@ -275,6 +281,7 @@ class DaftarAnggotaPage(QWidget):
         else:
             print("Sender button is None")
     
+
     @Slot(bool)
     def confirmDeletion(self, confirmDeleteSignal):
         if confirmDeleteSignal and self.selectedRowId is not None:
