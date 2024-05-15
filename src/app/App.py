@@ -58,19 +58,7 @@ class App(QMainWindow):
         self.DaftarPeminjaman.hide()
         self.DaftarPeminjaman.showDaftarPeminjaman.connect(self.IsShowDaftarPeminjaman)
         self.Daftar_AnggotaPage.showDaftarPeminjaman.connect(self.IsShowDaftarPeminjaman)
-        
-
-        # self.deleteConfirmationFormBuku = DeleteConfirmationForm(self.centralwidget)
-        # self.deleteConfirmationFormBuku.title.setText("Apakah anda yakin\ningin menghapus buku ini?")
-        # self.deleteConfirmationFormAnggota = DeleteConfirmationForm(self.centralwidget)
-        # self.deleteConfirmationFormAnggota.title.setText("Apakah anda yakin\ningin menghapus anggota ini?")
-        # self.deleteConfirmationFormBuku.hide()
-        # self.deleteConfirmationFormAnggota.hide()
-        # self.deleteConfirmationFormAnggota.confirmDeleteSignal.connect(self.Daftar_AnggotaPage.confirmDeletion)
-        # self.deleteConfirmationFormAnggota.showConfirmDelete.connect(self.showDeleteConfirmationFormAnggota)
-        # self.deleteConfirmationFormBuku.showConfirmDelete.connect(self.showDeleteConfirmationFormBuku)
-        # self.Daftar_AnggotaPage.showConfirmDelete.connect(self.showDeleteConfirmationFormAnggota)
-        # self.Daftar_BukuPage.showConfirmDelete.connect(self.showDeleteConfirmationFormBuku)
+        self.Daftar_AnggotaPage.showDaftarPeminjamanID.connect(self.DaftarPeminjaman.loadData)
 
         self.deleteConfirmationFormAnggota = DeleteConfirmationForm(self.centralwidget)
         self.deleteConfirmationFormAnggota.title.setText("Apakah anda yakin\ningin menghapus anggota ini?")
@@ -95,7 +83,7 @@ class App(QMainWindow):
         self.formAnggota.cancelButton.clicked.connect(lambda: self.showAddForm(2,False))
 
         self.formPeminjaman = FormPeminjaman(self.centralwidget)
-        self.formPeminjaman.show()
+        self.formPeminjaman.hide()
         
 
     @Slot(int)
@@ -108,6 +96,7 @@ class App(QMainWindow):
     def IsShowDaftarPeminjaman(self,isShow2):
         if(isShow2):
             self.DaftarPeminjaman.show()
+            # print("SELECTED DAFTAR PEMINJAMAN :",self.Daftar_AnggotaPage.selectedRowId)
         else:
             self.DaftarPeminjaman.hide()
 
