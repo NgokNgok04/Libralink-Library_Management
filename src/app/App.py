@@ -99,6 +99,8 @@ class App(QMainWindow):
         self.stackedWidgetPage.setCurrentIndex(index)
         self.formBuku.hide()
         self.formAnggota.hide()
+        self.deleteConfirmationFormBuku.hide()
+        self.deleteConfirmationFormAnggota.hide()
     
     @Slot(bool)
     def IsShowDaftarPeminjaman(self,isShow2):
