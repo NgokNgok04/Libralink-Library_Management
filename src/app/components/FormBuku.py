@@ -4,6 +4,7 @@ from PySide6.QtCore import *
 import os
 import shutil
 class FormBuku(QWidget):
+    hideForm = Signal(bool)
     def __init__(self,parent=None):
         super().__init__(parent)
         self.setupUi()
@@ -21,18 +22,29 @@ class FormBuku(QWidget):
         self.title = QLabel(self.layoutFormBuku)
         self.title.setText("FORM BUKU")
         self.title.setAlignment(Qt.AlignCenter)
-        xTitle = (self.layoutFormBuku.width() - 231) // 2
+        xTitle = (self.layoutFormBuku.width() - 240) // 2
         print(xTitle)
-        self.title.setGeometry(QRect(xTitle,10,231,41))
+        self.title.setGeometry(QRect(xTitle,50,240,41))
         # self.title.setStyleSheet(u"background-color: rgb(255,255,0);")
 
         fontTitle = QFont()
         fontTitle.setFamilies([u"MS Shell Dlg 2"])
-        fontTitle.setPointSize(24)
+        fontTitle.setPointSize(30)
         fontTitle.setBold(True)
         self.title.setFont(fontTitle)
         self.title.setStyleSheet(u"color: rgb(85,85,255); border: none;")
 
+        self.cancelButton = QPushButton(self.layoutFormBuku)
+        self.cancelButton.setStyleSheet(u"background-color: none; border: none;")
+        xCancel = self.layoutFormBuku.width() - 30
+        self.cancelButton.setGeometry(QRect(xCancel,10,20,20))
+        iconCancel = QIcon()
+        iconCancel.addFile(u"assets/cancel.png",QSize(),QIcon.Normal, QIcon.Off)
+        self.cancelButton.setIcon(iconCancel)
+        self.cancelButton.setIconSize(QSize(18,18))
+        self.cancelButton.setCheckable(True)
+        self.cancelButton.setAutoExclusive(True)
+        self.cancelButton.clicked.connect(lambda: self.hideForm.emit(False))
 
         fontInput = QFont()
         fontInput.setFamilies([u"MS Shell Dlg 2"])
@@ -40,7 +52,7 @@ class FormBuku(QWidget):
 
         self.layoutJudulnput = QWidget(self.layoutFormBuku)
         self.layoutJudulnput.setStyleSheet(u"background-color: none; border: 2px solid rgb(218, 218, 218); ")
-        self.layoutJudulnput.setGeometry(QRect(40,80,400,50))
+        self.layoutJudulnput.setGeometry(QRect(40,110,400,50))
         
         self.judulButton = QPushButton(self.layoutJudulnput)
         self.judulButton.setGeometry(QRect(0,0,50,50))
@@ -60,7 +72,7 @@ class FormBuku(QWidget):
 
         self.layoutKodeinput = QWidget(self.layoutFormBuku)
         self.layoutKodeinput.setStyleSheet(u"background-color: none; border: 2px solid rgb(218, 218, 218); ")
-        self.layoutKodeinput.setGeometry(QRect(40,150,400,50))
+        self.layoutKodeinput.setGeometry(QRect(40,180,400,50))
         
         self.kodeButton = QPushButton(self.layoutKodeinput)
         self.kodeButton.setGeometry(QRect(0,0,50,50))
@@ -80,7 +92,7 @@ class FormBuku(QWidget):
 
         self.layoutIdinput = QWidget(self.layoutFormBuku)
         self.layoutIdinput.setStyleSheet(u"background-color: none; border: 2px solid rgb(218, 218, 218); ")
-        self.layoutIdinput.setGeometry(QRect(40,220,400,50))
+        self.layoutIdinput.setGeometry(QRect(40,250,400,50))
 
         self.idButton = QPushButton(self.layoutIdinput)
         self.idButton.setGeometry(QRect(0,0,50,50))
@@ -100,7 +112,7 @@ class FormBuku(QWidget):
 
         self.layoutCoverInput = QWidget(self.layoutFormBuku)
         self.layoutCoverInput.setStyleSheet(u"background-color: none; border: 2px solid rgb(218, 218, 218); ")
-        self.layoutCoverInput.setGeometry(QRect(40,290,400,50))
+        self.layoutCoverInput.setGeometry(QRect(40,320,400,50))
 
         self.coverButton = QPushButton(self.layoutCoverInput)
         self.coverButton.setGeometry(QRect(0,0,50,50))
@@ -132,7 +144,7 @@ class FormBuku(QWidget):
         fontSimpan = fontTitle
         fontSimpan.setPointSize(20)
         self.simpanButton.setFont(fontSimpan)
-        self.simpanButton.setGeometry(QRect(50,self.layoutFormBuku.height() - 70,400,50))
+        self.simpanButton.setGeometry(QRect(40,self.layoutFormBuku.height() - 70,400,50))
         self.simpanButton.setStyleSheet(u"color: white; background-color: #5D5FEF;")
 
     def uploadImage(self):
