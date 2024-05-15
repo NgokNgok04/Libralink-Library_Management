@@ -10,7 +10,6 @@ from components.DaftarBukuPage import DaftarBukuPage
 from components.DeleteConfirmationForm import DeleteConfirmationForm
 from components.FormAnggota import FormAnggota
 from components.FormBuku import FormBuku
-from components.FormPeminjaman import FormPeminjaman
 
 class App(QMainWindow):
     def __init__(self):
@@ -91,6 +90,8 @@ class App(QMainWindow):
         self.stackedWidgetPage.setCurrentIndex(index)
         self.formBuku.hide()
         self.formAnggota.hide()
+        self.deleteConfirmationFormBuku.hide()
+        self.deleteConfirmationFormAnggota.hide()
     
     @Slot(bool)
     def IsShowDaftarPeminjaman(self,isShow2):
