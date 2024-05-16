@@ -1,7 +1,7 @@
 import sqlite3
 
 # Connect to the database (or create it if it doesn't exist)
-conn = sqlite3.connect('datarpl.db')
+conn = sqlite3.connect('libralink.db')
 
 # Create a cursor object
 cursor = conn.cursor()
@@ -27,7 +27,7 @@ cursor.execute('''
 
 
 cursor.execute('''
-    CREATE TABLE IF NOT EXISTS data_peminjaman_buku (
+    CREATE TABLE IF NOT EXISTS peminjaman (
         anggota_id INTEGER NOT NULL,
         buku_id INTEGER NOT NULL,
         tanggal_pinjam DATE NOT NULL,
@@ -135,7 +135,7 @@ VALUES (?, ?, ?, ?)
 ''', buku_data)
 
 cursor.executemany('''
-INSERT INTO data_peminjaman_buku (anggota_id, buku_id, tanggal_pinjam, tanggal_pengembalian)
+INSERT INTO peminjaman (anggota_id, buku_id, tanggal_pinjam, tanggal_pengembalian)
 VALUES (?, ?, ?, ?)
 ''', peminjaman_data)
 
