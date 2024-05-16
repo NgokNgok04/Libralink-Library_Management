@@ -5,6 +5,8 @@ from PySide6.QtWidgets import *
 from components.SearchBar import SearchBar
 import resource
 import sqlite3
+from components.FormAnggota import *
+import re
 # from components.DeleteConfirmationForm import DeleteConfirmationForm
 
 class Anggota:
@@ -19,6 +21,9 @@ class DaftarAnggotaPage(QWidget):
     showDaftarPeminjaman = Signal(bool)
     showConfirmDelete = Signal(bool)
     showDaftarPeminjamanID = Signal(int)
+    showEditForm = Signal(bool)
+    showAddForm = Signal(bool)
+    rowEmiter = Signal(str)
     selectedRowId = None
 
     def __init__(self):
@@ -28,7 +33,7 @@ class DaftarAnggotaPage(QWidget):
     def setupUi(self):
         screenSize = QGuiApplication.primaryScreen().availableGeometry()
         self.layoutDaftarAnggota = QWidget(self)
-        self.layoutDaftarAnggota.setGeometry(QRect(0, 0, screenSize.width() - 370, screenSize.height() - 250))
+        self.layoutDaftarAnggota.setGeometry(QRect(0, 0, screenSize.width() - 370, screenSize.height() - 200))
         
         self.searchBar = SearchBar(self.layoutDaftarAnggota)
         self.searchBar.inputSearch.setPlaceholderText("Cari Anggota")
@@ -128,7 +133,8 @@ class DaftarAnggotaPage(QWidget):
         conn.close()
 
     def updateTable(self, data):
-        self.tableWidget.setRowCount(len(data))
+        self.tableWidget.setRowCount(len(data) + 1)
+        # self.tableWidget.setStyleSheet("background-color: yellow;")
 
         for row, anggota in enumerate(data):
             self.tableWidget.setItem(row, 0, QTableWidgetItem(str(anggota.anggota_id)))
@@ -201,6 +207,8 @@ class DaftarAnggotaPage(QWidget):
             pencilButton.setIcon(iconPencilLogo)
             pencilButton.setIconSize(QSize(24, 24))
             HLayoutButton.addWidget(pencilButton)
+            pencilButton.clicked.connect(lambda: self.showEditForm.emit(True))
+            pencilButton.clicked.connect(self.handleTrashButtonClicked)
 
             trashButton = QPushButton(widgetAction)
             trashButton.setCheckable(True)
@@ -260,8 +268,10 @@ class DaftarAnggotaPage(QWidget):
             else:
                 print("Invalid index")
         else:
-            print("Sender button is None")
+            print("Clicked item is None")
 
+        self.rowEmiter.emit(str(self.selectedRowId))
+    
     def handleTrashButtonClicked(self):
         button = self.sender()  # Get the sender widget (the trash button)
         if button:
@@ -280,26 +290,66 @@ class DaftarAnggotaPage(QWidget):
                 print("Invalid index")
         else:
             print("Sender button is None")
-    
 
+        self.rowEmiter.emit(str(self.selectedRowId))
+    
     @Slot(bool)
     def confirmDeletion(self, confirmDeleteSignal):
         if confirmDeleteSignal and self.selectedRowId is not None:
-            print("bye)")
-            # Connect to your database
+
             conn = sqlite3.connect('datarpl.db')
             cursor = conn.cursor()
 
-            # Execute the DELETE query using the selectedRowId
             cursor.execute('DELETE FROM anggota WHERE anggota_id = ?', (self.selectedRowId,))
             conn.commit()
 
-            # Close the connection
             cursor.close()
             conn.close()
 
-            # Optional: Refresh the table or UI to reflect the changes
             self.loaddata()
-        print("awdawdawdasdawd)")
+    
+    @Slot(bool)
+    def confirmEdit(self, nama, email, telepon, status, anggotaid):
+        if nama and email and telepon and status is not None:
+            if re.match(r"[^@]+@[^@]+\.[^@]+", email):  # Check email format
+                if re.match(r"^08\d{9,11}$", telepon):  # Check telephone pattern
+                    if self.selectedRowId is not None:
+                        conn = sqlite3.connect('datarpl.db')
+                        cursor = conn.cursor()
+
+                        cursor.execute("UPDATE anggota SET nama = ?, email = ?, telephone = ?, status_anggota = ? WHERE anggota_id = ?", (nama, email, telepon, status, anggotaid))
+                        conn.commit()
+
+                        cursor.close()
+                        conn.close()
+
+                        self.loaddata()
+                else:
+                    print("Telephone number must start with '08' and have 11 to 13 digits")
+            else:
+                print("Invalid email format")
+        else:
+            print("One or more fields are empty")
+
+    def confirmAdd(self, nama, email, telepon, status):
+        if nama and email and telepon and status is not None:
+            if re.match(r"[^@]+@[^@]+\.[^@]+", email):  # Check email format
+                if re.match(r"^08\d{9,11}$", telepon):  # Check telephone pattern
+                    conn = sqlite3.connect('datarpl.db')
+                    cursor = conn.cursor()
+
+                    cursor.execute("INSERT INTO anggota (nama, email, telephone, status_anggota) VALUES (?, ?, ?, ?)", (nama, email, telepon, status))
+                    conn.commit()
+
+                    cursor.close()
+                    conn.close()
+
+                    self.loaddata()
+                else:
+                    print("Telephone number must start with '08' and have 11 to 13 digits")
+            else:
+                print("Invalid email format")
+        else:
+            print("One or more fields are empty")
         
     

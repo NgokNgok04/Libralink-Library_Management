@@ -14,6 +14,8 @@ from components.FormPeminjaman import FormPeminjaman
 from components.ModalError import ModalError
 
 class App(QMainWindow):
+    AddType = Signal(int)
+
     def __init__(self):
         super().__init__()
         self.setupUi()
@@ -34,6 +36,7 @@ class App(QMainWindow):
         self.sidebarWidget = Sidebar(self.centralwidget)
 
         self.sidebarWidget.showWidget.connect(self.headerWidget.changeStackedWidgetIndex)
+        self.sidebarWidget.showWidget.connect(self.addHandler)
         
         # page Daftar Anggota and Daftar Buku
         self.stackedWidgetPage = QStackedWidget(self.centralwidget)
@@ -42,6 +45,7 @@ class App(QMainWindow):
         self.HomePage = QWidget()
         self.Daftar_BukuPage = DaftarBukuPage()
         self.Daftar_AnggotaPage = DaftarAnggotaPage()
+        # self.Daftar_AnggotaPage.setStyleSheet(u"background-color: yellow;")
 
         self.stackedWidgetPage.addWidget(self.HomePage)
         self.stackedWidgetPage.addWidget(self.Daftar_BukuPage)
@@ -49,11 +53,18 @@ class App(QMainWindow):
         self.stackedWidgetPage.setCurrentIndex(0)
 
         self.headerWidget.setContentsMargins(0, 0, 0, 0)
-        self.addButton = AddButton(self.centralwidget,clicked = lambda: self.showAddForm(self.stackedWidgetPage.currentIndex(),True))
-        self.addButton.setGeometry(QRect(screenSize.width() - 90, screenSize.height() - 105, 70, 70))
+
+        # ==============================
+        # self.addButton = AddButton(self.centralwidget,clicked = lambda: self.showAddForm(self.stackedWidgetPage.currentIndex(),True))
+        self.addButton = AddButton(self.centralwidget)
+        self.addButton.clicked.connect(self.addHandler)
+        self.addButton.setCheckable(True)
+        # ==============================
+
+        self.addButton.setGeometry(QRect(screenSize.width() - 80, screenSize.height() - 105, 70, 70))
         self.addButton.hide()
         self.headerWidget.showAddButton.connect(self.addButton.isShowAddButton)
-        self.headerWidget.showPageIndex.connect(self.whatPageToShow)
+        self.headerWidget.showPageIndex.connect(self.whatPageToShow) 
 
         self.DaftarPeminjaman = DaftarPeminjaman(self.centralwidget)
         self.DaftarPeminjaman.hide()
@@ -84,15 +95,75 @@ class App(QMainWindow):
         self.deleteConfirmationFormPeminjaman.confirmDeleteSignal.connect(self.DaftarPeminjaman.confirmDeletion) # User press Delete
         self.deleteConfirmationFormPeminjaman.showConfirmDelete.connect(self.showDeleteConfirmationFormPeminjaman) #Hide Display Delete Form
 
-        self.formBuku = FormBuku(self.centralwidget)
-        self.formAnggota = FormAnggota(self.centralwidget)
+        # EDIT FORM BUKU
+        self.editFormBuku = FormBuku(self.centralwidget, tipe="edit")
+        self.editFormBuku.hide()
+
+        self.editFormBuku.confirmEdit.connect(self.Daftar_BukuPage.confirmEdit)
+        self.Daftar_BukuPage.rowEmiter.connect(self.editFormBuku.aidiPassing)
+        # self.Daftar_BukuPage.rowEmiter.connect(self.editFormBuku.confirmEditClicked)
+        # self.Daftar_BukuPage.typeSignal.connect(self.editFormBuku.setupUi)
+        # self.editFormBuku.confirmAdd.connect(self.Daftar_BukuPage.confirmAdd)
+
+        self.editFormBuku.showEditForm.connect(self.showEditFormBuku)
+        self.Daftar_BukuPage.showEditForm.connect(self.showEditFormBuku)
+        self.editFormBuku.cancelButton.clicked.connect(lambda: self.showEditFormBuku(False))
+
+        # ADD FORM
+        self.addFormBuku = FormBuku(self.centralwidget, tipe="add")
+        self.addFormBuku.hide()
+
+        # self.addFormBuku.confirmEdit.connect(self.Daftar_BukuPage.confirmEdit)
+        # self.Daftar_BukuPage.rowEmiter.connect(self.addFormBuku.confirmEditClicked)
+        self.addFormBuku.confirmAdd.connect(self.Daftar_BukuPage.confirmAdd)
+
+        self.addFormBuku.showAddForm.connect(self.showAddFormBuku)
+        # self.Daftar_BukuPage.showEditForm.connect(self.showAddFormBuku)
+        self.addFormBuku.cancelButton.clicked.connect(lambda: self.showAddFormBuku(False))
+
+        # EDIT FORM ANGGOTA
+        self.editFormAnggota = FormAnggota(self.centralwidget, tipe = "edit")
+        self.editFormAnggota.hide()
+
+        self.editFormAnggota.confirmEdit.connect(self.Daftar_AnggotaPage.confirmEdit)
+        self.Daftar_AnggotaPage.rowEmiter.connect(self.editFormAnggota.aidiPassing)
+        # self.editFormAnggota.confirmAdd.connect(self.Daftar_AnggotaPage.confirmAdd)
+
+
+        self.editFormAnggota.showEditForm.connect(self.showEditFormAnggota)
+        self.Daftar_AnggotaPage.showEditForm.connect(self.showEditFormAnggota)
+        self.editFormAnggota.cancelButton.clicked.connect(lambda: self.showEditFormAnggota(False))
+
+        # ADD FORM ANGGOTA
+        self.addFormAnggota = FormAnggota(self.centralwidget, tipe = "add")
+        self.addFormAnggota.hide()
+
+        # self.addFormAnggota.confirmEdit.connect(self.Daftar_AnggotaPage.confirmEdit)
+        # self.Daftar_AnggotaPage.rowEmiter.connect(self.addFormAnggota.aidiPassing)
+        self.addFormAnggota.confirmAdd.connect(self.Daftar_AnggotaPage.confirmAdd)
+
+
+        self.addFormAnggota.showAddForm.connect(self.showAddFormAnggota)
+        # self.Daftar_AnggotaPage.showEditForm.connect(self.showAddFormAnggota)
+        self.addFormAnggota.cancelButton.clicked.connect(lambda: self.showAddFormAnggota(False))
+
+
+
+        # self.formBuku = FormBuku(self.centralwidget)
+        # self.formAnggota = FormAnggota(self.centralwidget)
+        # self.formBuku.hide()
+        # self.formAnggota.hide()
+        # self.formBuku.cancelButton.clicked.connect(lambda: self.showAddForm(1,False))
+        # self.formAnggota.cancelButton.clicked.connect(lambda: self.showAddForm(2,False))
+        # self.formBuku = FormBuku(self.centralwidget)
+        # self.formAnggota = FormAnggota(self.centralwidget)
         self.formPeminjaman = FormPeminjaman(self.centralwidget)
-        self.formBuku.hide()
-        self.formAnggota.hide()
+        # self.formBuku.hide()
+        # self.formAnggota.hide()
         self.formPeminjaman.hide()
-        self.formBuku.cancelButton.clicked.connect(lambda: self.showAddForm(1,False))
-        self.formAnggota.cancelButton.clicked.connect(lambda: self.showAddForm(2,False))
-        self.formPeminjaman.cancelButton.clicked.connect(lambda: self.showAddForm(3,False))
+        # self.formBuku.cancelButton.clicked.connect(lambda: self.showAddForm(1,False))
+        # self.formAnggota.cancelButton.clicked.connect(lambda: self.showAddForm(2,False))
+        self.formPeminjaman.cancelButton.clicked.connect(lambda: self.showAddFormPeminjaman(False))
         self.Daftar_AnggotaPage.showDaftarPeminjamanID.connect(self.formPeminjaman.getSelectedId)
 
         self.formPeminjaman.showModal.connect(self.showModal)
@@ -106,8 +177,10 @@ class App(QMainWindow):
     @Slot(int)
     def whatPageToShow(self,index):
         self.stackedWidgetPage.setCurrentIndex(index)
-        self.formBuku.hide()
-        self.formAnggota.hide()
+        self.editFormBuku.hide()
+        # self.editFormAnggota.hide()
+        self.deleteConfirmationFormBuku.hide()
+        self.deleteConfirmationFormAnggota.hide()
     
     @Slot(bool)
     def IsShowDaftarPeminjaman(self,isShow):
@@ -137,30 +210,59 @@ class App(QMainWindow):
             self.deleteConfirmationFormAnggota.show()
         else:
             self.deleteConfirmationFormAnggota.hide()
-    
+
     @Slot(bool)
-    def showDeleteConfirmationFormPeminjaman(self,isShow):
+    def showDeleteConfirmationFormPeminjaman(self, isShow):
         if isShow:
-            self.DaftarPeminjaman.hide()
             self.deleteConfirmationFormPeminjaman.show()
         else:
             self.deleteConfirmationFormPeminjaman.hide()
     
-    def showAddForm(self,currentIndex,isShow):
-        if isShow:
-            if currentIndex == 1:
-                self.formBuku.show()
-            elif currentIndex == 2:
-                self.formAnggota.show()
-            elif currentIndex == 3:
-                self.formPeminjaman.show()
+    @Slot(bool)
+    def showEditFormBuku(self, isShowFB):
+        if isShowFB:
+            self.editFormBuku.show()
         else:
-            print(currentIndex)
-            if currentIndex == 1:
-                self.formBuku.hide()
-            elif currentIndex == 2:
-                self.formAnggota.hide()
-            elif currentIndex == 3:
-                self.formPeminjaman.hide()
-    
+            self.editFormBuku.hide()
+
+    @Slot(bool)
+    def showEditFormAnggota(self, isShowFA):
+        if isShowFA:
+            self.editFormAnggota.show()
+        else:
+            self.editFormAnggota.hide()
+
+    @Slot(bool)
+    def showAddFormBuku(self, isShowFBA):
+        if isShowFBA:
+            self.addFormBuku.show()
+        else:
+            self.addFormBuku.hide()
+
+    @Slot(bool)
+    def showAddFormAnggota(self, isShowFAA):
+        if isShowFAA:
+            self.addFormAnggota.show()
+        else:
+            self.addFormAnggota.hide()
+
+    @Slot(bool)
+    def showAddFormPeminjaman(self, isShowFAAA):
+        if isShowFAAA:
+            self.formPeminjaman.show()
+        else:
+            self.formPeminjaman.hide()
+
+    @Slot(int)
+    def addHandler(self, param):
+        if param == 1:
+            # self.addButton.deleteLater()
+            self.addButton.clicked.disconnect() 
+            # self.addButton = AddButton(self.centralwidget, clicked = lambda: self.showAddFormBuku(True))
+            self.addButton.clicked.connect(lambda: self.showAddFormBuku(True))
+        else:
+            # self.addButton.deleteLater()
+            self.addButton.clicked.disconnect() 
+            # self.addButton = AddButton(self.centralwidget, clicked = lambda: self.showAddFormAnggota(True))
+            self.addButton.clicked.connect(lambda: self.showAddFormAnggota(True))
 

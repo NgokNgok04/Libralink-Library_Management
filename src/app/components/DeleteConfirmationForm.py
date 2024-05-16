@@ -27,7 +27,6 @@ class DeleteConfirmationForm(QWidget):
         self.title.setGeometry(QRect(25, 20, 250, 50))  # Adjusted height to accommodate two lines
         self.title.setAlignment(Qt.AlignCenter)  # Center-align the text
 
-
         font = QFont()
         font.setPointSize(12)
         font.setBold(True)

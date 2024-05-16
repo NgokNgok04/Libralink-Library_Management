@@ -5,6 +5,7 @@ from PySide6.QtWidgets import *
 from components.SearchBar import SearchBar
 import resource
 import sqlite3
+from components.FormBuku import *
 
 class Buku:
     def __init__(self, buku_id, judul, isbn, path):
@@ -15,6 +16,9 @@ class Buku:
 
 class DaftarBukuPage(QWidget):
     showConfirmDelete = Signal(bool)
+    showEditForm = Signal(bool)
+    showAddForm = Signal(bool)
+    rowEmiter = Signal(str)
     selectedRowId = None
 
     def __init__(self):
@@ -175,6 +179,9 @@ class DaftarBukuPage(QWidget):
             self.iconCoverPencilLogo.addFile(u"assets/editLogo.png", QSize(), QIcon.Normal, QIcon.Off)
             self.coverPencilLogo.setIcon(self.iconCoverPencilLogo)
             self.coverPencilLogo.setIconSize(QSize(30,30))
+            self.coverPencilLogo.clicked.connect(lambda: self.showEditForm.emit(True))
+            # self.coverPencilLogo.clicked.connect(lambda: self.typeSignal.emit("edit"))
+            self.coverPencilLogo.clicked.connect(self.handleTrashButtonClicked)
 
             self.coverTrashLogo = QPushButton(self.widgetIsiAction)
             self.coverTrashLogo.setGeometry(QRect(50,62,40,40))
@@ -233,21 +240,66 @@ class DaftarBukuPage(QWidget):
                 print("Invalid index")
         else:
             print("Sender button is None")
+        
+        self.rowEmiter.emit(str(self.selectedRowId))
     
     @Slot(bool)
     def confirmDeletion(self, confirmed):
         if confirmed and self.selectedRowId is not None:
-            # Connect to your database
+
             conn = sqlite3.connect('datarpl.db')
             cursor = conn.cursor()
 
-            # Execute the DELETE query using the selectedRowId
             cursor.execute('DELETE FROM buku WHERE buku_id = ?', (self.selectedRowId,))
             conn.commit()
 
-            # Close the connection
             cursor.close()
             conn.close()
 
-            # Optional: Refresh the table or UI to reflect the changes
             self.loaddata()
+
+    @Slot(bool)
+    def confirmEdit(self, judul, kode, path, bukuid):
+        if judul and kode and path and bukuid:
+            if len(kode) == 13 and kode.isdigit():
+                # Proceed with the edit operation
+                conn = sqlite3.connect('datarpl.db')
+                cursor = conn.cursor()
+
+                cursor.execute("UPDATE buku SET judul = ?, isbn = ?, path = ? WHERE buku_id = ?", (judul, kode, path, bukuid))
+                conn.commit()
+
+                cursor.close()
+                conn.close()
+
+                self.loaddata()
+
+                print(bukuid)
+            else:
+                print("ISBN must have a length of 13 characters and contain only numeric digits")
+        else:
+            print("One or more fields are empty")
+
+
+    @Slot(bool)
+    def confirmAdd(self, judul, kode, path):
+        if judul and kode and path:
+            if len(kode) == 13 and kode.isdigit():
+                # Proceed with the add operation
+                conn = sqlite3.connect('datarpl.db')
+                cursor = conn.cursor()
+
+                cursor.execute("INSERT INTO buku (judul, isbn, path) VALUES (?, ?, ?)", (judul, kode, path))
+                conn.commit()
+
+                cursor.close()
+                conn.close()
+
+                self.loaddata()
+            else:
+                print("ISBN must have a length of 13 characters and contain only numeric digits")
+        else:
+            print("One or more fields are empty")
+
+
+

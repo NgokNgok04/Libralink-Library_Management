@@ -3,11 +3,17 @@ from PySide6.QtGui import *
 from PySide6.QtCore import *
 
 class FormAnggota(QWidget):
-    def __init__(self,parent=None):
+    showEditForm = Signal(bool)
+    showAddForm = Signal(bool)
+    confirmEdit = Signal(str, str, str, bool, str)
+    confirmAdd = Signal(str, str, str, bool)
+
+    def __init__(self,parent=None, tipe = None):
         super().__init__(parent)
-        self.setupUi()
+        self.setupUi(tipe)
+        self.aidi = None
     
-    def setupUi(self):
+    def setupUi(self, tipe):
         self.setStyleSheet(u"border: none;")
         screenSize = QGuiApplication.primaryScreen().geometry()
         self.layoutFormAnggota = QWidget(self)
@@ -41,6 +47,7 @@ class FormAnggota(QWidget):
         self.cancelButton.setIconSize(QSize(18,18))
         self.cancelButton.setCheckable(True)
         self.cancelButton.setAutoExclusive(True)
+        self.cancelButton.clicked.connect(lambda: self.showEditForm.emit(False))
 
 
         fontInput = QFont()
@@ -157,13 +164,27 @@ class FormAnggota(QWidget):
         self.nonaktifButton.setAutoExclusive(True)
         self.nonaktifButton.setChecked(True)
 
+        # self.aktifInput = self.aktifButton.isChecked()
+        # print(self.aktifInput)
+
         self.simpanButton = QPushButton(self.layoutFormAnggota)
         self.simpanButton.setText("SIMPAN")
+        self.simpanButton.setCheckable(True)
         fontSimpan = fontTitle
         fontSimpan.setPointSize(20)
         self.simpanButton.setFont(fontSimpan)
         self.simpanButton.setGeometry(QRect(50,self.layoutFormAnggota.height() - 70,400,50))
         self.simpanButton.setStyleSheet(u"color: white; background-color: #5D5FEF;")
+        # self.simpanButton.clicked.connect(self.confirmEditClicked)
+        if tipe == "edit":
+            self.simpanButton.clicked.connect(self.confirmEditClicked)
+        else:
+            self.simpanButton.clicked.connect(self.confirmAddClicked)
+    
+    @Slot(str)
+    def aidiPassing(self, hoho):
+        print(hoho)
+        self.aidi = hoho
     
     def handleToggle(self,isNonAktif):
         if(isNonAktif):
@@ -172,3 +193,15 @@ class FormAnggota(QWidget):
         else:
             self.nonaktifButton.setStyleSheet(U"background-color: transparent; color: white; border-radius: 10px;")
             self.aktifButton.setStyleSheet(u"background-color: white; color: #6477DB; border-radius: 10px;")
+    
+    def confirmEditClicked(self):
+        # Emit the signal with the necessary data
+        self.aktifInput = self.aktifButton.isChecked()
+        self.confirmEdit.emit(self.namaInput.text(), self.emailInput.text(), self.teleponInput.text(), not self.aktifInput, self.aidi)
+        self.showEditForm.emit(False)
+    
+    def confirmAddClicked(self):
+        self.aktifInput = self.aktifButton.isChecked()
+        self.confirmAdd.emit(self.namaInput.text(), self.emailInput.text(), self.teleponInput.text(), not self.aktifInput)
+        self.showEditForm.emit(False)
+        self.showAddForm.emit(False)
