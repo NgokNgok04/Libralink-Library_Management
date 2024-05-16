@@ -6,8 +6,8 @@ import shutil
 class FormBuku(QWidget):
     showEditForm = Signal(bool)
     showAddForm = Signal(bool)
-    confirmEdit = Signal(str, str, str)
-    confirmAdd = Signal(str, str)
+    confirmEdit = Signal(str, str, str, str)
+    confirmAdd = Signal(str, str, str)
     rowReciever = Signal(str)
     typeReceiver = Signal(str)
 
@@ -17,6 +17,7 @@ class FormBuku(QWidget):
         self.aidi = None
     
     def setupUi(self, tipe):
+        self.fileName = ""
         self.setStyleSheet(u"border: none;")
         screenSize = QGuiApplication.primaryScreen().geometry()
         self.layoutFormBuku = QWidget(self)
@@ -171,27 +172,54 @@ class FormBuku(QWidget):
             self.coverUpload.setText("Unggah Berhasil!")
             self.coverUpload.setStyleSheet(u"color: white; background-color: #6FCF97; border: none; padding: 5px;")
             self.saveImageToAssets(fileName)
+            self.fileName = fileName
+
+    # def saveImageToAssets(self, sourcePath):
+    #     # Define the destination folder (assets) and file name
+    #     destFolder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'assets/coverBukuCollection')
+    #     if not os.path.exists(destFolder):
+    #         os.makedirs(destFolder)
+    #     fileName = os.path.basename(sourcePath)
+    #     destPath = os.path.join(destFolder, fileName)
+        
+    #     # Copy the image to the assets folder
+    #     shutil.copy(sourcePath, destPath)
 
     def saveImageToAssets(self, sourcePath):
         # Define the destination folder (assets) and file name
-        destFolder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'assets')
+        destFolder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'assets/coverBukuCollection')
         if not os.path.exists(destFolder):
             os.makedirs(destFolder)
+
         fileName = os.path.basename(sourcePath)
         destPath = os.path.join(destFolder, fileName)
-        
+
+        # Check if the file already exists in the destination folder
+        if os.path.exists(destPath):
+            print(f"File '{fileName}' already exists in the destination folder. Skipping...")
+            return  # Skip copying if the file already exists
+
         # Copy the image to the assets folder
         shutil.copy(sourcePath, destPath)
 
     def confirmEditClicked(self, aidi):
         # Emit the signal with the necessary data
         # aidi = self.aidiPassing()
+        tempName = extractName(self.fileName)
         print("HI", self.aidi)
-        self.confirmEdit.emit(self.judulInput.text(), self.kodeInput.text(), self.aidi)
+        self.confirmEdit.emit(self.judulInput.text(), self.kodeInput.text(),"./assets/coverBukuCollection/" + tempName, self.aidi)
         self.showEditForm.emit(False)
         self.showAddForm.emit(False)
     
     def confirmAddClicked(self):
-        self.confirmAdd.emit(self.judulInput.text(), self.kodeInput.text())
+        tempName = extractName(self.fileName)
+        self.confirmAdd.emit(self.judulInput.text(), self.kodeInput.text(), "./assets/coverBukuCollection/" + tempName)
         self.showEditForm.emit(False)
         self.showAddForm.emit(False)
+    
+def extractName(url):
+    last_slash_index = url.rfind('/')
+    if last_slash_index != -1:
+        return url[last_slash_index + 1:]
+    else:
+        return url

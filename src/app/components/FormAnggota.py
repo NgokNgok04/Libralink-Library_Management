@@ -174,7 +174,7 @@ class FormAnggota(QWidget):
         self.simpanButton.setFont(fontSimpan)
         self.simpanButton.setGeometry(QRect(50,self.layoutFormAnggota.height() - 70,400,50))
         self.simpanButton.setStyleSheet(u"color: white; background-color: #5D5FEF;")
-        self.simpanButton.clicked.connect(self.confirmEditClicked)
+        # self.simpanButton.clicked.connect(self.confirmEditClicked)
         if tipe == "edit":
             self.simpanButton.clicked.connect(self.confirmEditClicked)
         else:
@@ -195,10 +195,9 @@ class FormAnggota(QWidget):
     
     def confirmEditClicked(self):
         # Emit the signal with the necessary data
-        print("HI", self.aidi)
         self.confirmEdit.emit(self.namaInput.text(), self.emailInput.text(), self.teleponInput.text(), self.aktifInput, self.aidi)
         self.showEditForm.emit(False)
     
     def confirmAddClicked(self):
-        self.confirmEdit.emit(self.namaInput.text(), self.emailInput.text(), self.teleponInput.text(), self.aktifInput)
+        self.confirmAdd.emit(self.namaInput.text(), self.emailInput.text(), self.teleponInput.text(), self.aktifInput)
         self.showEditForm.emit(False)

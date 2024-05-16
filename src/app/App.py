@@ -12,6 +12,8 @@ from components.FormAnggota import FormAnggota
 from components.FormBuku import FormBuku
 
 class App(QMainWindow):
+    AddType = Signal(int)
+
     def __init__(self):
         super().__init__()
         self.setupUi()
@@ -32,6 +34,7 @@ class App(QMainWindow):
         self.sidebarWidget = Sidebar(self.centralwidget)
 
         self.sidebarWidget.showWidget.connect(self.headerWidget.changeStackedWidgetIndex)
+        self.sidebarWidget.showWidget.connect(self.addHandler)
         
         # page Daftar Anggota and Daftar Buku
         self.stackedWidgetPage = QStackedWidget(self.centralwidget)
@@ -40,6 +43,7 @@ class App(QMainWindow):
         self.HomePage = QWidget()
         self.Daftar_BukuPage = DaftarBukuPage()
         self.Daftar_AnggotaPage = DaftarAnggotaPage()
+        # self.Daftar_AnggotaPage.setStyleSheet(u"background-color: yellow;")
 
         self.stackedWidgetPage.addWidget(self.HomePage)
         self.stackedWidgetPage.addWidget(self.Daftar_BukuPage)
@@ -47,11 +51,18 @@ class App(QMainWindow):
         self.stackedWidgetPage.setCurrentIndex(0)
 
         self.headerWidget.setContentsMargins(0, 0, 0, 0)
-        self.addButton = AddButton(self.centralwidget,clicked = lambda: self.showAddForm(self.stackedWidgetPage.currentIndex(),True))
+
+        # ==============================
+        # self.addButton = AddButton(self.centralwidget,clicked = lambda: self.showAddForm(self.stackedWidgetPage.currentIndex(),True))
+        self.addButton = AddButton(self.centralwidget)
+        self.addButton.clicked.connect(self.addHandler)
+        self.addButton.setCheckable(True)
+        # ==============================
+
         self.addButton.setGeometry(QRect(screenSize.width() - 80, screenSize.height() - 105, 70, 70))
         self.addButton.hide()
         self.headerWidget.showAddButton.connect(self.addButton.isShowAddButton)
-        self.headerWidget.showPageIndex.connect(self.whatPageToShow)
+        self.headerWidget.showPageIndex.connect(self.whatPageToShow) 
 
         self.DaftarPeminjaman = DaftarPeminjaman(self.centralwidget)
         self.DaftarPeminjaman.hide()
@@ -59,17 +70,6 @@ class App(QMainWindow):
         self.Daftar_AnggotaPage.showDaftarPeminjaman.connect(self.IsShowDaftarPeminjaman)
         
 
-        # self.deleteConfirmationFormBuku = DeleteConfirmationForm(self.centralwidget)
-        # self.deleteConfirmationFormBuku.title.setText("Apakah anda yakin\ningin menghapus buku ini?")
-        # self.deleteConfirmationFormAnggota = DeleteConfirmationForm(self.centralwidget)
-        # self.deleteConfirmationFormAnggota.title.setText("Apakah anda yakin\ningin menghapus anggota ini?")
-        # self.deleteConfirmationFormBuku.hide()
-        # self.deleteConfirmationFormAnggota.hide()
-        # self.deleteConfirmationFormAnggota.confirmDeleteSignal.connect(self.Daftar_AnggotaPage.confirmDeletion)
-        # self.deleteConfirmationFormAnggota.showConfirmDelete.connect(self.showDeleteConfirmationFormAnggota)
-        # self.deleteConfirmationFormBuku.showConfirmDelete.connect(self.showDeleteConfirmationFormBuku)
-        # self.Daftar_AnggotaPage.showConfirmDelete.connect(self.showDeleteConfirmationFormAnggota)
-        # self.Daftar_BukuPage.showConfirmDelete.connect(self.showDeleteConfirmationFormBuku)
 
         self.deleteConfirmationFormAnggota = DeleteConfirmationForm(self.centralwidget)
         self.deleteConfirmationFormAnggota.title.setText("Apakah anda yakin\ningin menghapus anggota ini?")
@@ -94,7 +94,7 @@ class App(QMainWindow):
         self.Daftar_BukuPage.rowEmiter.connect(self.editFormBuku.aidiPassing)
         # self.Daftar_BukuPage.rowEmiter.connect(self.editFormBuku.confirmEditClicked)
         # self.Daftar_BukuPage.typeSignal.connect(self.editFormBuku.setupUi)
-        self.editFormBuku.confirmAdd.connect(self.Daftar_BukuPage.confirmAdd)
+        # self.editFormBuku.confirmAdd.connect(self.Daftar_BukuPage.confirmAdd)
 
         self.editFormBuku.showEditForm.connect(self.showEditFormBuku)
         self.Daftar_BukuPage.showEditForm.connect(self.showEditFormBuku)
@@ -104,15 +104,13 @@ class App(QMainWindow):
         self.addFormBuku = FormBuku(self.centralwidget, tipe="add")
         self.addFormBuku.hide()
 
-        self.addFormBuku.confirmEdit.connect(self.Daftar_BukuPage.confirmEdit)
-        self.Daftar_BukuPage.rowEmiter.connect(self.addFormBuku.aidiPassing)
+        # self.addFormBuku.confirmEdit.connect(self.Daftar_BukuPage.confirmEdit)
         # self.Daftar_BukuPage.rowEmiter.connect(self.addFormBuku.confirmEditClicked)
-        # self.Daftar_BukuPage.typeSignal.connect(self.addFormBuku.setupUi)
         self.addFormBuku.confirmAdd.connect(self.Daftar_BukuPage.confirmAdd)
 
-        self.addFormBuku.showEditForm.connect(self.showEditFormBuku)
-        self.Daftar_BukuPage.showEditForm.connect(self.showEditFormBuku)
-        self.addFormBuku.cancelButton.clicked.connect(lambda: self.showEditFormBuku(False))
+        self.addFormBuku.showAddForm.connect(self.showAddFormBuku)
+        # self.Daftar_BukuPage.showEditForm.connect(self.showAddFormBuku)
+        self.addFormBuku.cancelButton.clicked.connect(lambda: self.showAddFormBuku(False))
 
         # EDIT FORM ANGGOTA
         self.editFormAnggota = FormAnggota(self.centralwidget, tipe = "edit")
@@ -120,7 +118,7 @@ class App(QMainWindow):
 
         self.editFormAnggota.confirmEdit.connect(self.Daftar_AnggotaPage.confirmEdit)
         self.Daftar_AnggotaPage.rowEmiter.connect(self.editFormAnggota.aidiPassing)
-        self.editFormAnggota.confirmAdd.connect(self.Daftar_AnggotaPage.confirmAdd)
+        # self.editFormAnggota.confirmAdd.connect(self.Daftar_AnggotaPage.confirmAdd)
 
 
         self.editFormAnggota.showEditForm.connect(self.showEditFormAnggota)
@@ -131,14 +129,17 @@ class App(QMainWindow):
         self.addFormAnggota = FormAnggota(self.centralwidget, tipe = "add")
         self.addFormAnggota.hide()
 
-        self.addFormAnggota.confirmEdit.connect(self.Daftar_AnggotaPage.confirmEdit)
-        self.Daftar_AnggotaPage.rowEmiter.connect(self.addFormAnggota.aidiPassing)
+        # self.addFormAnggota.confirmEdit.connect(self.Daftar_AnggotaPage.confirmEdit)
+        # self.Daftar_AnggotaPage.rowEmiter.connect(self.addFormAnggota.aidiPassing)
         self.addFormAnggota.confirmAdd.connect(self.Daftar_AnggotaPage.confirmAdd)
 
 
         self.addFormAnggota.showAddForm.connect(self.showAddFormAnggota)
-        self.Daftar_AnggotaPage.showAddForm.connect(self.showAddFormAnggota)
-        self.addFormAnggota.cancelButton.clicked.connect(lambda: self.showEditFormAnggota(False))
+        # self.Daftar_AnggotaPage.showEditForm.connect(self.showAddFormAnggota)
+        self.addFormAnggota.cancelButton.clicked.connect(lambda: self.showAddFormAnggota(False))
+
+
+
         # self.formBuku = FormBuku(self.centralwidget)
         # self.formAnggota = FormAnggota(self.centralwidget)
         # self.formBuku.hide()
@@ -202,3 +203,17 @@ class App(QMainWindow):
             self.addFormAnggota.show()
         else:
             self.addFormAnggota.hide()
+
+    @Slot(int)
+    def addHandler(self, param):
+        if param == 1:
+            # self.addButton.deleteLater()
+            self.addButton.clicked.disconnect() 
+            # self.addButton = AddButton(self.centralwidget, clicked = lambda: self.showAddFormBuku(True))
+            self.addButton.clicked.connect(lambda: self.showAddFormBuku(True))
+        else:
+            # self.addButton.deleteLater()
+            self.addButton.clicked.disconnect() 
+            # self.addButton = AddButton(self.centralwidget, clicked = lambda: self.showAddFormAnggota(True))
+            self.addButton.clicked.connect(lambda: self.showAddFormAnggota(True))
+

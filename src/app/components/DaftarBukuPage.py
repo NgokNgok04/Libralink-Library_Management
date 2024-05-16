@@ -180,7 +180,7 @@ class DaftarBukuPage(QWidget):
             self.coverPencilLogo.setIcon(self.iconCoverPencilLogo)
             self.coverPencilLogo.setIconSize(QSize(30,30))
             self.coverPencilLogo.clicked.connect(lambda: self.showEditForm.emit(True))
-            self.coverPencilLogo.clicked.connect(lambda: self.typeSignal.emit("edit"))
+            # self.coverPencilLogo.clicked.connect(lambda: self.typeSignal.emit("edit"))
             self.coverPencilLogo.clicked.connect(self.handleTrashButtonClicked)
 
             self.coverTrashLogo = QPushButton(self.widgetIsiAction)
@@ -259,12 +259,12 @@ class DaftarBukuPage(QWidget):
             self.loaddata()
 
     @Slot(bool)
-    def confirmEdit(self, judul, kode, bukuid):
+    def confirmEdit(self, judul, kode, path, bukuid):
         if self.selectedRowId is not None:
             conn = sqlite3.connect('datarpl.db')
             cursor = conn.cursor()
 
-            cursor.execute("UPDATE buku SET judul = ?, isbn = ? WHERE buku_id = ?", (judul, kode, bukuid))
+            cursor.execute("UPDATE buku SET judul = ?, isbn = ?, path = ? WHERE buku_id = ?", (judul, kode, path, bukuid))
             conn.commit()
 
             cursor.close()
@@ -274,12 +274,11 @@ class DaftarBukuPage(QWidget):
 
             print(bukuid)
         
-    def confirmAdd(self, judul, kode):
-        if self.selectedRowId is not None:
+    def confirmAdd(self, judul, kode, path):
             conn = sqlite3.connect('datarpl.db')
             cursor = conn.cursor()
 
-            cursor.execute("INSERT INTO buku (judul, isbn) VALUES (?, ?)", (judul, kode))
+            cursor.execute("INSERT INTO buku (judul, isbn, path) VALUES (?, ?, ?)", (judul, kode, path))
             conn.commit()
 
             cursor.close()

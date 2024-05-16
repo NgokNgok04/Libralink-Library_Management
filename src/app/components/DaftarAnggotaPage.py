@@ -318,7 +318,6 @@ class DaftarAnggotaPage(QWidget):
         # return 0 # Edit database
 
     def confirmAdd(self, nama, email, telepon, status):
-        if self.selectedRowId is not None:
             conn = sqlite3.connect('datarpl.db')
             cursor = conn.cursor()
 
