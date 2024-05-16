@@ -50,6 +50,9 @@ class ModalError(QWidget):
         
     
     def timeExpired(self):
-        print("masuk")
+        # print("masuk")
         self.layoutModalError.hide()
         self.warningLogo.hide()
+
+    def setBackgroundColor(self, color):
+        self.setStyleSheet(f"background-color: {color}; border-radius: 10px;")

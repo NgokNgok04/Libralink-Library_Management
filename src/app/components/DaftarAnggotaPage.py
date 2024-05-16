@@ -18,6 +18,7 @@ class Anggota:
         self.status_anggota = status_anggota
 
 class DaftarAnggotaPage(QWidget):
+    showModal = Signal(str,bool)
     showDaftarPeminjaman = Signal(bool)
     showConfirmDelete = Signal(bool)
     showDaftarPeminjamanID = Signal(int)
@@ -307,29 +308,41 @@ class DaftarAnggotaPage(QWidget):
             conn.close()
 
             self.loaddata()
+
+            message = "Sukses menghapus anggota"
+            self.showModal.emit(message, True)
     
     @Slot(bool)
     def confirmEdit(self, nama, email, telepon, status, anggotaid):
         if nama and email and telepon and status is not None:
-            if re.match(r"[^@]+@[^@]+\.[^@]+", email):  # Check email format
-                if re.match(r"^08\d{9,11}$", telepon):  # Check telephone pattern
-                    if self.selectedRowId is not None:
-                        conn = sqlite3.connect('datarpl.db')
-                        cursor = conn.cursor()
-
-                        cursor.execute("UPDATE anggota SET nama = ?, email = ?, telephone = ?, status_anggota = ? WHERE anggota_id = ?", (nama, email, telepon, status, anggotaid))
-                        conn.commit()
-
-                        cursor.close()
-                        conn.close()
-
-                        self.loaddata()
+            if re.match(r"[^@]+@[^@]+\.[^@]+", email):
+                if re.match(r"^08\d{9,11}$", telepon):
+                    if status: 
+                        if self.isAnggotaIdInPeminjaman(anggotaid):
+                            message = "Tidak dapat menonaktifkan anggota yang memiliki peminjaman buku."
+                            self.showModal.emit(message, False)
+                            return 
+                    conn = sqlite3.connect('datarpl.db')
+                    cursor = conn.cursor()
+                    cursor.execute("UPDATE anggota SET nama = ?, email = ?, telephone = ?, status_anggota = ? WHERE anggota_id = ?", (nama, email, telepon, status, anggotaid))
+                    conn.commit()
+                    cursor.close()
+                    conn.close()
+                    self.loaddata()
+                    message = "Sukses mengedit anggota"
+                    self.showModal.emit(message, True)
                 else:
                     print("Telephone number must start with '08' and have 11 to 13 digits")
+                    message = "Nomor telepon haris diawali '08' dan memiliki 11 - 13 digit"
+                    self.showModal.emit(message, False)
             else:
                 print("Invalid email format")
+                message = "Format email harus berupa %@%.%"
+                self.showModal.emit(message, False)
         else:
             print("One or more fields are empty")
+            message = "Harap melengkapi form"
+            self.showModal.emit(message, False)
 
     def confirmAdd(self, nama, email, telepon, status):
         if nama and email and telepon and status is not None:
@@ -345,11 +358,28 @@ class DaftarAnggotaPage(QWidget):
                     conn.close()
 
                     self.loaddata()
+
+                    message = "Sukses menambahkan anggota"
+                    self.showModal.emit(message, True)
                 else:
                     print("Telephone number must start with '08' and have 11 to 13 digits")
+                    message = "Nomor telepon haris diawali '08' dan memiliki 11 - 13 digit"
+                    self.showModal.emit(message, False)
             else:
                 print("Invalid email format")
+                message = "Format email harus berupa %@%.%"
+                self.showModal.emit(message, False)
         else:
             print("One or more fields are empty")
-        
+            message = "Harap melengkapi form"
+            self.showModal.emit(message, False)
+    
+    def isAnggotaIdInPeminjaman(self, anggotaid):
+        conn = sqlite3.connect('datarpl.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM data_peminjaman_buku WHERE anggota_id = ?", (anggotaid,))
+        count = cursor.fetchone()[0]
+        cursor.close()
+        conn.close()
+        return count > 0
     
