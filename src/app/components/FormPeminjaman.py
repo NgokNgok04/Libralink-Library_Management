@@ -270,10 +270,10 @@ class FormPeminjaman(QWidget):
         if (isValidIDBuku and isCanBorrow and (not isBukuBorrowed) and isDateValid):
             cursor.execute("INSERT INTO data_peminjaman_buku (anggota_id, buku_id, tanggal_pinjam, tanggal_pengembalian ) VALUES (?,?,?,?)",(self.IDAnggota,buku_id,tanggal_pinjam,tanggal_pengembalian))
             conn.commit()
-            message = "Tambah Peminjaman berhasil"
+            message = "Tambah Peminjaman Berhasil"
             self.showModal.emit(message,True)
         else:
-            message = "GAGAL WOI"
+            message = "Tambah Peminjaman Gagal"
             self.showModal.emit(message, False)
         
         

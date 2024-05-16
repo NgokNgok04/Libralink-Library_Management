@@ -15,6 +15,7 @@ class Buku:
         self.path = path
 
 class DaftarBukuPage(QWidget):
+    showModal = Signal(str,bool)
     showConfirmDelete = Signal(bool)
     showEditForm = Signal(bool)
     showAddForm = Signal(bool)
@@ -156,11 +157,21 @@ class DaftarBukuPage(QWidget):
             # nonActive.setFont(font)
             # self.tableWidget.setCellWidget(row, 4, nonActive)
 
+            conn = sqlite3.connect('datarpl.db')
+            cursor = conn.cursor()
+
+            cursor.execute("SELECT * FROM data_peminjaman_buku WHERE buku_id = ?", (buku.buku_id,))
+            result = cursor.fetchone()
+
             self.widgetStatus = QWidget()
             self.widgetIsiStatus = QWidget(self.widgetStatus)
             self.statusButton = QPushButton(self.widgetIsiStatus)
-            self.statusButton.setText("Tersedia")
-            self.statusButton.setStyleSheet("color: rgb(39, 174, 96); background-color: rgba(3, 171, 0, 51); border-radius: 20px;")
+            if not result:
+                self.statusButton.setText("Tersedia")
+                self.statusButton.setStyleSheet("color: rgb(39, 174, 96); background-color: rgba(3, 171, 0, 51); border-radius: 20px;")
+            else:
+                self.statusButton.setText("Dipinjam")
+                self.statusButton.setStyleSheet("color: rgb(235, 87, 87); background-color: rgba(248, 0, 0, 51); border-radius: 20px;")
             # 164 - 40 / 2
             self.statusButton.setGeometry(QRect(15,62,150,40))
             font = QFont()
@@ -258,6 +269,9 @@ class DaftarBukuPage(QWidget):
 
             self.loaddata()
 
+            message = "Sukses menghapus buku"
+            self.showModal.emit(message, True)
+
     @Slot(bool)
     def confirmEdit(self, judul, kode, path, bukuid):
         if judul and kode and path and bukuid:
@@ -274,11 +288,16 @@ class DaftarBukuPage(QWidget):
 
                 self.loaddata()
 
-                print(bukuid)
+                message = "Sukses mengedit buku"
+                self.showModal.emit(message, True)
             else:
                 print("ISBN must have a length of 13 characters and contain only numeric digits")
+                message = "ISBN harus berupa 13 angka"
+                self.showModal.emit(message, False)
         else:
             print("One or more fields are empty")
+            message = "Harap melengkapi form"
+            self.showModal.emit(message, False)
 
 
     @Slot(bool)
@@ -296,10 +315,17 @@ class DaftarBukuPage(QWidget):
                 conn.close()
 
                 self.loaddata()
+
+                message = "Sukses menambahkan buku"
+                self.showModal.emit(message, True)
             else:
                 print("ISBN must have a length of 13 characters and contain only numeric digits")
+                message = "ISBN harus berupa 13 angka"
+                self.showModal.emit(message, False)
         else:
             print("One or more fields are empty")
+            message = "Harap melengkapi form"
+            self.showModal.emit(message, False)
 
 
 

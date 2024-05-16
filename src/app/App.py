@@ -167,12 +167,21 @@ class App(QMainWindow):
         self.Daftar_AnggotaPage.showDaftarPeminjamanID.connect(self.formPeminjaman.getSelectedId)
 
         self.formPeminjaman.showModal.connect(self.showModal)
+        self.Daftar_BukuPage.showModal.connect(self.showModal)
+        self.Daftar_AnggotaPage.showModal.connect(self.showModal)
         
     @Slot(int)
     def showModal(self,message,isSuccess):
         if(not isSuccess):
+            print("red")
             self.modalError = ModalError(message,self.centralwidget)
+            self.modalError.setBackgroundColor("#EB5757")
             self.modalError.show()
+        else:
+            print("green")
+            self.modalSuccess = ModalError(message, self.centralwidget)
+            self.modalSuccess.setBackgroundColor("#90EE90")
+            self.modalSuccess.show()
 
     @Slot(int)
     def whatPageToShow(self,index):
