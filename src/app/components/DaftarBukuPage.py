@@ -260,30 +260,46 @@ class DaftarBukuPage(QWidget):
 
     @Slot(bool)
     def confirmEdit(self, judul, kode, path, bukuid):
-        if self.selectedRowId is not None:
-            conn = sqlite3.connect('datarpl.db')
-            cursor = conn.cursor()
+        if judul and kode and path and bukuid:
+            if len(kode) == 13 and kode.isdigit():
+                # Proceed with the edit operation
+                conn = sqlite3.connect('datarpl.db')
+                cursor = conn.cursor()
 
-            cursor.execute("UPDATE buku SET judul = ?, isbn = ?, path = ? WHERE buku_id = ?", (judul, kode, path, bukuid))
-            conn.commit()
+                cursor.execute("UPDATE buku SET judul = ?, isbn = ?, path = ? WHERE buku_id = ?", (judul, kode, path, bukuid))
+                conn.commit()
 
-            cursor.close()
-            conn.close()
+                cursor.close()
+                conn.close()
 
-            self.loaddata()
+                self.loaddata()
 
-            print(bukuid)
-        
+                print(bukuid)
+            else:
+                print("ISBN must have a length of 13 characters and contain only numeric digits")
+        else:
+            print("One or more fields are empty")
+
+
+    @Slot(bool)
     def confirmAdd(self, judul, kode, path):
-            conn = sqlite3.connect('datarpl.db')
-            cursor = conn.cursor()
+        if judul and kode and path:
+            if len(kode) == 13 and kode.isdigit():
+                # Proceed with the add operation
+                conn = sqlite3.connect('datarpl.db')
+                cursor = conn.cursor()
 
-            cursor.execute("INSERT INTO buku (judul, isbn, path) VALUES (?, ?, ?)", (judul, kode, path))
-            conn.commit()
+                cursor.execute("INSERT INTO buku (judul, isbn, path) VALUES (?, ?, ?)", (judul, kode, path))
+                conn.commit()
 
-            cursor.close()
-            conn.close()
+                cursor.close()
+                conn.close()
 
-            self.loaddata()        
+                self.loaddata()
+            else:
+                print("ISBN must have a length of 13 characters and contain only numeric digits")
+        else:
+            print("One or more fields are empty")
+
 
 

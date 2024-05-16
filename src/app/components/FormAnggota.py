@@ -164,7 +164,8 @@ class FormAnggota(QWidget):
         self.nonaktifButton.setAutoExclusive(True)
         self.nonaktifButton.setChecked(True)
 
-        self.aktifInput = self.aktifButton.isChecked()
+        # self.aktifInput = self.aktifButton.isChecked()
+        # print(self.aktifInput)
 
         self.simpanButton = QPushButton(self.layoutFormAnggota)
         self.simpanButton.setText("SIMPAN")
@@ -195,9 +196,12 @@ class FormAnggota(QWidget):
     
     def confirmEditClicked(self):
         # Emit the signal with the necessary data
-        self.confirmEdit.emit(self.namaInput.text(), self.emailInput.text(), self.teleponInput.text(), self.aktifInput, self.aidi)
+        self.aktifInput = self.aktifButton.isChecked()
+        self.confirmEdit.emit(self.namaInput.text(), self.emailInput.text(), self.teleponInput.text(), not self.aktifInput, self.aidi)
         self.showEditForm.emit(False)
     
     def confirmAddClicked(self):
-        self.confirmAdd.emit(self.namaInput.text(), self.emailInput.text(), self.teleponInput.text(), self.aktifInput)
+        self.aktifInput = self.aktifButton.isChecked()
+        self.confirmAdd.emit(self.namaInput.text(), self.emailInput.text(), self.teleponInput.text(), not self.aktifInput)
         self.showEditForm.emit(False)
+        self.showAddForm.emit(False)

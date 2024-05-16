@@ -206,7 +206,6 @@ class FormBuku(QWidget):
         # Emit the signal with the necessary data
         # aidi = self.aidiPassing()
         tempName = extractName(self.fileName)
-        print("HI", self.aidi)
         self.confirmEdit.emit(self.judulInput.text(), self.kodeInput.text(),"./assets/coverBukuCollection/" + tempName, self.aidi)
         self.showEditForm.emit(False)
         self.showAddForm.emit(False)

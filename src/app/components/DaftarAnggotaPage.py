@@ -6,6 +6,7 @@ from components.SearchBar import SearchBar
 import resource
 import sqlite3
 from components.FormAnggota import *
+import re
 # from components.DeleteConfirmationForm import DeleteConfirmationForm
 
 class Anggota:
@@ -303,30 +304,46 @@ class DaftarAnggotaPage(QWidget):
     
     @Slot(bool)
     def confirmEdit(self, nama, email, telepon, status, anggotaid):
-        if self.selectedRowId is not None:
-            conn = sqlite3.connect('datarpl.db')
-            cursor = conn.cursor()
+        if nama and email and telepon and status is not None:
+            if re.match(r"[^@]+@[^@]+\.[^@]+", email):  # Check email format
+                if re.match(r"^08\d{9,11}$", telepon):  # Check telephone pattern
+                    if self.selectedRowId is not None:
+                        conn = sqlite3.connect('datarpl.db')
+                        cursor = conn.cursor()
 
-            cursor.execute("UPDATE anggota SET nama = ?, email = ?, telephone = ?, status_anggota = ? WHERE anggota_id = ?", (nama, email, telepon, status, anggotaid))
-            conn.commit()
+                        cursor.execute("UPDATE anggota SET nama = ?, email = ?, telephone = ?, status_anggota = ? WHERE anggota_id = ?", (nama, email, telepon, status, anggotaid))
+                        conn.commit()
 
-            cursor.close()
-            conn.close()
+                        cursor.close()
+                        conn.close()
 
-            self.loaddata()
-
-        # return 0 # Edit database
+                        self.loaddata()
+                else:
+                    print("Telephone number must start with '08' and have 11 to 13 digits")
+            else:
+                print("Invalid email format")
+        else:
+            print("One or more fields are empty")
 
     def confirmAdd(self, nama, email, telepon, status):
-            conn = sqlite3.connect('datarpl.db')
-            cursor = conn.cursor()
+        if nama and email and telepon and status is not None:
+            if re.match(r"[^@]+@[^@]+\.[^@]+", email):  # Check email format
+                if re.match(r"^08\d{9,11}$", telepon):  # Check telephone pattern
+                    conn = sqlite3.connect('datarpl.db')
+                    cursor = conn.cursor()
 
-            cursor.execute("INSERT INTO anggota (nama, email, telephone, status_anggota) VALUES (?, ?, ?, ?)", (nama, email, telepon, status))
-            conn.commit()
+                    cursor.execute("INSERT INTO anggota (nama, email, telephone, status_anggota) VALUES (?, ?, ?, ?)", (nama, email, telepon, status))
+                    conn.commit()
 
-            cursor.close()
-            conn.close()
+                    cursor.close()
+                    conn.close()
 
-            self.loaddata() 
+                    self.loaddata()
+                else:
+                    print("Telephone number must start with '08' and have 11 to 13 digits")
+            else:
+                print("Invalid email format")
+        else:
+            print("One or more fields are empty")
         
     
