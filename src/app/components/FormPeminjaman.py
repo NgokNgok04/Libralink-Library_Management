@@ -5,6 +5,7 @@ import sqlite3
 from dateutil import parser
 from datetime import datetime
 class FormPeminjaman(QWidget):
+    showModal = Signal(str,bool)
     def __init__(self,parent=None):
         super().__init__(parent)
         self.setupUi()
@@ -14,7 +15,7 @@ class FormPeminjaman(QWidget):
         screenSize = QGuiApplication.primaryScreen().geometry()
         self.layoutFormPeminjaman = QWidget(self)
         x = (screenSize.width() - 480) // 2
-        y = (screenSize.height() - 550) // 2
+        y = (screenSize.height() - 550) // 2 #x/2 - 275 + 550 = x/2 + 275
         self.layoutFormPeminjaman.setGeometry(QRect(0,0,480,550))
         self.move(x,y)
         self.layoutFormPeminjaman.setStyleSheet(u"background-color: rgb(255,255,255); border: 2px solid rgb(100, 119, 219); border-radius: 10px;")
@@ -238,51 +239,44 @@ class FormPeminjaman(QWidget):
         self.simpanButton.clicked.connect(lambda: self.sendDataToDatabase())
 
     def sendDataToDatabase(self):
-        print("masuk")
         self.hide()
         buku_id = int(self.IDBukuInput.text())
         tanggal_pinjam = self.pinjamInput.text()
         tanggal_pengembalian = self.kembalianInput.text()
 
-        inputTanggal = "%d/%m/%Y"
         outputTanggal = "%Y-%m-%d"
 
         formatted_tanggal = parser.parse(tanggal_pinjam)
-        # tanggal_pinjam = datetime.strptime(tanggal_pinjam,inputTanggal)
         tanggal_pinjam = formatted_tanggal.strftime(outputTanggal)
 
         formatted_tanggal = parser.parse(tanggal_pengembalian)
-        # tanggal_pengembalian = datetime.strptime(tanggal_pengembalian,inputTanggal)
         tanggal_pengembalian = formatted_tanggal.strftime(outputTanggal)
 
-        print("ANGGOTA ID :",self.IDAnggota)
-        print("BUKU ID :",buku_id)
-        print("TANNGAL PINJAM :",tanggal_pinjam)
-        print("TANNGAL PENGEMBALIAN :",tanggal_pengembalian)
 
         conn = sqlite3.connect('datarpl.db')
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM buku WHERE buku_id = ?', (buku_id,))
         isValidIDBuku = len(cursor.fetchall()) != 0
-        print("VALID BUKU : ",isValidIDBuku)
 
         cursor.execute('SELECT * FROM data_peminjaman_buku WHERE anggota_id = ?', (self.IDAnggota,))
         nBorrow= len(cursor.fetchall())
         isCanBorrow = nBorrow < 3
-        print("BANYAK PEMINJAMAN : ",nBorrow)
-        print("VALID PEMINJAMAN : ", isCanBorrow)
 
         cursor.execute('SELECT * FROM data_peminjaman_buku WHERE buku_id = ?', (buku_id,))
         isBukuBorrowed = len(cursor.fetchall()) != 0
-        print("VALID BUKU DIPINJAM :",isBukuBorrowed)
 
         isDateValid = self.isDateValid(tanggal_pengembalian,tanggal_pinjam)
-        print("VALID TANGGAL : ",isDateValid)
 
         if (isValidIDBuku and isCanBorrow and (not isBukuBorrowed) and isDateValid):
             cursor.execute("INSERT INTO data_peminjaman_buku (anggota_id, buku_id, tanggal_pinjam, tanggal_pengembalian ) VALUES (?,?,?,?)",(self.IDAnggota,buku_id,tanggal_pinjam,tanggal_pengembalian))
             conn.commit()
-
+            message = "Tambah Peminjaman berhasil"
+            self.showModal.emit(message,True)
+        else:
+            message = "GAGAL WOI"
+            self.showModal.emit(message, False)
+        
+        
         
 
         cursor.close()

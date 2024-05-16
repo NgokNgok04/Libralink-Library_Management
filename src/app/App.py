@@ -11,6 +11,7 @@ from components.DeleteConfirmationForm import DeleteConfirmationForm
 from components.FormAnggota import FormAnggota
 from components.FormBuku import FormBuku
 from components.FormPeminjaman import FormPeminjaman
+from components.ModalError import ModalError
 
 class App(QMainWindow):
     def __init__(self):
@@ -94,7 +95,13 @@ class App(QMainWindow):
         self.formPeminjaman.cancelButton.clicked.connect(lambda: self.showAddForm(3,False))
         self.Daftar_AnggotaPage.showDaftarPeminjamanID.connect(self.formPeminjaman.getSelectedId)
 
+        self.formPeminjaman.showModal.connect(self.showModal)
         
+    @Slot(int)
+    def showModal(self,message,isSuccess):
+        if(not isSuccess):
+            self.modalError = ModalError(message,self.centralwidget)
+            self.modalError.show()
 
     @Slot(int)
     def whatPageToShow(self,index):
