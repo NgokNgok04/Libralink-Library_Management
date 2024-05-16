@@ -3,6 +3,7 @@ from PySide6.QtGui import *
 from PySide6.QtCore import *
 import os
 import shutil
+import sqlite3
 class FormBuku(QWidget):
     showEditForm = Signal(bool)
     showAddForm = Signal(bool)
@@ -18,6 +19,8 @@ class FormBuku(QWidget):
     
     def setupUi(self, tipe):
         self.fileName = ""
+        # self.aidi = 1
+        # self.aidi = self.giveId()
         self.setStyleSheet(u"border: none;")
         screenSize = QGuiApplication.primaryScreen().geometry()
         self.layoutFormBuku = QWidget(self)
@@ -34,6 +37,9 @@ class FormBuku(QWidget):
         print(xTitle)
         self.title.setGeometry(QRect(xTitle,50,240,41))
         # self.title.setStyleSheet(u"background-color: rgb(255,255,0);")
+
+        # DATA +====================================
+        
 
         fontTitle = QFont()
         fontTitle.setFamilies([u"MS Shell Dlg 2"])
@@ -97,31 +103,12 @@ class FormBuku(QWidget):
         self.kodeInput.setFont(fontInput)
         self.kodeInput.setGeometry(QRect(40,0,350,50))
         self.kodeInput.setPlaceholderText("Kode Buku")
+        
         self.kodeInput.setStyleSheet(u"color: rgb(93, 95, 239); padding-left: 10px; border: none; background-color: transparent;")
-
-        self.layoutIdinput = QWidget(self.layoutFormBuku)
-        self.layoutIdinput.setStyleSheet(u"background-color: none; border: 2px solid rgb(218, 218, 218); ")
-        self.layoutIdinput.setGeometry(QRect(40,250,400,50))
-
-        self.idButton = QPushButton(self.layoutIdinput)
-        self.idButton.setGeometry(QRect(0,0,50,50))
-        iconid = QIcon()
-        iconid.addFile(u"assets/idLogo.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.idButton.setIcon(iconid)
-        self.idButton.setIconSize(QSize(24,24))
-        self.idButton.setCheckable(False)
-        self.idButton.setAutoExclusive(False)
-        self.idButton.setStyleSheet(u"border: none;")
-
-        self.idInput = QLineEdit(self.layoutIdinput)
-        self.idInput.setFont(fontInput)
-        self.idInput.setGeometry(QRect(50,0,350,50))
-        self.idInput.setPlaceholderText("Id Buku")
-        self.idInput.setStyleSheet(u"color: rgba(93, 95, 239, 1); border: none; background-color: transparent;")
 
         self.layoutCoverInput = QWidget(self.layoutFormBuku)
         self.layoutCoverInput.setStyleSheet(u"background-color: none; border: 2px solid rgb(218, 218, 218); ")
-        self.layoutCoverInput.setGeometry(QRect(40,320,400,50))
+        self.layoutCoverInput.setGeometry(QRect(40,250,400,50))
 
         self.coverButton = QPushButton(self.layoutCoverInput)
         self.coverButton.setGeometry(QRect(0,0,50,50))
@@ -166,6 +153,20 @@ class FormBuku(QWidget):
         print(hoho)
         self.aidi = hoho
 
+        conn = sqlite3.connect('datarpl.db')
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT judul FROM buku WHERE buku_id = ?", (self.aidi,))
+        result = cursor.fetchone()
+        self.judulInput.setText(result[0])
+
+        cursor.execute("SELECT isbn FROM buku WHERE buku_id = ?", (self.aidi,))
+        result = cursor.fetchone()
+        self.kodeInput.setText(result[0])
+    
+    def giveId(self):
+        return self.aidi
+
     def uploadImage(self):
         fileName, _ = QFileDialog.getOpenFileName(self,"Select Image", "", "Image Files (*.png)")
         if fileName:
@@ -174,19 +175,9 @@ class FormBuku(QWidget):
             self.saveImageToAssets(fileName)
             self.fileName = fileName
 
-    # def saveImageToAssets(self, sourcePath):
-    #     # Define the destination folder (assets) and file name
-    #     destFolder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'assets/coverBukuCollection')
-    #     if not os.path.exists(destFolder):
-    #         os.makedirs(destFolder)
-    #     fileName = os.path.basename(sourcePath)
-    #     destPath = os.path.join(destFolder, fileName)
-        
-    #     # Copy the image to the assets folder
-    #     shutil.copy(sourcePath, destPath)
+
 
     def saveImageToAssets(self, sourcePath):
-        # Define the destination folder (assets) and file name
         destFolder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'assets/coverBukuCollection')
         if not os.path.exists(destFolder):
             os.makedirs(destFolder)
@@ -194,12 +185,10 @@ class FormBuku(QWidget):
         fileName = os.path.basename(sourcePath)
         destPath = os.path.join(destFolder, fileName)
 
-        # Check if the file already exists in the destination folder
         if os.path.exists(destPath):
             print(f"File '{fileName}' already exists in the destination folder. Skipping...")
-            return  # Skip copying if the file already exists
+            return
 
-        # Copy the image to the assets folder
         shutil.copy(sourcePath, destPath)
 
     def confirmEditClicked(self, aidi):

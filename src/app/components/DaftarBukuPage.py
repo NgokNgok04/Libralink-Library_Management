@@ -15,6 +15,7 @@ class Buku:
         self.path = path
 
 class DaftarBukuPage(QWidget):
+    showModal = Signal(str,bool)
     showConfirmDelete = Signal(bool)
     showEditForm = Signal(bool)
     showAddForm = Signal(bool)
@@ -129,79 +130,92 @@ class DaftarBukuPage(QWidget):
         conn.close()
     
     def updateTable(self,data):
-        self.tableWidget.setRowCount(len(data) + 1)
+        if data:
+            self.tableWidget.setRowCount(len(data) + 1)
 
-        for row, buku in enumerate(data):
-            self.tableWidget.setItem(row, 0, QTableWidgetItem(str(buku.buku_id)))
+            for row, buku in enumerate(data):
+                self.tableWidget.setItem(row, 0, QTableWidgetItem(str(buku.buku_id)))
 
-            self.coverButton = QPushButton()
-            iconCover = QIcon()
-            iconCover.addFile(buku.path)
-            self.coverButton.setIcon(iconCover)
-            self.coverButton.setIconSize(QSize(200,200))
-            self.coverButton.setStyleSheet(u"border: none;")
-            self.tableWidget.setCellWidget(row,1, self.coverButton)
+                self.coverButton = QPushButton()
+                iconCover = QIcon()
+                iconCover.addFile(buku.path)
+                self.coverButton.setIcon(iconCover)
+                self.coverButton.setIconSize(QSize(200,200))
+                self.coverButton.setStyleSheet(u"border: none;")
+                self.tableWidget.setCellWidget(row,1, self.coverButton)
 
-            self.tableWidget.setItem(row, 2, QTableWidgetItem(buku.judul))
-            self.tableWidget.setItem(row, 3, QTableWidgetItem(buku.isbn))
+                self.tableWidget.setItem(row, 2, QTableWidgetItem(buku.judul))
+                self.tableWidget.setItem(row, 3, QTableWidgetItem(buku.isbn))
 
 
-            # nonActive = QPushButton("Nonaktif")
-            # nonActive.setStyleSheet("color: rgb(235, 87, 87); background-color: rgba(248, 0, 0, 51); border-radius: 20px;")
-            # nonActive.setFixedHeight(144)
-            # nonActive.setFixedHeight(40)
-            # font = QFont()
-            # font.setPointSize(10)
-            # font.setBold(True)
-            # nonActive.setFont(font)
-            # self.tableWidget.setCellWidget(row, 4, nonActive)
+                # nonActive = QPushButton("Nonaktif")
+                # nonActive.setStyleSheet("color: rgb(235, 87, 87); background-color: rgba(248, 0, 0, 51); border-radius: 20px;")
+                # nonActive.setFixedHeight(144)
+                # nonActive.setFixedHeight(40)
+                # font = QFont()
+                # font.setPointSize(10)
+                # font.setBold(True)
+                # nonActive.setFont(font)
+                # self.tableWidget.setCellWidget(row, 4, nonActive)
 
-            self.widgetStatus = QWidget()
-            self.widgetIsiStatus = QWidget(self.widgetStatus)
-            self.statusButton = QPushButton(self.widgetIsiStatus)
-            self.statusButton.setText("Tersedia")
-            self.statusButton.setStyleSheet("color: rgb(39, 174, 96); background-color: rgba(3, 171, 0, 51); border-radius: 20px;")
-            # 164 - 40 / 2
-            self.statusButton.setGeometry(QRect(15,62,150,40))
-            font = QFont()
-            font.setPointSize(11)
-            font.setBold(True)
-            self.statusButton.setFont(font)
-            self.tableWidget.setCellWidget(row, 4, self.widgetStatus)
+                conn = sqlite3.connect('datarpl.db')
+                cursor = conn.cursor()
 
-            self.widgetAction = QWidget()
-            self.widgetIsiAction = QWidget(self.widgetAction)
+                cursor.execute("SELECT * FROM data_peminjaman_buku WHERE buku_id = ?", (buku.buku_id,))
+                result = cursor.fetchone()
 
-            self.coverPencilLogo = QPushButton(self.widgetIsiAction)
-            self.coverPencilLogo.setGeometry(QRect(5,62,40,40))
-            self.coverPencilLogo.setStyleSheet(u"border: none;")
-            self.iconCoverPencilLogo = QIcon()
-            self.iconCoverPencilLogo.addFile(u"assets/editLogo.png", QSize(), QIcon.Normal, QIcon.Off)
-            self.coverPencilLogo.setIcon(self.iconCoverPencilLogo)
-            self.coverPencilLogo.setIconSize(QSize(30,30))
-            self.coverPencilLogo.clicked.connect(lambda: self.showEditForm.emit(True))
-            # self.coverPencilLogo.clicked.connect(lambda: self.typeSignal.emit("edit"))
-            self.coverPencilLogo.clicked.connect(self.handleTrashButtonClicked)
+                self.widgetStatus = QWidget()
+                self.widgetIsiStatus = QWidget(self.widgetStatus)
+                self.statusButton = QPushButton(self.widgetIsiStatus)
+                if not result:
+                    self.statusButton.setText("Tersedia")
+                    self.statusButton.setStyleSheet("color: rgb(39, 174, 96); background-color: rgba(3, 171, 0, 51); border-radius: 20px;")
+                else:
+                    self.statusButton.setText("Dipinjam")
+                    self.statusButton.setStyleSheet("color: rgb(235, 87, 87); background-color: rgba(248, 0, 0, 51); border-radius: 20px;")
+                # 164 - 40 / 2
+                self.statusButton.setGeometry(QRect(15,62,150,40))
+                font = QFont()
+                font.setPointSize(11)
+                font.setBold(True)
+                self.statusButton.setFont(font)
+                self.tableWidget.setCellWidget(row, 4, self.widgetStatus)
 
-            self.coverTrashLogo = QPushButton(self.widgetIsiAction)
-            self.coverTrashLogo.setGeometry(QRect(50,62,40,40))
-            self.coverTrashLogo.setStyleSheet(u"border: none;")
-            self.iconCoverTrashLogo = QIcon()
-            self.iconCoverTrashLogo.addFile(u"assets/trashLogo.png", QSize(), QIcon.Normal, QIcon.Off)
-            self.coverTrashLogo.setIcon(self.iconCoverTrashLogo)
-            self.coverTrashLogo.setIconSize(QSize(30,30))
-            self.coverTrashLogo.clicked.connect(lambda: self.showConfirmDelete.emit(True))
-            self.coverTrashLogo.clicked.connect(self.handleTrashButtonClicked)
+                self.widgetAction = QWidget()
+                self.widgetIsiAction = QWidget(self.widgetAction)
 
-            self.tableWidget.setCellWidget(row,5,self.widgetAction)
-            row+=1
-    
-        for row in range(self.tableWidget.rowCount()):
-            self.tableWidget.setRowHeight(row, 164)
-            for col in range(self.tableWidget.columnCount()):
-                item = self.tableWidget.item(row, col)
-                if item:
-                    item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                self.coverPencilLogo = QPushButton(self.widgetIsiAction)
+                self.coverPencilLogo.setGeometry(QRect(5,62,40,40))
+                self.coverPencilLogo.setStyleSheet(u"border: none;")
+                self.iconCoverPencilLogo = QIcon()
+                self.iconCoverPencilLogo.addFile(u"assets/editLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+                self.coverPencilLogo.setIcon(self.iconCoverPencilLogo)
+                self.coverPencilLogo.setIconSize(QSize(30,30))
+                self.coverPencilLogo.clicked.connect(lambda: self.showEditForm.emit(True))
+                # self.coverPencilLogo.clicked.connect(lambda: self.typeSignal.emit("edit"))
+                self.coverPencilLogo.clicked.connect(self.handleTrashButtonClicked)
+
+                self.coverTrashLogo = QPushButton(self.widgetIsiAction)
+                self.coverTrashLogo.setGeometry(QRect(50,62,40,40))
+                self.coverTrashLogo.setStyleSheet(u"border: none;")
+                self.iconCoverTrashLogo = QIcon()
+                self.iconCoverTrashLogo.addFile(u"assets/trashLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+                self.coverTrashLogo.setIcon(self.iconCoverTrashLogo)
+                self.coverTrashLogo.setIconSize(QSize(30,30))
+                self.coverTrashLogo.clicked.connect(lambda: self.showConfirmDelete.emit(True))
+                self.coverTrashLogo.clicked.connect(self.handleTrashButtonClicked)
+
+                self.tableWidget.setCellWidget(row,5,self.widgetAction)
+                row+=1
+
+            for row in range(self.tableWidget.rowCount()):
+                self.tableWidget.setRowHeight(row, 164)
+                for col in range(self.tableWidget.columnCount()):
+                    item = self.tableWidget.item(row, col)
+                    if item:
+                        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        else:
+            self.tableWidget.setRowCount(0)
 
 
 
@@ -258,6 +272,9 @@ class DaftarBukuPage(QWidget):
 
             self.loaddata()
 
+            message = "Sukses menghapus buku"
+            self.showModal.emit(message, True)
+
     @Slot(bool)
     def confirmEdit(self, judul, kode, path, bukuid):
         if judul and kode and path and bukuid:
@@ -274,11 +291,16 @@ class DaftarBukuPage(QWidget):
 
                 self.loaddata()
 
-                print(bukuid)
+                message = "Sukses mengedit buku"
+                self.showModal.emit(message, True)
             else:
                 print("ISBN must have a length of 13 characters and contain only numeric digits")
+                message = "ISBN harus berupa 13 angka"
+                self.showModal.emit(message, False)
         else:
             print("One or more fields are empty")
+            message = "Harap melengkapi form"
+            self.showModal.emit(message, False)
 
 
     @Slot(bool)
@@ -296,10 +318,17 @@ class DaftarBukuPage(QWidget):
                 conn.close()
 
                 self.loaddata()
+
+                message = "Sukses menambahkan buku"
+                self.showModal.emit(message, True)
             else:
                 print("ISBN must have a length of 13 characters and contain only numeric digits")
+                message = "ISBN harus berupa 13 angka"
+                self.showModal.emit(message, False)
         else:
             print("One or more fields are empty")
+            message = "Harap melengkapi form"
+            self.showModal.emit(message, False)
 
 
 

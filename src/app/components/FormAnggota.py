@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
+import sqlite3
 
 class FormAnggota(QWidget):
     showEditForm = Signal(bool)
@@ -14,6 +15,8 @@ class FormAnggota(QWidget):
         self.aidi = None
     
     def setupUi(self, tipe):
+        # self.aidi = 1
+        # self.aidi = self.giveId()
         self.setStyleSheet(u"border: none;")
         screenSize = QGuiApplication.primaryScreen().geometry()
         self.layoutFormAnggota = QWidget(self)
@@ -29,6 +32,8 @@ class FormAnggota(QWidget):
         xTitle = (self.layoutFormAnggota.width() - 350) // 2
         print(xTitle)
         self.title.setGeometry(QRect(xTitle,50,350,41))
+
+        # DATA +====================================
 
         fontTitle = QFont()
         fontTitle.setFamilies([u"MS Shell Dlg 2"])
@@ -54,29 +59,9 @@ class FormAnggota(QWidget):
         fontInput.setFamilies([u"MS Shell Dlg 2"])
         fontInput.setPointSize(18)
 
-        self.layoutIDlnput = QWidget(self.layoutFormAnggota)
-        self.layoutIDlnput.setStyleSheet(u"background-color: none; border: 2px solid rgb(218, 218, 218); ")
-        self.layoutIDlnput.setGeometry(QRect(40,110,400,50))
-        
-        self.IDButton = QPushButton(self.layoutIDlnput)
-        self.IDButton.setGeometry(QRect(0,0,50,50))
-        iconID = QIcon()
-        iconID.addFile(u"assets/idLogo.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.IDButton.setIcon(iconID)
-        self.IDButton.setIconSize(QSize(24,24))
-        self.IDButton.setCheckable(False)
-        self.IDButton.setAutoExclusive(False)
-        self.IDButton.setStyleSheet(u"border: none;")
-
-        self.IDInput = QLineEdit(self.layoutIDlnput)
-        self.IDInput.setFont(fontInput)
-        self.IDInput.setGeometry(QRect(40,0,350,50))
-        self.IDInput.setPlaceholderText("ID Anggota")
-        self.IDInput.setStyleSheet(u"color: rgb(93, 95, 239); padding-left: 10px; border: none; background-color: transparent;")
-
         self.layoutNamaInput = QWidget(self.layoutFormAnggota)
         self.layoutNamaInput.setStyleSheet(u"background-color: none; border: 2px solid rgb(218, 218, 218); ")
-        self.layoutNamaInput.setGeometry(QRect(40,180,400,50))
+        self.layoutNamaInput.setGeometry(QRect(40,110,400,50))
         
         self.namaButton = QPushButton(self.layoutNamaInput)
         self.namaButton.setGeometry(QRect(0,0,50,50))
@@ -92,11 +77,12 @@ class FormAnggota(QWidget):
         self.namaInput.setFont(fontInput)
         self.namaInput.setGeometry(QRect(40,0,350,50))
         self.namaInput.setPlaceholderText("Nama Anggota")
+        
         self.namaInput.setStyleSheet(u"color: rgb(93, 95, 239); padding-left: 10px; border: none; background-color: transparent;")
 
         self.layoutEmailInput = QWidget(self.layoutFormAnggota)
         self.layoutEmailInput.setStyleSheet(u"background-color: none; border: 2px solid rgb(218, 218, 218); ")
-        self.layoutEmailInput.setGeometry(QRect(40,250,400,50))
+        self.layoutEmailInput.setGeometry(QRect(40,180,400,50))
 
         self.emailButton = QPushButton(self.layoutEmailInput)
         self.emailButton.setGeometry(QRect(0,0,50,50))
@@ -112,11 +98,12 @@ class FormAnggota(QWidget):
         self.emailInput.setFont(fontInput)
         self.emailInput.setGeometry(QRect(50,0,350,50))
         self.emailInput.setPlaceholderText("Alamat E-mail")
+        
         self.emailInput.setStyleSheet(u"color: rgba(93, 95, 239, 1); border: none; background-color: transparent;")
 
         self.layoutTeleponInput = QWidget(self.layoutFormAnggota)
         self.layoutTeleponInput.setStyleSheet(u"background-color: none; border: 2px solid rgb(218, 218, 218); ")
-        self.layoutTeleponInput.setGeometry(QRect(40,320,400,50))
+        self.layoutTeleponInput.setGeometry(QRect(40,250,400,50))
 
         self.teleponButton = QPushButton(self.layoutTeleponInput)
         self.teleponButton.setGeometry(QRect(0,0,50,50))
@@ -132,6 +119,7 @@ class FormAnggota(QWidget):
         self.teleponInput.setFont(fontInput)
         self.teleponInput.setGeometry(QRect(50,0,350,50))
         self.teleponInput.setPlaceholderText("Nomor Telepon")
+        
         self.teleponInput.setStyleSheet(u"color: rgba(93, 95, 239, 1); border: none; background-color: transparent;")
 
         self.layoutStatusButton = QWidget(self.layoutFormAnggota)
@@ -145,24 +133,24 @@ class FormAnggota(QWidget):
         fontStatus.setPointSize(16)
         fontStatus.setBold(True)
 
+        
 
         self.aktifButton = QPushButton(self.layoutStatusButton, clicked = lambda: self.handleToggle(False))
         self.aktifButton.setText("Aktif")
-        self.aktifButton.setStyleSheet(U"background-color: transparent; color: white; border-radius: 10px;")
+        # self.aktifButton.setStyleSheet(U"background-color: transparent; color: white; border-radius: 10px;")
         self.aktifButton.setFont(fontStatus)
         self.aktifButton.setGeometry(QRect(5,5,widthStatusButton,40))
         self.aktifButton.setCheckable(True)
         self.aktifButton.setAutoExclusive(True)
-        self.aktifButton.setChecked(False)
 
         self.nonaktifButton = QPushButton(self.layoutStatusButton, clicked = lambda: self.handleToggle(True))
         self.nonaktifButton.setText("Nonaktif")
-        self.nonaktifButton.setStyleSheet(u"background-color: white; color: #6477DB; border-radius: 10px;")
+        # self.nonaktifButton.setStyleSheet(u"background-color: white; color: #6477DB; border-radius: 10px;")
         self.nonaktifButton.setFont(fontStatus)
         self.nonaktifButton.setGeometry(QRect(widthStatusButton + 5, 5, widthStatusButton, 40))
         self.nonaktifButton.setCheckable(True)
         self.nonaktifButton.setAutoExclusive(True)
-        self.nonaktifButton.setChecked(True)
+        
 
         # self.aktifInput = self.aktifButton.isChecked()
         # print(self.aktifInput)
@@ -185,6 +173,43 @@ class FormAnggota(QWidget):
     def aidiPassing(self, hoho):
         print(hoho)
         self.aidi = hoho
+
+        conn = sqlite3.connect('datarpl.db')
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT nama FROM anggota WHERE anggota_id = ?", (self.aidi,))
+        result = cursor.fetchone()
+        self.namaInput.setText(result[0])
+
+        cursor.execute("SELECT email FROM anggota WHERE anggota_id = ?", (self.aidi,))
+        result = cursor.fetchone()
+        self.emailInput.setText(result[0])
+
+        cursor.execute("SELECT telephone FROM anggota WHERE anggota_id = ?", (self.aidi,))
+        result = cursor.fetchone()
+        self.teleponInput.setText(result[0])
+
+        cursor.execute("SELECT status_anggota FROM anggota WHERE anggota_id = ?", (self.aidi,))
+        result = cursor.fetchone()
+
+        if result is not None:
+            print(result)
+            if result[0]:  # Check if the value is truthy
+                self.aktifButton.setChecked(False)
+                self.nonaktifButton.setChecked(True)
+                self.aktifButton.setStyleSheet(U"background-color: transparent; color: white; border-radius: 10px;")
+                self.nonaktifButton.setStyleSheet(u"background-color: white; color: #6477DB; border-radius: 10px;")
+            else:
+                self.aktifButton.setChecked(True)
+                self.nonaktifButton.setChecked(False)
+                self.nonaktifButton.setStyleSheet(U"background-color: transparent; color: white; border-radius: 10px;")
+                self.aktifButton.setStyleSheet(u"background-color: white; color: #6477DB; border-radius: 10px;")
+
+        else:
+            print("No matching row found for the specified anggota_id.")
+
+    def giveId(self):
+        return self.aidi
     
     def handleToggle(self,isNonAktif):
         if(isNonAktif):
