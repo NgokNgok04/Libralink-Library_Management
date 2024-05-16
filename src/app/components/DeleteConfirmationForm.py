@@ -9,8 +9,6 @@ class DeleteConfirmationForm(QWidget):
         super().__init__(parent)
         self.setupUi()
 
-    # def confirmDelete(self):
-    #     self.confirmDeleteSignal.emit(True)
     
     def setupUi(self):
         screenSize = QGuiApplication.primaryScreen().geometry()
@@ -49,8 +47,8 @@ class DeleteConfirmationForm(QWidget):
         self.confirmButton.setGeometry(QRect(155, 80, 100, 40))
         self.confirmButton.setStyleSheet(u"background-color: #6FCF97; color: white; border: none; border-radius: 5px;")
         # self.confirmButton.clicked.connect(self.confirmDelete)
-        self.confirmButton.clicked.connect(lambda: self.confirmDeleteSignal.emit(True))
         self.confirmButton.clicked.connect(lambda: self.showConfirmDelete.emit(False))
+        self.confirmButton.clicked.connect(lambda: self.confirmDeleteSignal.emit(True))
 
     # def confirmDelete(self):
     #     self.showConfirmDelete.emit(True)

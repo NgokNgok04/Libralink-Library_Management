@@ -4,7 +4,6 @@ from PySide6.QtCore import *
 import os
 import shutil
 class FormBuku(QWidget):
-    hideForm = Signal(bool)
     def __init__(self,parent=None):
         super().__init__(parent)
         self.setupUi()
@@ -44,7 +43,6 @@ class FormBuku(QWidget):
         self.cancelButton.setIconSize(QSize(18,18))
         self.cancelButton.setCheckable(True)
         self.cancelButton.setAutoExclusive(True)
-        self.cancelButton.clicked.connect(lambda: self.hideForm.emit(False))
 
         fontInput = QFont()
         fontInput.setFamilies([u"MS Shell Dlg 2"])

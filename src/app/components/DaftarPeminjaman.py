@@ -16,6 +16,9 @@ class Peminjaman:
 
 class DaftarPeminjaman(QWidget):
     showDaftarPeminjaman = Signal(bool)
+    showConfirmDelete = Signal(bool)
+    showFormPeminjaman = Signal(bool)
+    
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi()
@@ -116,14 +119,12 @@ class DaftarPeminjaman(QWidget):
         self.tableWidget.setColumnWidth(3,150)
         self.tableWidget.setColumnWidth(4,50)
 
-
-
-
         self.addButton = AddButton(self.layoutDaftarPeminjaman)
+        self.addButton.setChecked(True)
         self.addButton.setGeometry(QRect(640,260,50,50))
         self.addButton.setIconSize(QSize(30,30))
         self.addButton.setStyleSheet(u"border: none; border-radius: 25px; background-color: rgb(109, 141, 223); color: rgb(255, 255, 255);")
-    
+        self.addButton.clicked.connect(lambda: self.showFormPeminjaman.emit(True))
 
     def updateTable(self,dataPeminjaman):
         row = 0
@@ -144,6 +145,8 @@ class DaftarPeminjaman(QWidget):
             iconTrashButton.addFile(u"assets/trashLogo.png", QSize(), QIcon.Normal, QIcon.Off)
             trashButton.setIcon(iconTrashButton)
             trashButton.setIconSize(QSize(24, 24))
+            trashButton.clicked.connect(self.handleTrashButtonClicked)
+            trashButton.clicked.connect(lambda: self.showConfirmDelete.emit(True))
 
             self.tableWidget.setCellWidget(row,4,trashButton)
             row += 1
@@ -155,7 +158,25 @@ class DaftarPeminjaman(QWidget):
                 if item:
                     item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        
+
+    def handleTrashButtonClicked(self):
+        button = self.sender()  # Get the sender widget (the trash button)
+        if button:
+            global_pos = button.mapToGlobal(button.rect().topLeft())
+            table_pos = self.tableWidget.viewport().mapFromGlobal(global_pos)
+            index = self.tableWidget.indexAt(table_pos)
+            if index.isValid():
+                row = index.row()
+                id_item = self.tableWidget.item(row, 0)
+                if id_item:
+                    self.selectedRowId = int(id_item.text())
+                    print("Selected Trash Peminjaman Row ID:", self.selectedRowId)
+                else:
+                    print("ID item is None")
+            else:
+                print("Invalid index")
+        else:
+            print("Sender button is None")
         
 
 
@@ -178,5 +199,22 @@ class DaftarPeminjaman(QWidget):
             daftar_peminjaman.append(peminjaman)
         
         self.updateTable(daftar_peminjaman)
-        
-        
+    
+    @Slot(bool)
+    def confirmDeletion(self,confirmed):
+        if confirmed and self.selectedRowId is not None:
+            # Connect to your database
+            conn = sqlite3.connect('datarpl.db')
+            cursor = conn.cursor()
+            cursor.execute('SELECT anggota_id FROM data_peminjaman_buku WHERE buku_id = ?', (self.selectedRowId,))
+            anggotaToShow = cursor.fetchall()
+            anggotaToShow = anggotaToShow[0][0]
+            cursor.execute('DELETE FROM data_peminjaman_buku WHERE buku_id = ?', (self.selectedRowId,))
+            conn.commit()
+
+            # Close the connection
+            cursor.close()
+            conn.close()
+
+            # Optional: Refresh the table or UI to reflect the changes
+            self.loadData(anggotaToShow)

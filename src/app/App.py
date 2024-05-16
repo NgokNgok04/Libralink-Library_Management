@@ -10,6 +10,7 @@ from components.DaftarBukuPage import DaftarBukuPage
 from components.DeleteConfirmationForm import DeleteConfirmationForm
 from components.FormAnggota import FormAnggota
 from components.FormBuku import FormBuku
+from components.FormPeminjaman import FormPeminjaman
 
 class App(QMainWindow):
     def __init__(self):
@@ -48,7 +49,7 @@ class App(QMainWindow):
 
         self.headerWidget.setContentsMargins(0, 0, 0, 0)
         self.addButton = AddButton(self.centralwidget,clicked = lambda: self.showAddForm(self.stackedWidgetPage.currentIndex(),True))
-        self.addButton.setGeometry(QRect(screenSize.width() - 80, screenSize.height() - 105, 70, 70))
+        self.addButton.setGeometry(QRect(screenSize.width() - 90, screenSize.height() - 105, 70, 70))
         self.addButton.hide()
         self.headerWidget.showAddButton.connect(self.addButton.isShowAddButton)
         self.headerWidget.showPageIndex.connect(self.whatPageToShow)
@@ -56,33 +57,43 @@ class App(QMainWindow):
         self.DaftarPeminjaman = DaftarPeminjaman(self.centralwidget)
         self.DaftarPeminjaman.hide()
         self.DaftarPeminjaman.showDaftarPeminjaman.connect(self.IsShowDaftarPeminjaman)
+        self.DaftarPeminjaman.showFormPeminjaman.connect(self.IsShowFormPeminjaman)
+
         self.Daftar_AnggotaPage.showDaftarPeminjaman.connect(self.IsShowDaftarPeminjaman)
         self.Daftar_AnggotaPage.showDaftarPeminjamanID.connect(self.DaftarPeminjaman.loadData)
 
         self.deleteConfirmationFormAnggota = DeleteConfirmationForm(self.centralwidget)
         self.deleteConfirmationFormAnggota.title.setText("Apakah anda yakin\ningin menghapus anggota ini?")
         self.deleteConfirmationFormAnggota.hide()
+        self.Daftar_AnggotaPage.showConfirmDelete.connect(self.showDeleteConfirmationFormAnggota)
         self.deleteConfirmationFormAnggota.confirmDeleteSignal.connect(self.Daftar_AnggotaPage.confirmDeletion)
         self.deleteConfirmationFormAnggota.showConfirmDelete.connect(self.showDeleteConfirmationFormAnggota)
-        self.Daftar_AnggotaPage.showConfirmDelete.connect(self.showDeleteConfirmationFormAnggota)
 
         self.deleteConfirmationFormBuku = DeleteConfirmationForm(self.centralwidget)
         self.deleteConfirmationFormBuku.title.setText("Apakah anda yakin\ningin menghapus buku ini?")
         self.deleteConfirmationFormBuku.hide()
-        self.deleteConfirmationFormBuku.confirmDeleteSignal.connect(self.Daftar_BukuPage.confirmDeletion)
-        self.deleteConfirmationFormBuku.showConfirmDelete.connect(self.showDeleteConfirmationFormBuku)
-        self.Daftar_BukuPage.showConfirmDelete.connect(self.showDeleteConfirmationFormBuku)
+        self.Daftar_BukuPage.showConfirmDelete.connect(self.showDeleteConfirmationFormBuku) #Initiate Display Delete Form for Buku
+        self.deleteConfirmationFormBuku.confirmDeleteSignal.connect(self.Daftar_BukuPage.confirmDeletion) #User press Delete 
+        self.deleteConfirmationFormBuku.showConfirmDelete.connect(self.showDeleteConfirmationFormBuku) #Hide Display Delete Form
         
+        self.deleteConfirmationFormPeminjaman = DeleteConfirmationForm(self.centralwidget)
+        self.deleteConfirmationFormPeminjaman.title.setText("Apakah anda yakin\ningin menghapus peminjaman ini?")
+        self.deleteConfirmationFormPeminjaman.hide()
+        self.DaftarPeminjaman.showConfirmDelete.connect(self.showDeleteConfirmationFormPeminjaman) #Initiate Display Delete Form for Buku
+        self.deleteConfirmationFormPeminjaman.confirmDeleteSignal.connect(self.DaftarPeminjaman.confirmDeletion) # User press Delete
+        self.deleteConfirmationFormPeminjaman.showConfirmDelete.connect(self.showDeleteConfirmationFormPeminjaman) #Hide Display Delete Form
 
         self.formBuku = FormBuku(self.centralwidget)
         self.formAnggota = FormAnggota(self.centralwidget)
+        self.formPeminjaman = FormPeminjaman(self.centralwidget)
         self.formBuku.hide()
         self.formAnggota.hide()
+        self.formPeminjaman.hide()
         self.formBuku.cancelButton.clicked.connect(lambda: self.showAddForm(1,False))
         self.formAnggota.cancelButton.clicked.connect(lambda: self.showAddForm(2,False))
+        self.formPeminjaman.cancelButton.clicked.connect(lambda: self.showAddForm(3,False))
+        self.Daftar_AnggotaPage.showDaftarPeminjamanID.connect(self.formPeminjaman.getSelectedId)
 
-        self.formPeminjaman = FormPeminjaman(self.centralwidget)
-        self.formPeminjaman.hide()
         
 
     @Slot(int)
@@ -90,16 +101,21 @@ class App(QMainWindow):
         self.stackedWidgetPage.setCurrentIndex(index)
         self.formBuku.hide()
         self.formAnggota.hide()
-        self.deleteConfirmationFormBuku.hide()
-        self.deleteConfirmationFormAnggota.hide()
     
     @Slot(bool)
-    def IsShowDaftarPeminjaman(self,isShow2):
-        if(isShow2):
+    def IsShowDaftarPeminjaman(self,isShow):
+        if(isShow):
             self.DaftarPeminjaman.show()
-            # print("SELECTED DAFTAR PEMINJAMAN :",self.Daftar_AnggotaPage.selectedRowId)
         else:
             self.DaftarPeminjaman.hide()
+    
+    @Slot(bool)
+    def IsShowFormPeminjaman(self,isShow):
+        if(isShow):
+            self.DaftarPeminjaman.hide()
+            self.formPeminjaman.show()
+        else:
+            self.formPeminjaman.hide()
 
     @Slot(bool)
     def showDeleteConfirmationFormBuku(self, isShow):
@@ -115,15 +131,29 @@ class App(QMainWindow):
         else:
             self.deleteConfirmationFormAnggota.hide()
     
+    @Slot(bool)
+    def showDeleteConfirmationFormPeminjaman(self,isShow):
+        if isShow:
+            self.DaftarPeminjaman.hide()
+            self.deleteConfirmationFormPeminjaman.show()
+        else:
+            self.deleteConfirmationFormPeminjaman.hide()
+    
     def showAddForm(self,currentIndex,isShow):
         if isShow:
             if currentIndex == 1:
                 self.formBuku.show()
             elif currentIndex == 2:
                 self.formAnggota.show()
+            elif currentIndex == 3:
+                self.formPeminjaman.show()
         else:
             print(currentIndex)
             if currentIndex == 1:
                 self.formBuku.hide()
             elif currentIndex == 2:
                 self.formAnggota.hide()
+            elif currentIndex == 3:
+                self.formPeminjaman.hide()
+    
+
