@@ -108,11 +108,14 @@ class DaftarAnggotaPage(QWidget):
                 item = self.tableWidget.item(row, col)
                 if item:
                     item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-
+    @Slot(bool)
     def loaddata(self):
         self.updateTable(self.anggota_controller.get_list_anggota())
 
     def updateTable(self, data):
+        self.tableWidget.setRowCount(0)  # Clear the existing rows
+        self.tableWidget.clearContents()
+
         if data:
             self.tableWidget.setRowCount(len(data) + 1)
             # self.tableWidget.setStyleSheet("background-color: yellow;")
@@ -266,11 +269,10 @@ class DaftarAnggotaPage(QWidget):
     @Slot(bool)
     def confirmDeletion(self, confirmDeleteSignal):
         if confirmDeleteSignal and self.selectedRowId is not None:
-            self.anggota_controller.delete_anggota(self.selectedRowId)
-            self.loaddata()
-
-            message = "Sukses menghapus anggota"
-            self.showModal.emit(message, True)
+            result = self.anggota_controller.delete_anggota(self.selectedRowId)
+            self.showModal.emit(result[0], result[1])
+            if result[1]:
+                self.loaddata()
     
     @Slot(bool)
     def confirmEdit(self, nama, email, telepon, status, anggotaid):

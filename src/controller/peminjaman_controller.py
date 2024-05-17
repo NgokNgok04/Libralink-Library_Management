@@ -2,12 +2,12 @@ import sqlite3
 from dateutil import parser
 from datetime import datetime
 from models.peminjaman import *
-from controller.buku_controller import *
+# from controller.buku_controller import *
 class Peminjaman_Controller:
     def __init__(self):
         self.conn = sqlite3.connect("libralink.db")
         self.cursor = self.conn.cursor()
-        self.buku_controller = Buku_Controller()
+        # self.buku_controller = Buku_Controller()
 
     def get_list_peminjaman(self,anggota_id):
         daftar_peminjaman = []
@@ -28,7 +28,9 @@ class Peminjaman_Controller:
             message = "ID Buku harus berupa angka"
             return message, False
 
-        isValidIDBuku = self.buku_controller.isIDBukuValid(buku_id)
+        # isValidIDBuku = self.buku_controller.isIDBukuValid(buku_id)
+        self.cursor.execute('SELECT * FROM buku WHERE buku_id = ?', (buku_id,))
+        isValidIDBuku = len(self.cursor.fetchall()) != 0
         isCanBorrow = self.isAnggotaCanBorrow(anggota_id)
         isBukuBorrowed = self.isBukuBorrowed(buku_id)
         isDateValid = self.isDateValid(tanggal_pengembalian,tanggal_pinjam)
@@ -42,7 +44,7 @@ class Peminjaman_Controller:
                 message = "ID Buku tidak ada"
             if not isCanBorrow:
                 message = "Anggota sudah melebihi batas maksimal peminjaman"
-            if not isBukuBorrowed:
+            if isBukuBorrowed:
                 message = "Buku sedang dipinjam anggota lain"
             if not isDateValid:
                 message = "Pastikan tanggal pengembalian setelah tanggal peminjaman"
