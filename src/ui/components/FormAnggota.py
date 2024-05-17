@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
+import os
 import sqlite3
 
 class FormAnggota(QWidget):
@@ -174,7 +175,11 @@ class FormAnggota(QWidget):
         print(hoho)
         self.aidi = hoho
 
-        conn = sqlite3.connect('libralink.db')
+        db_folder = os.path.join(os.path.dirname(__file__), '../../database')
+        os.makedirs(db_folder, exist_ok=True)
+        db_path = os.path.join(db_folder, 'libralink.db')
+
+        conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
 
         cursor.execute("SELECT nama FROM anggota WHERE anggota_id = ?", (self.aidi,))
@@ -193,7 +198,6 @@ class FormAnggota(QWidget):
         result = cursor.fetchone()
 
         if result is not None:
-            print(result)
             if result[0]:  # Check if the value is truthy
                 self.aktifButton.setChecked(False)
                 self.nonaktifButton.setChecked(True)

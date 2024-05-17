@@ -2,9 +2,14 @@ import sqlite3
 import re
 from models.anggota import *
 from controller.peminjaman_controller import *
+
+db_folder = os.path.join(os.path.dirname(__file__), '../database')
+os.makedirs(db_folder, exist_ok=True)
+db_path = os.path.join(db_folder, 'libralink.db')
+
 class Anggota_Controller:
     def __init__(self):
-        self.conn = sqlite3.connect("libralink.db")
+        self.conn = sqlite3.connect(db_path)
         self.cursor = self.conn.cursor()
         self.peminjaman_controller = Peminjaman_Controller()
 
