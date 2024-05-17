@@ -16,6 +16,7 @@ class Peminjaman:
         self.title = title
 
 class DaftarPeminjaman(QWidget):
+    doReload = Signal(bool)
     showDaftarPeminjaman = Signal(bool)
     showConfirmDelete = Signal(bool)
     showFormPeminjaman = Signal(bool)
@@ -184,8 +185,10 @@ class DaftarPeminjaman(QWidget):
     def loadData(self,IDToShow):
         daftar_peminjaman = self.peminjaman_controller.get_list_peminjaman(IDToShow)
         self.updateTable(daftar_peminjaman)
+
     
     @Slot(bool)
     def confirmDeletion(self,confirmed):
         if confirmed and self.selectedRowId is not None:
             self.loadData(self.peminjaman_controller.delete_peminjaman(self.selectedRowId))
+            self.doReload.emit(True)
