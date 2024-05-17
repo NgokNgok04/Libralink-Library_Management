@@ -70,9 +70,16 @@ class Anggota_Controller:
         
         return daftar_anggota
     
-    def delete_anggota(self,anggota_id):
+    def delete_anggota(self,anggota_id) -> tuple[str, bool]:
+        message = "Gagal menghapus anggota"
+        if self.peminjaman_controller.isAnggotaBorrow(anggota_id):
+            message = "Tidak dapat menghapus anggota yang memiliki peminjaman buku."
+            return message, False
+    
         self.cursor.execute('DELETE FROM anggota WHERE anggota_id = ?', (anggota_id,))
         self.conn.commit()
+        message = "Sukses menghapus anggota"
+        return message, True
 
     def __del__(self):
         self.cursor.close()

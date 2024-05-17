@@ -12,6 +12,7 @@ from components.FormAnggota import FormAnggota
 from components.FormBuku import FormBuku
 from components.FormPeminjaman import FormPeminjaman
 from components.ModalError import ModalError
+from components.ModalSuccess import ModalSuccess
 
 class App(QMainWindow):
     AddType = Signal(int)
@@ -169,6 +170,11 @@ class App(QMainWindow):
         self.formPeminjaman.showModal.connect(self.showModal)
         self.Daftar_BukuPage.showModal.connect(self.showModal)
         self.Daftar_AnggotaPage.showModal.connect(self.showModal)
+
+        self.DaftarPeminjaman.doReload.connect(self.Daftar_AnggotaPage.loaddata)
+        self.DaftarPeminjaman.doReload.connect(self.Daftar_BukuPage.loaddata)
+        self.formPeminjaman.doReload.connect(self.Daftar_AnggotaPage.loaddata)
+        self.formPeminjaman.doReload.connect(self.Daftar_BukuPage.loaddata)
         
     @Slot(int)
     def showModal(self,message,isSuccess):
@@ -179,7 +185,7 @@ class App(QMainWindow):
             self.modalError.show()
         else:
             print("green")
-            self.modalSuccess = ModalError(message, self.centralwidget)
+            self.modalSuccess = ModalSuccess(message, self.centralwidget)
             self.modalSuccess.setBackgroundColor("#90EE90")
             self.modalSuccess.show()
 
