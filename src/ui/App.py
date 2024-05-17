@@ -13,6 +13,7 @@ from components.FormBuku import FormBuku
 from components.FormPeminjaman import FormPeminjaman
 from components.ModalError import ModalError
 from components.ModalSuccess import ModalSuccess
+from components.HomePage import HomePage
 
 class App(QMainWindow):
     AddType = Signal(int)
@@ -43,10 +44,15 @@ class App(QMainWindow):
         self.stackedWidgetPage = QStackedWidget(self.centralwidget)
         self.stackedWidgetPage.setGeometry(QRect(360, 178, screenSize.width() - 355, screenSize.height() - 240))
         # self.stackedWidgetPage.setStyleSheet(u"background-color: rgb(255, 255, 0);")
-        self.HomePage = QWidget()
+        self.HomePage = HomePage()
         self.Daftar_BukuPage = DaftarBukuPage()
         self.Daftar_AnggotaPage = DaftarAnggotaPage()
         # self.Daftar_AnggotaPage.setStyleSheet(u"background-color: yellow;")
+
+        self.HomePage.whatsShowing.connect(self.headerWidget.changeStackedWidgetIndex)
+        self.HomePage.whatsShowing.connect(self.addHandler)
+
+        self.HomePage.whatsShowing.connect(self.sidebarWidget.changeButton)
 
         self.stackedWidgetPage.addWidget(self.HomePage)
         self.stackedWidgetPage.addWidget(self.Daftar_BukuPage)
