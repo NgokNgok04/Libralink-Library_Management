@@ -1,7 +1,11 @@
 import sqlite3
-
+import os
 # Connect to the database (or create it if it doesn't exist)
-conn = sqlite3.connect('libralink.db')
+db_folder = os.path.join(os.path.dirname(__file__), '../database')
+os.makedirs(db_folder, exist_ok=True)
+db_path = os.path.join(db_folder, 'libralink.db')
+
+conn = sqlite3.connect(db_path)
 
 # Create a cursor object
 cursor = conn.cursor()
@@ -113,7 +117,7 @@ peminjaman_data = [
     (17,8,'2022-02-16','2023-01-14'),
     (17,12,'2022-02-16','2023-01-14'),
     (13,30,'2022-01-29','2023-11-11'),
-    (21,32,'2020-04-14','2020-07-27'),
+    (4,32,'2020-04-14','2020-07-27'),
     (14,11,'2020-01-11','2023-09-25'),
     (8,33,'2023-02-03','2023-11-07'),
     (20,2,'2021-12-23','2023-04-12'),

@@ -153,7 +153,11 @@ class FormBuku(QWidget):
         print(hoho)
         self.aidi = hoho
 
-        conn = sqlite3.connect('libralink.db')
+        db_folder = os.path.join(os.path.dirname(__file__), '../../database')
+        os.makedirs(db_folder, exist_ok=True)
+        db_path = os.path.join(db_folder, 'libralink.db')
+
+        conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
         
         cursor.execute("SELECT judul FROM buku WHERE buku_id = ?", (self.aidi,))
