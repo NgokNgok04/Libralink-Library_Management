@@ -1,0 +1,6 @@
+README.md
+setup.py
+src/libralink.egg-info/PKG-INFO
+src/libralink.egg-info/SOURCES.txt
+src/libralink.egg-info/dependency_links.txt
+src/libralink.egg-info/top_level.txt
