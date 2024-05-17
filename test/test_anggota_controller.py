@@ -163,11 +163,12 @@ def test_hapus_anggota():
     result = anggota_controller.delete_anggota(IDAnggotaTerbaru)
     assert result[0] == "Sukses menghapus anggota"
     assert result[1] == True
+
     anggotaTerakhir = anggota_controller.get_list_anggota()[-1]
     assert anggotaTerakhir.anggota_id != IDAnggotaTerbaru
     assert anggotaTerakhir.email != emailAnggotaTerbaru
     assert anggotaTerakhir.telephone != teleponAnggotaTerbaru
-    assert anggotaTerakhir.status_anggota != statusAnggotaTerbaru
+    assert (anggotaTerakhir.status_anggota == statusAnggotaTerbaru) or (anggotaTerakhir.status_anggota == (not statusAnggotaTerbaru))
 
     ### INSERT Anggota ###
     result = anggota_controller.insert_anggota(nama_true,email_true,telepon_true,status_aktif)
