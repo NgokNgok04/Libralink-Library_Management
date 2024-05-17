@@ -1,11 +1,17 @@
 import sqlite3
+import os
 from dateutil import parser
 from datetime import datetime
 from models.peminjaman import *
-# from controller.buku_controller import *
+# from controller.buku_controller import Buku_Controller
+
+db_folder = os.path.join(os.path.dirname(__file__), '../database')
+os.makedirs(db_folder, exist_ok=True)
+db_path = os.path.join(db_folder, 'libralink.db')
+
 class Peminjaman_Controller:
     def __init__(self):
-        self.conn = sqlite3.connect("libralink.db")
+        self.conn = sqlite3.connect(db_path)
         self.cursor = self.conn.cursor()
         # self.buku_controller = Buku_Controller()
 
@@ -24,30 +30,34 @@ class Peminjaman_Controller:
         return daftar_peminjaman
 
     def insert_peminjaman(self, buku_id, tanggal_pinjam, tanggal_pengembalian, anggota_id)->tuple[str,bool]:
-        if buku_id == "":
-            message = "ID Buku harus berupa angka"
-            return message, False
-
-        # isValidIDBuku = self.buku_controller.isIDBukuValid(buku_id)
+        buku_id = str(buku_id)
+        
         self.cursor.execute('SELECT * FROM buku WHERE buku_id = ?', (buku_id,))
+
         isValidIDBuku = len(self.cursor.fetchall()) != 0
         isCanBorrow = self.isAnggotaCanBorrow(anggota_id)
         isBukuBorrowed = self.isBukuBorrowed(buku_id)
         isDateValid = self.isDateValid(tanggal_pengembalian,tanggal_pinjam)
+
         if (isValidIDBuku and isCanBorrow and (not isBukuBorrowed) and isDateValid):
             self.cursor.execute("INSERT INTO peminjaman (anggota_id, buku_id, tanggal_pinjam, tanggal_pengembalian ) VALUES (?,?,?,?)",(anggota_id,buku_id,tanggal_pinjam,tanggal_pengembalian))
             self.conn.commit()
             message = "Tambah Peminjaman Berhasil"
             return message,True
         else:
-            if not isValidIDBuku:
-                message = "ID Buku tidak ada"
-            if not isCanBorrow:
+            if not buku_id:
+                message = "Harap melengkapi form"
+            elif not buku_id.isdigit():
+                message = "ID Buku harus berupa angka"
+            elif not isValidIDBuku:
+                message = "ID Buku tidak ada pada daftar buku"
+            elif not isCanBorrow:
                 message = "Anggota sudah melebihi batas maksimal peminjaman"
-            if isBukuBorrowed:
+            elif isBukuBorrowed:
                 message = "Buku sedang dipinjam anggota lain"
-            if not isDateValid:
+            elif not isDateValid:
                 message = "Pastikan tanggal pengembalian setelah tanggal peminjaman"
+            
             
             return message, False
         
@@ -69,7 +79,8 @@ class Peminjaman_Controller:
 
     def isAnggotaCanBorrow(self,anggota_id):
         self.cursor.execute('SELECT * FROM peminjaman WHERE anggota_id = ?', (anggota_id,))
-        return len(self.cursor.fetchall()) < 3
+        nBorrowedBook = len(self.cursor.fetchall())
+        return (nBorrowedBook < 3)
 
     def isAnggotaBorrow(self,anggota_id):
         self.cursor.execute("SELECT * FROM peminjaman WHERE anggota_id = ?", (anggota_id,))
