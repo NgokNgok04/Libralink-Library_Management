@@ -116,10 +116,13 @@ class DaftarBukuPage(QWidget):
                 if item:
                     item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
+    @Slot(bool)
     def loaddata(self):
         self.updateTable(self.buku_controller.get_list_buku())
 
     def updateTable(self,data):
+        self.tableWidget.setRowCount(0)  # Clear the existing rows
+        self.tableWidget.clearContents()
         if data:
             self.tableWidget.setRowCount(len(data) + 1)
 
@@ -214,11 +217,10 @@ class DaftarBukuPage(QWidget):
     @Slot(bool)
     def confirmDeletion(self, confirmed):
         if confirmed and self.selectedRowId is not None:
-            self.buku_controller.delete_buku(self.selectedRowId)
-            self.loaddata()
-
-            message = "Sukses menghapus buku"
-            self.showModal.emit(message, True)
+            result = self.buku_controller.delete_buku(self.selectedRowId)
+            self.showModal.emit(result[0], result[1])
+            if result[1]:
+                self.loaddata()
 
     @Slot(bool)
     def confirmEdit(self, judul, kode, path, bukuid):

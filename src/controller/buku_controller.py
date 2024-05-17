@@ -1,9 +1,11 @@
 import sqlite3
 from models.buku import *
+from controller.peminjaman_controller import *
 class Buku_Controller:
     def __init__(self):
         self.conn = sqlite3.connect("libralink.db")
         self.cursor = self.conn.cursor()
+        self.peminjaman_controller = Peminjaman_Controller()
 
     def get_list_buku(self):
         daftar_buku = []
@@ -44,25 +46,35 @@ class Buku_Controller:
         message = "Edit buku gagal"
         if judul and kode and path and buku_id:
             if len(kode) == 13 and kode.isdigit():
-                self.cursor.execute("UPDATE buku SET judul = ?, isbn = ?, path = ? WHERE buku_id = ?", (judul, kode, path, buku_id,))
+                if self.peminjaman_controller.isBukuBorrowed(buku_id):
+                    message = "Tidak dapat mengedit buku yang sedang dipinjam."
+                    return message, False
+                self.cursor.execute("UPDATE buku SET judul = ?, isbn = ?, path = ? WHERE buku_id = ?", (judul, kode, path, buku_id))
                 self.conn.commit()
                 message = "Sukses mengedit buku"
-                return message,True
+                return message, True
             else:
                 message = "ISBN harus berupa 13 angka"
         else:
             message = "Harap melengkapi form"
 
         return message, False
-    
-    def delete_buku(self,buku_id):
+
+    def delete_buku(self,buku_id) -> tuple[str, bool]:
+        message = "Gagal menghapus buku"
+        if self.peminjaman_controller.isBukuBorrowed(buku_id):
+            message = "Tidak dapat menghapus buku yang sedang dipinjam."
+            return message, False
+
         self.cursor.execute('DELETE FROM buku WHERE buku_id = ?', (buku_id,))
         self.conn.commit()
+        message = "Sukses menghapus buku"
+        return message, True
 
     def isIDBukuValid(self,buku_id):
         self.cursor.execute('SELECT * FROM buku WHERE buku_id = ?', (buku_id,))
         return len(self.cursor.fetchall()) != 0
-
+ 
     def __del__(self):
         self.cursor.close()
         self.conn.close()

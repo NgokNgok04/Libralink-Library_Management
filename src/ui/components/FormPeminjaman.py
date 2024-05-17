@@ -8,6 +8,7 @@ from controller.peminjaman_controller import *
 from controller.buku_controller import *
 class FormPeminjaman(QWidget):
     showModal = Signal(str,bool)
+    doReload = Signal(bool)
     def __init__(self,parent=None):
         super().__init__(parent)
         self.setupUi()
@@ -246,7 +247,8 @@ class FormPeminjaman(QWidget):
         self.hide()
         result = self.peminjaman_controller.insert_peminjaman(self.IDBukuInput.text(),self.pinjamInput.text(),self.kembalianInput.text(),self.IDAnggota)
         self.showModal.emit(result[0],result[1])
-
+        self.doReload.emit(True)
+        
     @Slot(int)
     def getSelectedId(self,IDAnggota):
         self.IDAnggota = IDAnggota
