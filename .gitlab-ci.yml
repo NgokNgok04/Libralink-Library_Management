@@ -2,5 +2,7 @@ run_tests:
     image: python:alpine
     before_script:
         - apk add --update python3
+        - apk add py3-pip
+        - pip install pytest
     script:
         - pytest test
