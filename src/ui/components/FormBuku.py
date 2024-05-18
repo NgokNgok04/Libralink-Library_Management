@@ -4,6 +4,9 @@ from PySide6.QtCore import *
 import os
 import shutil
 import sqlite3
+icons_folder = os.path.join(os.path.dirname(__file__), '../../../assets/icons')
+os.makedirs(icons_folder, exist_ok=True)
+
 class FormBuku(QWidget):
     showEditForm = Signal(bool)
     showAddForm = Signal(bool)
@@ -53,7 +56,8 @@ class FormBuku(QWidget):
         xCancel = self.layoutFormBuku.width() - 30
         self.cancelButton.setGeometry(QRect(xCancel,10,20,20))
         iconCancel = QIcon()
-        iconCancel.addFile(u"../../assets/icons/cancel.png",QSize(),QIcon.Normal, QIcon.Off)
+        iconCancel_path = os.path.join(icons_folder, 'cancel.png')
+        iconCancel.addFile(iconCancel_path,QSize(),QIcon.Normal, QIcon.Off)
         self.cancelButton.setIcon(iconCancel)
         self.cancelButton.setIconSize(QSize(18,18))
         self.cancelButton.setCheckable(True)
@@ -72,7 +76,8 @@ class FormBuku(QWidget):
         self.judulButton = QPushButton(self.layoutJudulnput)
         self.judulButton.setGeometry(QRect(0,0,50,50))
         iconJudul = QIcon()
-        iconJudul.addFile(u"../../assets/icons/judulLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+        iconJudul_path = os.path.join(icons_folder, 'judulLogo.png')
+        iconJudul.addFile(iconJudul_path, QSize(), QIcon.Normal, QIcon.Off)
         self.judulButton.setIcon(iconJudul)
         self.judulButton.setIconSize(QSize(24,24))
         self.judulButton.setCheckable(False)
@@ -92,7 +97,8 @@ class FormBuku(QWidget):
         self.kodeButton = QPushButton(self.layoutKodeinput)
         self.kodeButton.setGeometry(QRect(0,0,50,50))
         iconkode = QIcon()
-        iconkode.addFile(u"../../assets/icons/kodeLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+        iconKode_path = os.path.join(icons_folder, 'kodeLogo.png')
+        iconkode.addFile(iconKode_path, QSize(), QIcon.Normal, QIcon.Off)
         self.kodeButton.setIcon(iconkode)
         self.kodeButton.setIconSize(QSize(24,24))
         self.kodeButton.setCheckable(False)
@@ -113,7 +119,8 @@ class FormBuku(QWidget):
         self.coverButton = QPushButton(self.layoutCoverInput)
         self.coverButton.setGeometry(QRect(0,0,50,50))
         iconCover = QIcon()
-        iconCover.addFile(u"../../assets/icons/coverLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+        iconCover_path = os.path.join(icons_folder, 'coverLogo.png')
+        iconCover.addFile(iconCover_path, QSize(), QIcon.Normal, QIcon.Off)
         self.coverButton.setIcon(iconCover)
         self.coverButton.setIconSize(QSize(24,24))
         self.coverButton.setCheckable(False)

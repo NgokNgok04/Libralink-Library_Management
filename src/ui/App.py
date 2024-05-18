@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
+import os
 from ui.components.Header import Header
 from ui.components.Sidebar import Sidebar
 from ui.components.AddButton import AddButton
@@ -14,6 +15,9 @@ from ui.components.FormPeminjaman import FormPeminjaman
 from ui.components.ModalError import ModalError
 from ui.components.ModalSuccess import ModalSuccess
 from ui.components.HomePage import HomePage
+
+# ui_folder = os.path.join(os.path.dirname(__file__), '../../../assets/book_cover/')
+# os.makedirs(ui_folder, exist_ok=True)
 
 class App(QMainWindow):
     AddType = Signal(int)

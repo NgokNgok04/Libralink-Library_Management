@@ -3,10 +3,12 @@ from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
 from ui.components.SearchBar import SearchBar
-import sqlite3
 from controller.buku_controller import Buku_Controller
 from controller.peminjaman_controller import Peminjaman_Controller
 from ui.components.FormBuku import *
+
+icons_folder = os.path.join(os.path.dirname(__file__), '../../../assets/icons')
+os.makedirs(icons_folder, exist_ok=True)
 
 class Buku:
     def __init__(self, buku_id, judul, isbn, path):
@@ -166,7 +168,8 @@ class DaftarBukuPage(QWidget):
                 self.coverPencilLogo.setGeometry(QRect(5,62,40,40))
                 self.coverPencilLogo.setStyleSheet(u"border: none;")
                 self.iconCoverPencilLogo = QIcon()
-                self.iconCoverPencilLogo.addFile(u"../../assets/icons/editLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+                iconCoverLogo_path = os.path.join(icons_folder, 'editLogo.png')
+                self.iconCoverPencilLogo.addFile(iconCoverLogo_path, QSize(), QIcon.Normal, QIcon.Off)
                 self.coverPencilLogo.setIcon(self.iconCoverPencilLogo)
                 self.coverPencilLogo.setIconSize(QSize(30,30))
                 self.coverPencilLogo.clicked.connect(lambda: self.showEditForm.emit(True))
@@ -176,7 +179,8 @@ class DaftarBukuPage(QWidget):
                 self.coverTrashLogo.setGeometry(QRect(50,62,40,40))
                 self.coverTrashLogo.setStyleSheet(u"border: none;")
                 self.iconCoverTrashLogo = QIcon()
-                self.iconCoverTrashLogo.addFile(u"../../assets/icons/trashLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+                icontrashLogo_path = os.path.join(icons_folder, 'trashLogo.png')
+                self.iconCoverTrashLogo.addFile(icontrashLogo_path, QSize(), QIcon.Normal, QIcon.Off)
                 self.coverTrashLogo.setIcon(self.iconCoverTrashLogo)
                 self.coverTrashLogo.setIconSize(QSize(30,30))
                 self.coverTrashLogo.clicked.connect(lambda: self.showConfirmDelete.emit(True))

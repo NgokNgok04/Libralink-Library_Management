@@ -1,7 +1,9 @@
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
-
+import os
+icons_folder = os.path.join(os.path.dirname(__file__), '../../../assets/icons')
+os.makedirs(icons_folder, exist_ok=True)
 class AddButton(QPushButton):
     def __init__(self, parent=None, clicked=None):
         super().__init__(parent)
@@ -11,7 +13,9 @@ class AddButton(QPushButton):
     def setupUi(self):
         self.setStyleSheet(u"border: none; border-radius: 35px; background-color: rgb(109, 141, 223); color: rgb(255, 255, 255);")
         icon5 = QIcon()
-        icon5.addFile(u"../../assets/icons/addButton.png", QSize(), QIcon.Normal, QIcon.Off)
+
+        iconAddLogo_path = os.path.join(icons_folder, 'addButton.png')
+        icon5.addFile(iconAddLogo_path, QSize(), QIcon.Normal, QIcon.Off)
         self.setIcon(icon5)
         self.setIconSize(QSize(34, 34))
         self.setCheckable(True)

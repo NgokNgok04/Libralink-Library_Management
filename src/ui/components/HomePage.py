@@ -2,7 +2,8 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 import os
-
+icons_folder = os.path.join(os.path.dirname(__file__), '../../../assets/icons')
+os.makedirs(icons_folder, exist_ok=True)
 class HomePage(QWidget):
     whatsShowing = Signal(int)
     def __init__(self):
@@ -14,6 +15,7 @@ class HomePage(QWidget):
         self.setGeometry(QRect(0, 0, screenSize.width() - 370, screenSize.height() - 250))
 
         # Load and register the custom font
+        
         font_folder = os.path.join(os.path.dirname(__file__), '../../../assets/fonts')
         os.makedirs(font_folder, exist_ok=True)
         font_path = os.path.join(font_folder, 'Heavitas.ttf')
@@ -36,11 +38,12 @@ class HomePage(QWidget):
         button1.setFont(font)
 
         # Set icon for button1
-        icon1 = QIcon("../../assets/icons/book_icon.png")  # Replace with your icon path
+        iconbook_path = os.path.join(icons_folder, 'book_icon.png')
+        icon1 = QIcon(iconbook_path) 
         button1.setIcon(icon1)
         button1.setCheckable(True)
         button1.clicked.connect(lambda: self.whatsShowing.emit(1))
-        button1.setIconSize(QSize(64, 64))  # Adjust icon size as needed
+        button1.setIconSize(QSize(64, 64))
         button1.setStyleSheet("""
             QPushButton {
                 background-color: #4CAF50; /* Green */
@@ -66,7 +69,8 @@ class HomePage(QWidget):
         button2.setFont(font)
 
         # Set icon for button2
-        icon2 = QIcon("../../assets/icons/person_icon.png")  # Replace with your icon path
+        iconperson_path = os.path.join(icons_folder, 'person_icon.png')
+        icon2 = QIcon(iconperson_path)  # Replace with your icon path
         button2.setIcon(icon2)
         button2.setCheckable(True)
         button2.clicked.connect(lambda: self.whatsShowing.emit(2))

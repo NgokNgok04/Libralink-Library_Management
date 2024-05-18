@@ -1,6 +1,9 @@
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
+import os
+icons_folder = os.path.join(os.path.dirname(__file__), '../../../assets/icons')
+os.makedirs(icons_folder, exist_ok=True)
 
 class Sidebar(QWidget):
     showWidget = Signal(int)
@@ -46,7 +49,8 @@ class Sidebar(QWidget):
         self.profileImage.setGeometry(QRect(106, 22, 103, 99))
         self.profileImage.setStyleSheet("border:none;")
         icon = QIcon()
-        icon.addFile("../../assets/icons/profilePlaceHolder.png", QSize(), QIcon.Normal, QIcon.Off)
+        iconPP_path = os.path.join(icons_folder, 'profilePlaceHolder.png')
+        icon.addFile(iconPP_path, QSize(), QIcon.Normal, QIcon.Off)
         self.profileImage.setIcon(icon)
         self.profileImage.setIconSize(QSize(99, 99))
         self.profileImage.setText("")
@@ -72,7 +76,8 @@ class Sidebar(QWidget):
             }
         """)
         icon1 = QIcon()
-        icon1.addFile("../../assets/icons/homelogo2.png", QSize(), QIcon.Normal, QIcon.Off)
+        iconHome_path = os.path.join(icons_folder, 'homelogo2.png')
+        icon1.addFile(iconHome_path, QSize(), QIcon.Normal, QIcon.Off)
         self.HomeSidebar.setIcon(icon1)
         self.HomeSidebar.setIconSize(QSize(40, 40))
         self.HomeSidebar.setCheckable(True)
@@ -102,7 +107,8 @@ class Sidebar(QWidget):
             }
         """)
         icon2 = QIcon()
-        icon2.addFile("../../assets/icons/daftarBukuLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+        iconDaftarBuku_path = os.path.join(icons_folder, 'daftarBukuLogo.png')
+        icon2.addFile(iconDaftarBuku_path, QSize(), QIcon.Normal, QIcon.Off)
         self.BukuSidebar.setIcon(icon2)
         self.BukuSidebar.setIconSize(QSize(40, 40))
         self.BukuSidebar.setCheckable(True)
@@ -131,7 +137,8 @@ class Sidebar(QWidget):
             }
         """)
         icon3 = QIcon()
-        icon3.addFile("../../assets/icons/daftarAnggotaLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+        iconDaftarAnggota_path = os.path.join(icons_folder, 'daftarAnggotaLogo.png')
+        icon3.addFile(iconDaftarAnggota_path, QSize(), QIcon.Normal, QIcon.Off)
         self.AnggotaSidebar.setIcon(icon3)
         self.AnggotaSidebar.setIconSize(QSize(40, 40))
         self.AnggotaSidebar.setCheckable(True)

@@ -4,6 +4,9 @@ from PySide6.QtCore import *
 import os
 import sqlite3
 
+icons_folder = os.path.join(os.path.dirname(__file__), '../../../assets/icons')
+os.makedirs(icons_folder, exist_ok=True)
+
 class FormAnggota(QWidget):
     showEditForm = Signal(bool)
     showAddForm = Signal(bool)
@@ -48,7 +51,8 @@ class FormAnggota(QWidget):
         xCancel = self.layoutFormAnggota.width() - 30
         self.cancelButton.setGeometry(QRect(xCancel,10,20,20))
         iconCancel = QIcon()
-        iconCancel.addFile(u"../../assets/icons/cancel.png",QSize(),QIcon.Normal, QIcon.Off)
+        iconCancel_path = os.path.join(icons_folder, 'cancel.png')
+        iconCancel.addFile(iconCancel_path,QSize(),QIcon.Normal, QIcon.Off)
         self.cancelButton.setIcon(iconCancel)
         self.cancelButton.setIconSize(QSize(18,18))
         self.cancelButton.setCheckable(True)
@@ -67,7 +71,8 @@ class FormAnggota(QWidget):
         self.namaButton = QPushButton(self.layoutNamaInput)
         self.namaButton.setGeometry(QRect(0,0,50,50))
         iconNama = QIcon()
-        iconNama.addFile(u"../../assets/icons/namaLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+        iconNamaLogo_path = os.path.join(icons_folder, 'namaLogo.png')
+        iconNama.addFile(iconNamaLogo_path, QSize(), QIcon.Normal, QIcon.Off)
         self.namaButton.setIcon(iconNama)
         self.namaButton.setIconSize(QSize(24,24))
         self.namaButton.setCheckable(False)
@@ -88,7 +93,8 @@ class FormAnggota(QWidget):
         self.emailButton = QPushButton(self.layoutEmailInput)
         self.emailButton.setGeometry(QRect(0,0,50,50))
         iconEmail = QIcon()
-        iconEmail.addFile(u"../../assets/icons/idLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+        iconEmailLogo_path = os.path.join(icons_folder, 'emailLogo.png')
+        iconEmail.addFile(iconEmailLogo_path, QSize(), QIcon.Normal, QIcon.Off)
         self.emailButton.setIcon(iconEmail)
         self.emailButton.setIconSize(QSize(24,24))
         self.emailButton.setCheckable(False)
@@ -109,7 +115,8 @@ class FormAnggota(QWidget):
         self.teleponButton = QPushButton(self.layoutTeleponInput)
         self.teleponButton.setGeometry(QRect(0,0,50,50))
         iconTelepon = QIcon()
-        iconTelepon.addFile(u"../../assets/icons/kodeLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+        iconTeleponLogo_path = os.path.join(icons_folder, 'kodeLogo.png')
+        iconTelepon.addFile(iconTeleponLogo_path, QSize(), QIcon.Normal, QIcon.Off)
         self.teleponButton.setIcon(iconTelepon)
         self.teleponButton.setIconSize(QSize(24,24))
         self.teleponButton.setCheckable(False)
@@ -146,15 +153,12 @@ class FormAnggota(QWidget):
 
         self.nonaktifButton = QPushButton(self.layoutStatusButton, clicked = lambda: self.handleToggle(True))
         self.nonaktifButton.setText("Nonaktif")
-        # self.nonaktifButton.setStyleSheet(u"background-color: white; color: #6477DB; border-radius: 10px;")
         self.nonaktifButton.setFont(fontStatus)
         self.nonaktifButton.setGeometry(QRect(widthStatusButton + 5, 5, widthStatusButton, 40))
         self.nonaktifButton.setCheckable(True)
         self.nonaktifButton.setAutoExclusive(True)
         
 
-        # self.aktifInput = self.aktifButton.isChecked()
-        # print(self.aktifInput)
 
         self.simpanButton = QPushButton(self.layoutFormAnggota)
         self.simpanButton.setText("SIMPAN")
@@ -164,7 +168,6 @@ class FormAnggota(QWidget):
         self.simpanButton.setFont(fontSimpan)
         self.simpanButton.setGeometry(QRect(50,self.layoutFormAnggota.height() - 70,400,50))
         self.simpanButton.setStyleSheet(u"color: white; background-color: #5D5FEF;")
-        # self.simpanButton.clicked.connect(self.confirmEditClicked)
         if tipe == "edit":
             self.simpanButton.clicked.connect(self.confirmEditClicked)
         else:

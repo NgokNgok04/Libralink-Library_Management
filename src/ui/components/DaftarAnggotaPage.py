@@ -7,6 +7,10 @@ from ui.components.FormAnggota import *
 import sqlite3
 import re
 from controller.anggota_controller import Anggota_Controller
+
+icons_folder = os.path.join(os.path.dirname(__file__), '../../../assets/icons')
+os.makedirs(icons_folder, exist_ok=True)
+
 class DaftarAnggotaPage(QWidget):
     showModal = Signal(str,bool)
     showDaftarPeminjaman = Signal(bool)
@@ -166,7 +170,9 @@ class DaftarAnggotaPage(QWidget):
                 peminjamanLogo.clicked.connect(lambda: self.showDaftarPeminjaman.emit(True))
                 peminjamanLogo.setStyleSheet(u"background-color: none; border-radius: 0px; border: none;")
                 iconPeminjamanLogo = QIcon()
-                iconPeminjamanLogo.addFile(u"../../assets/icons/daftarPeminjamanLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+                
+                iconPeminjaman_path = os.path.join(icons_folder, 'daftarPeminjamanLogo.png')
+                iconPeminjamanLogo.addFile(iconPeminjaman_path, QSize(), QIcon.Normal, QIcon.Off)
                 peminjamanLogo.setIcon(iconPeminjamanLogo)
                 HLayoutIsiButton.addWidget(peminjamanLogo)
 
@@ -177,7 +183,8 @@ class DaftarAnggotaPage(QWidget):
                 dropdownLogo.clicked.connect(lambda: self.showDaftarPeminjaman.emit(True))
                 dropdownLogo.setStyleSheet(u"background-color: none; border: none; border-radius: 10px;")
                 iconDropDownLogo = QIcon()
-                iconDropDownLogo.addFile(u"../../assets/icons/dropdownLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+                iconDropDown_path = os.path.join(icons_folder, 'dropdownLogo.png')
+                iconDropDownLogo.addFile(iconDropDown_path, QSize(), QIcon.Normal, QIcon.Off)
                 dropdownLogo.setIcon(iconDropDownLogo)
                 HLayoutIsiButton.addWidget(dropdownLogo)
                 HLayoutButton.addWidget(PeminjamanButton)
@@ -187,7 +194,8 @@ class DaftarAnggotaPage(QWidget):
                 pencilButton.setAutoExclusive(True)
                 pencilButton.setStyleSheet(u"QPushButton{border: none; background-color: none;} QPushButton::hover{background-color: rgba(227, 233, 255, 191);}")
                 iconPencilLogo = QIcon()
-                iconPencilLogo.addFile(u"../../assets/icons/editLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+                iconEditLogo_path = os.path.join(icons_folder, 'editLogo.png')
+                iconPencilLogo.addFile(iconEditLogo_path, QSize(), QIcon.Normal, QIcon.Off)
                 pencilButton.setIcon(iconPencilLogo)
                 pencilButton.setIconSize(QSize(24, 24))
                 HLayoutButton.addWidget(pencilButton)
@@ -201,7 +209,8 @@ class DaftarAnggotaPage(QWidget):
                 trashButton.clicked.connect(self.handleTrashButtonClicked)
                 trashButton.setStyleSheet(u"QPushButton{border: none; background-color: none;} QPushButton::hover{background-color: rgba(227, 233, 255, 191);} ")
                 iconTrashButton = QIcon()
-                iconTrashButton.addFile(u"../../assets/icons/trashLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+                iconTrashLogo_path = os.path.join(icons_folder, 'trashLogo.png')
+                iconTrashButton.addFile(iconTrashLogo_path, QSize(), QIcon.Normal, QIcon.Off)
                 trashButton.setIcon(iconTrashButton)
                 trashButton.setIconSize(QSize(24, 24))
                 HLayoutButton.addWidget(trashButton)

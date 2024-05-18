@@ -2,6 +2,9 @@
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
+import os
+icons_folder = os.path.join(os.path.dirname(__file__), '../../../assets/icons')
+os.makedirs(icons_folder, exist_ok=True)
 
 class Header(QWidget):
 
@@ -34,7 +37,8 @@ class Header(QWidget):
         self.logoLibraLink.setText("")
         self.logoLibraLink.setMinimumSize(QSize(70, 70))
         self.logoLibraLink.setMaximumSize(QSize(70, 70))
-        self.logoLibraLink.setPixmap(QPixmap(u"../../assets/icons/libraLinkLogo.png"))
+        iconlibraLinkLogo_path = os.path.join(icons_folder, 'libraLinkLogo.png')
+        self.logoLibraLink.setPixmap(QPixmap(iconlibraLinkLogo_path))
         self.HLayoutLogo.addWidget(self.logoLibraLink)
 
         # insert tulisan title ke label didalam HLayoutLogo

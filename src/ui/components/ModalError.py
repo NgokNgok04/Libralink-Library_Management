@@ -1,7 +1,9 @@
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
-
+import os
+icons_folder = os.path.join(os.path.dirname(__file__), '../../../assets/icons')
+os.makedirs(icons_folder, exist_ok=True)
 class ModalError(QWidget):
     def __init__(self,message,parent=None):
         super().__init__(parent)
@@ -21,7 +23,8 @@ class ModalError(QWidget):
         self.warningLogo.setStyleSheet(u"background-color: transparent;")
 
         icon = QIcon()
-        icon.addFile("../../assets/icons/error.png")
+        iconError_path = os.path.join(icons_folder, 'error.png')
+        icon.addFile(iconError_path)
         self.warningLogo.setIcon(icon)
         self.warningLogo.setIconSize(QSize(50,50))
 

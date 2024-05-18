@@ -1,9 +1,12 @@
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
-import sqlite3
+import os
 from ui.components.AddButton import AddButton
 from controller.peminjaman_controller import Peminjaman_Controller
+
+icons_folder = os.path.join(os.path.dirname(__file__), '../../../assets/icons')
+os.makedirs(icons_folder, exist_ok=True)
 
 class Peminjaman:
     def __init__(self,anggota_id,buku_id,tanggal_pinjam,tanggal_pengembalian):
@@ -53,7 +56,9 @@ class DaftarPeminjaman(QWidget):
         self.cancelButton.setStyleSheet(u"QPushButton{background-color: none; border: none;} QPushButton::hover{background-color: rgba(227, 233, 255, 191);}")
         self.cancelButton.setGeometry(QRect(670,10,20,20))
         iconCancel = QIcon()
-        iconCancel.addFile(u"../../assets/icons/cancel.png",QSize(),QIcon.Normal, QIcon.Off)
+
+        iconcancelLogo_path = os.path.join(icons_folder, 'cancel.png')
+        iconCancel.addFile(iconcancelLogo_path,QSize(),QIcon.Normal, QIcon.Off)
         self.cancelButton.setIcon(iconCancel)
         self.cancelButton.setIconSize(QSize(18,18))
         self.cancelButton.setCheckable(True)
@@ -145,7 +150,8 @@ class DaftarPeminjaman(QWidget):
             trashButton.setAutoExclusive(True)
             trashButton.setStyleSheet(u"QPushButton{border: none; background-color: none;} QPushButton::hover{background-color: rgba(227, 233, 255, 191);} ")
             iconTrashButton = QIcon()
-            iconTrashButton.addFile(u"../../assets/icons/trashLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+            iconTrashLogo_path = os.path.join(icons_folder, 'trashLogo.png')
+            iconTrashButton.addFile(iconTrashLogo_path, QSize(), QIcon.Normal, QIcon.Off)
             trashButton.setIcon(iconTrashButton)
             trashButton.setIconSize(QSize(24, 24))
             trashButton.clicked.connect(self.handleTrashButtonClicked)

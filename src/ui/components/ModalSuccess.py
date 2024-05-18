@@ -1,6 +1,9 @@
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
+import os
+icons_folder = os.path.join(os.path.dirname(__file__), '../../../assets/icons')
+os.makedirs(icons_folder, exist_ok=True)
 
 class ModalSuccess(QWidget):
     def __init__(self,message,parent=None):
@@ -21,7 +24,8 @@ class ModalSuccess(QWidget):
         self.warningLogo.setStyleSheet(u"background-color: transparent;")
 
         icon = QIcon()
-        icon.addFile("../../assets/icons/success.png")
+        iconsuccess_path = os.path.join(icons_folder, 'success.png')
+        icon.addFile(iconsuccess_path)
         self.warningLogo.setIcon(icon)
         self.warningLogo.setIconSize(QSize(50,50))
 

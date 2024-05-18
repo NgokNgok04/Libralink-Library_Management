@@ -1,11 +1,12 @@
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
-import sqlite3
-from dateutil import parser
-from datetime import datetime
 from controller.peminjaman_controller import *
 from controller.buku_controller import *
+
+icons_folder = os.path.join(os.path.dirname(__file__), '../../../assets/icons')
+os.makedirs(icons_folder, exist_ok=True)
+
 class FormPeminjaman(QWidget):
     showModal = Signal(str,bool)
     doReload = Signal(bool)
@@ -44,7 +45,8 @@ class FormPeminjaman(QWidget):
         xCancel = self.layoutFormPeminjaman.width() - 30
         self.cancelButton.setGeometry(QRect(xCancel,10,20,20))
         iconCancel = QIcon()
-        iconCancel.addFile(u"../../assets/icons/cancel.png",QSize(),QIcon.Normal, QIcon.Off)
+        iconCancel_path = os.path.join(icons_folder, 'cancel.png')
+        iconCancel.addFile(iconCancel_path,QSize(),QIcon.Normal, QIcon.Off)
         self.cancelButton.setIcon(iconCancel)
         self.cancelButton.setIconSize(QSize(18,18))
         self.cancelButton.setCheckable(True)
@@ -62,7 +64,8 @@ class FormPeminjaman(QWidget):
         self.IDBukuButton = QPushButton(self.layoutIDBukuInput)
         self.IDBukuButton.setGeometry(QRect(0,0,50,50))
         iconIDBuku = QIcon()
-        iconIDBuku.addFile(u"../../assets/icons/coverLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+        iconIDBuku_path = os.path.join(icons_folder, 'coverLogo.png')
+        iconIDBuku.addFile(iconIDBuku_path, QSize(), QIcon.Normal, QIcon.Off)
         self.IDBukuButton.setIcon(iconIDBuku)
         self.IDBukuButton.setIconSize(QSize(24,24))
         self.IDBukuButton.setCheckable(False)
@@ -82,7 +85,8 @@ class FormPeminjaman(QWidget):
         self.pinjamButton = QPushButton(self.layoutPinjamBukuInput)
         self.pinjamButton.setGeometry(QRect(0,0,50,50))
         pinjamBuku = QIcon()
-        pinjamBuku.addFile(u"../../assets/icons/tglPinjamLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+        iconPinjamLogo_path = os.path.join(icons_folder, 'tglPinjamLogo.png')
+        pinjamBuku.addFile(iconPinjamLogo_path, QSize(), QIcon.Normal, QIcon.Off)
         self.pinjamButton.setIcon(pinjamBuku)
         self.pinjamButton.setIconSize(QSize(24,24))
         self.pinjamButton.setCheckable(False)
@@ -101,7 +105,8 @@ class FormPeminjaman(QWidget):
         self.kembalianButton = QPushButton(self.layoutKembalianBukuInput)
         self.kembalianButton.setGeometry(QRect(0,0,50,50))
         kembalianBuku = QIcon()
-        kembalianBuku.addFile(u"../../assets/icons/tglPengembalianLogo.png", QSize(), QIcon.Normal, QIcon.Off)
+        iconKembalianBuku_path = os.path.join(icons_folder, 'tglPengembalianLogo.png')
+        kembalianBuku.addFile(iconKembalianBuku_path, QSize(), QIcon.Normal, QIcon.Off)
         self.kembalianButton.setIcon(kembalianBuku)
         self.kembalianButton.setIconSize(QSize(24,24))
         self.kembalianButton.setCheckable(False)
@@ -113,8 +118,6 @@ class FormPeminjaman(QWidget):
         self.kembalianInput.setDate(QDate.currentDate())
         self.kembalianInput.setFont(fontInput)
         self.kembalianInput.setGeometry(QRect(40,0,350,50))
-        # self.kembalianInput.setStyleSheet(u"color: rgb(93, 95, 239); padding-left: 10px; border: none; background-color: transparent;")
-                # Customize the appearance of the QDateEdit
         self.kembalianInput.setStyleSheet("""
             QDateEdit {
                 border: none;

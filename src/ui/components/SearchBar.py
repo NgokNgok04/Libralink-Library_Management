@@ -1,7 +1,9 @@
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
-
+import os
+icons_folder = os.path.join(os.path.dirname(__file__), '../../../assets/icons')
+os.makedirs(icons_folder, exist_ok=True)
 class SearchBar(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -44,6 +46,7 @@ class SearchBar(QWidget):
 "	background-color: rgb(255, 255, 255);\n"
 "}")
         icon = QIcon()
-        icon.addFile(u"../../assets/icons/searchFaceLeft.png", QSize(), QIcon.Normal, QIcon.Off)
+        iconsearchFaceLeft_path = os.path.join(icons_folder, 'searchFaceLeft.png')
+        icon.addFile(iconsearchFaceLeft_path, QSize(), QIcon.Normal, QIcon.Off)
         self.buttonSearch.setIcon(icon)
         self.buttonSearch.setIconSize(QSize(18, 18))
