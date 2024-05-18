@@ -2,8 +2,8 @@
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
-from components.SearchBar import SearchBar
-from components.FormAnggota import *
+from ui.components.SearchBar import SearchBar
+from ui.components.FormAnggota import *
 import sqlite3
 import re
 from controller.anggota_controller import Anggota_Controller

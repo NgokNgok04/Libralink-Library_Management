@@ -1,19 +1,19 @@
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
-from components.Header import Header
-from components.Sidebar import Sidebar
-from components.AddButton import AddButton
-from components.DaftarAnggotaPage import DaftarAnggotaPage
-from components.DaftarPeminjaman import DaftarPeminjaman
-from components.DaftarBukuPage import DaftarBukuPage
-from components.DeleteConfirmationForm import DeleteConfirmationForm
-from components.FormAnggota import FormAnggota
-from components.FormBuku import FormBuku
-from components.FormPeminjaman import FormPeminjaman
-from components.ModalError import ModalError
-from components.ModalSuccess import ModalSuccess
-from components.HomePage import HomePage
+from ui.components.Header import Header
+from ui.components.Sidebar import Sidebar
+from ui.components.AddButton import AddButton
+from ui.components.DaftarAnggotaPage import DaftarAnggotaPage
+from ui.components.DaftarPeminjaman import DaftarPeminjaman
+from ui.components.DaftarBukuPage import DaftarBukuPage
+from ui.components.DeleteConfirmationForm import DeleteConfirmationForm
+from ui.components.FormAnggota import FormAnggota
+from ui.components.FormBuku import FormBuku
+from ui.components.FormPeminjaman import FormPeminjaman
+from ui.components.ModalError import ModalError
+from ui.components.ModalSuccess import ModalSuccess
+from ui.components.HomePage import HomePage
 
 class App(QMainWindow):
     AddType = Signal(int)
