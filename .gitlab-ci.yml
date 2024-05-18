@@ -3,7 +3,6 @@ image: python:3.12
 stages:
     - setup
     - test
-    - deploy
 
 before_script:
     - python --version; pip --version
@@ -23,8 +22,3 @@ run_tests:
     script:
         - echo "Virtual environment activated"
         - pytest test
-
-deploy:
-    stage: deploy
-    script: 
-        - python src/ui/Main.py
