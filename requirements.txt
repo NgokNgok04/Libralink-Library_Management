@@ -1,0 +1,6 @@
+PySide6
+python-dateutil
+pytest==8.2.0
+pytest-cov==5.0.0
+coverage==7.5.0
+-e .

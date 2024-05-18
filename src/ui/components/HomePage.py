@@ -1,6 +1,7 @@
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
+import os
 
 class HomePage(QWidget):
     whatsShowing = Signal(int)
@@ -13,7 +14,11 @@ class HomePage(QWidget):
         self.setGeometry(QRect(0, 0, screenSize.width() - 370, screenSize.height() - 250))
 
         # Load and register the custom font
-        font_id = QFontDatabase.addApplicationFont("../../assets/fonts/Heavitas.ttf")
+        font_folder = os.path.join(os.path.dirname(__file__), '../../../assets/fonts')
+        os.makedirs(font_folder, exist_ok=True)
+        font_path = os.path.join(font_folder, 'Heavitas.ttf')
+
+        font_id = QFontDatabase.addApplicationFont(font_path)
         font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
 
         # Welcome label
