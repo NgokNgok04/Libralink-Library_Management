@@ -1,0 +1,6 @@
+run_tests:
+    image: python:alpine
+    before_script:
+        - apk add --update python3
+    script:
+        - pytest test
