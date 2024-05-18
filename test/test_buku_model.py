@@ -10,4 +10,4 @@ def test_buku_model():
     assert buku.buku_id == 10
     assert buku.judul == judul
     assert buku.isbn == isbn
-    assert buku.path == "path"
+    assert buku.path == path
