@@ -2,11 +2,11 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
-from components.SearchBar import SearchBar
+from ui.components.SearchBar import SearchBar
 import sqlite3
 from controller.buku_controller import Buku_Controller
 from controller.peminjaman_controller import Peminjaman_Controller
-from components.FormBuku import *
+from ui.components.FormBuku import *
 
 class Buku:
     def __init__(self, buku_id, judul, isbn, path):

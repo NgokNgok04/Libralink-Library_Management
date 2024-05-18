@@ -2,7 +2,7 @@ from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
 import sqlite3
-from components.AddButton import AddButton
+from ui.components.AddButton import AddButton
 from controller.peminjaman_controller import Peminjaman_Controller
 
 class Peminjaman:
