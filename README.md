@@ -1,93 +1,129 @@
-# IF-2250-2024-K01-G08-Libralink
+# Libralink: Library Management
 
+## Overview
+![Libralink Homepage](assets/images/home.png "Welcome to LibraLink")
 
+Libralink is a desktop software application that is built for the purpose of managing a library. Libralink provides the ease for user to manage and maintain the activity in library primarily the borrowing of books by the assigned members of the library. Libralink allows user to add, edit, and delete books or members of the library, provides information necessary about them such as the status of a book or a member, books being borrowed by a member, and even the time period of a borrowed book.
 
-## Getting started
+With Libralink, users enjoy the convenience of not needing to verify or validate impossible scenarios, making it exceptionally user-friendly.
+## Prerequisites
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+- `Python` 3.X installed
+- `Pytest` installed for unit testing. To install, run the following command:
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.informatika.org/NgokNgok04/if-2250-2024-k01-g08-libralink.git
-git branch -M main
-git push -uf origin main
+```bash
+pip install pytest
 ```
 
-## Integrate with your tools
+- `PySide6` installed. To install, run the following command:
 
-- [ ] [Set up project integrations](https://gitlab.informatika.org/NgokNgok04/if-2250-2024-k01-g08-libralink/-/settings/integrations)
+```bash
+pip install PySide6
+```
 
-## Collaborate with your team
+- `python-dateutil` installed. To install, run the following command:
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+```bash
+pip install python-dateutil
+```
 
-## Test and Deploy
+- Run the following command to make sure you have editable or development mode applied:
 
-Use the built-in continuous integration in GitLab.
+```bash
+pip install -e .
+```
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
 
-***
+- Cloned repository files. To clone, run one the following command:
 
-# Editing this README
+```
+git clone https://gitlab.informatika.org/NgokNgok04/if-2250-2024-k01-g08-libralink.git
+```
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+## Setup
+### Database
+If the database `libralink.db` is not found in `/src/database/`, run the following command from the root of repository.
 
-## Suggestions for a good README
+```bash
+python src/database/db_init.py
+```
+### PyTest (Optional)
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+To test if the database is correctly initialized, run unit tests with following command from the root of repository.
+```bash
+pytest test
+```
+It is recommended to have a newly initialized database for this test, as modifications might cause false negatives.
 
-## Name
-Choose a self-explaining name for your project.
+## How to Run the Application
+### Starting the App
+1. After setup, navigate to the root of this repository which is `if-2250-2024-k01-g08-libralink`.
+2. To start the application, run the following:
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+```bash
+python src/ui/Main.py
+```
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+## Modules
+### Project Structure
+Below is the directory structure of this application's source code. Each file directory in `src/` is implemented as Python packages.
+```
+├───assets
+│   ├───book cover
+│   ├───fonts
+│   ├───icons
+│   └───images
+├───coverage
+├───src
+│   ├───controller
+│   ├───database
+│   ├───libralink.egg-info
+│   ├───models
+│   └───ui
+│       ├───components
+├───test
+```
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+### Database Structure
+#### 1. anggota
+| Field             | Type             | Null      |  Key      | Default   | Extra          |
+| ----------------  | ---------------- |  -------- |  -------- |  -------- |  --------      | 
+| anggota_id        | int              | NO        | PRI       | NULL      | auto_increment |
+| nama              | varchar          | NO        |           | NULL      |                |
+| email             | varchar          | NO        |           | NULL      |                |
+| status_anggota    | bool             | NO        |           | NULL      |                |
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+#### 2. buku
+| Field             | Type             | Null      |  Key      | Default   | Extra          |
+| ----------------  | ---------------- |  -------- |  -------- |  -------- |  --------      | 
+| buku_id           | int              | NO        | PRI       | NULL      | auto_increment |
+| judul             | varchar          | NO        |           | NULL      |                |
+| isbn              | varchar          | NO        |           | NULL      |                |
+| path              | varchar          | NO        |           | NULL      |                |
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+#### 3. peminjaman
+| Field                 | Type             | Null      |  Key      | Default   | Extra          |
+| ----------------      | ---------------- |  -------- |  -------- |  -------- |  --------      | 
+| buku_id               | int              | NO        | PRI, MUL  | NULL      |                |
+| annggota_id           | varchar          | NO        | PRI, MUL  | NULL      |                |
+| tanggal_pinjam        | varchar          | NO        |           | NULL      |                |
+| tanggal_pengembalian  | varchar          | NO        |           | NULL      |                |
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Authors & Contributions
+### Authors
+| NIM      | Name                        | GitHub                                            |
+| -------- | ----------------------------| ------------------------------------------------- |
+| 13522009 | Muhammad Yusuf Rafi         | [cupskii](https://github.com/cupskii)             |
+| 13522029 | Ignatius Jhon Hezkiel Chan  | [chankiel](https://github.com/chankiel)           |
+| 13522043 | Daniel Mulia Putra Manurung | [Gryphuss](https://github.com/Gryphuss)           |
+| 13522093 | Matthew Vladimir hutabarat  | [NgokNgok04](https://github.com/NgokNgok04)       |
+| 10023371 | Aisyah Dinah Zain           | [madinah12](https://github.com/madinah12)         |
+### Contributions
+| NIM      | Contributions                                                                                    |
+| -------- | ------------------------------------------------------------------------------------------------ |
+| 13522009 | form_buku, unittest                                                                              |
+| 13522029 | daftar_peminjaman, form_peminjaman functionality, database, unittest                             |
+| 13522043 | daftar_buku, form anggota, form buku functionality, database, unittest, CI-CD                    |
+| 13522093 | form anggota, form buku , form peminjaman structure, sidebar, header, database, unittest, CI-CD  |
+| 10023371 | ALL design Figma, unittest                                                                       |

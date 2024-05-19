@@ -1,0 +1,30 @@
+image: python:3.12
+
+stages:
+  - setup
+  - test
+
+before_script:
+  - python --version ; pip --version  
+  - pip install virtualenv
+  - python -m virtualenv venv
+  - dir
+  - venv\Scripts\Activate.ps1
+  - pip install -r requirements.txt
+
+setup:
+  stage: setup
+  script:
+    - pip install python-dateutil
+    - pip install -r requirements.txt  
+
+unit-test:
+  stage: test
+  script:
+    - echo "Virtual environment activated"
+    - pip list 
+    - pytest --cov=src --cov-report=html
+  artifacts:
+    paths:
+      - coverage
+    expire_in: 1 week
